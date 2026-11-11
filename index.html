@@ -286,7 +286,7 @@
             left: 0;
         }
 
-        /* Grid View (Movies/Dramas) */
+        /* Grid View */
         .item-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -329,7 +329,7 @@
             color: #ffd700;
         }
 
-        /* Bookshelf View (책장 스타일) */
+        /* Bookshelf View */
         .bookshelf-container {
             display: flex;
             flex-direction: column;
@@ -342,7 +342,7 @@
             flex-wrap: wrap;
             padding: 15px 15px 5px 15px;
             background: linear-gradient(to bottom, transparent 80%, rgba(139, 69, 19, 0.3) 80%);
-            border-bottom: 12px solid #5c3a21; /* 나무 책장 판자 느낌 */
+            border-bottom: 12px solid #5c3a21;
             border-radius: 4px;
             min-height: 180px;
             align-items: flex-end;
@@ -358,7 +358,6 @@
             cursor: pointer;
             box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
             transition: transform 0.2s;
-            position: relative;
         }
 
         .book-item:hover {
@@ -371,23 +370,7 @@
             object-fit: cover;
         }
 
-        /* Repov Style Detail Feed View (레포브 스타일 피드 상세 화면) */
-        .repov-feed {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .feed-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
+        /* Repov Style Detail Feed View */
         .feed-item-info {
             display: flex;
             gap: 15px;
@@ -497,7 +480,6 @@
             font-family: inherit;
         }
 
-        /* 기본 프로필 선택 칩 디자인 */
         .default-avatars {
             display: flex;
             gap: 10px;
@@ -611,7 +593,7 @@
             <div class="item-grid" id="wishGrid"></div>
         </section>
 
-        <!-- 시청완료 탭 (영화 / 드라마 / 책 하위 탭) -->
+        <!-- 시청완료 탭 -->
         <section id="watchedTab" style="display: none;">
             <div class="sub-nav">
                 <div class="sub-nav-item active" data-sub="movie">영화</div>
@@ -659,7 +641,7 @@
         </div>
     </div>
 
-    <!-- 검색 및 기록 추가 모달 (미키17, 기생충 예시 반영) -->
+    <!-- 검색 및 기록 추가 모달 -->
     <div class="modal-overlay" id="searchModal">
         <div class="modal-card">
             <div class="modal-title">작품 검색 및 등록</div>
@@ -680,16 +662,16 @@
         </div>
     </div>
 
-    <!-- 레포브 스타일 상세 피드 / 수정 모달 -->
+    <!-- 상세 피드 / 수정 모달 -->
     <div class="modal-overlay" id="detailModal">
         <div class="modal-card">
-            <div class="feed-header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
                 <div class="modal-title">상세 기록 피드</div>
                 <button class="btn btn-secondary" id="toggleEditModeBtn" style="font-size:12px; padding:4px 10px;">수정</button>
             </div>
             <input type="hidden" id="detailId">
 
-            <!-- 읽기 전용 피드 뷰 (평소에는 깔끔하게 감상문만 표시) -->
+            <!-- 읽기 전용 피드 뷰 -->
             <div id="feedReadView" style="display:flex; flex-direction:column; gap:12px;">
                 <div class="feed-item-info">
                     <img id="feedPoster" class="feed-poster" src="">
@@ -703,7 +685,7 @@
                 <div class="feed-review" id="feedReviewText">남겨진 감상 후기가 없습니다.</div>
             </div>
 
-            <!-- 편집 뷰 (우측 상단 '수정' 버튼을 누를 때만 활성화) -->
+            <!-- 편집 뷰 -->
             <div id="feedEditView" style="display:none; flex-direction:column; gap:12px;">
                 <div class="form-group">
                     <label>상태 분류</label>
@@ -743,7 +725,6 @@
     </div>
 
     <script>
-        // Data Management (Local Storage)
         let profile = JSON.parse(localStorage.getItem('ottlog_profile')) || {
             name: "시네필 회원님",
             bio: "영화와 책을 기록하는 나만의 OTT LOG입니다.",
@@ -761,7 +742,6 @@
         let currentDate = new Date(2026, 2, 1);
         let currentSubTab = 'movie';
 
-        // Font Setup
         const fontSelect = document.getElementById('fontSelect');
         document.body.style.fontFamily = currentFont;
         fontSelect.value = currentFont;
@@ -772,7 +752,6 @@
             localStorage.setItem('ottlog_font', currentFont);
         });
 
-        // Profile Functions
         function renderProfile() {
             document.getElementById('displayName').textContent = profile.name;
             document.getElementById('displayBio').textContent = profile.bio;
@@ -814,7 +793,6 @@
             document.getElementById('profileModal').classList.remove('active');
         });
 
-        // Theme Toggle
         document.getElementById('themeToggle').addEventListener('click', () => {
             const isDark = document.body.getAttribute('data-theme') === 'dark';
             document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
@@ -825,7 +803,6 @@
             document.documentElement.style.setProperty('--accent-color', e.target.value);
         });
 
-        // Main Tab Switch
         document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
                 document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -840,7 +817,6 @@
             });
         });
 
-        // Sub Tab Switch (영화 / 드라마 / 책)
         document.querySelectorAll('.sub-nav-item').forEach(sub => {
             sub.addEventListener('click', () => {
                 document.querySelectorAll('.sub-nav-item').forEach(s => s.classList.remove('active'));
@@ -850,7 +826,6 @@
             });
         });
 
-        // Calendar Render
         function renderCalendar() {
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
@@ -903,7 +878,6 @@
             renderCalendar();
         });
 
-        // Wish Render
         function renderWish() {
             const grid = document.getElementById('wishGrid');
             grid.innerHTML = '';
@@ -924,14 +898,12 @@
             });
         }
 
-        // Watched Render (영화, 드라마는 그리드 / 책은 아기자기한 입체 책장 스타일)
         function renderWatched() {
             const container = document.getElementById('watchedContentContainer');
             container.innerHTML = '';
             const watchedList = records.filter(r => r.status === 'watched' && r.type === currentSubTab);
 
             if (currentSubTab === 'book') {
-                // 책장(Bookshelf) UI 구현
                 const shelfDiv = document.createElement('div');
                 shelfDiv.className = 'bookshelf-container';
                 
@@ -953,7 +925,6 @@
                 shelfDiv.appendChild(rowDiv);
                 container.appendChild(shelfDiv);
             } else {
-                // 영화 및 드라마 일반 포스터 그리드
                 const grid = document.createElement('div');
                 grid.className = 'item-grid';
 
@@ -974,7 +945,6 @@
             }
         }
 
-        // Search Modal (미키17, 기생충 예시 반영)
         document.getElementById('openSearchModal').addEventListener('click', () => {
             document.getElementById('searchModal').classList.add('active');
         });
@@ -1025,7 +995,6 @@
             });
         });
 
-        // Detail / Read-Only & Edit Feed Mode Toggle
         const ratingSlider = document.getElementById('detailRating');
         const ratingValueText = document.getElementById('ratingValueText');
         const ratingStarPreview = document.getElementById('ratingStarPreview');
@@ -1048,16 +1017,14 @@
 
             document.getElementById('detailId').value = item.id;
             
-            // 피드 읽기 전용 뷰 채우기
             document.getElementById('feedPoster').src = item.poster;
             document.getElementById('feedTitleText').textContent = item.title;
             document.getElementById('feedCategoryText').textContent = item.type === 'movie' ? '🎬 영화' : (item.type === 'drama' ? '📺 드라마' : '📚 책');
             const ratingNum = item.rating || 5.0;
-            document.getElementById('feedStarsText.textContent = `⭐ ${ratingNum}`;
+            document.getElementById('feedStarsText').textContent = `⭐ ${ratingNum}`;
             document.getElementById('feedDateText').textContent = item.date ? `${item.date} 기록됨` : '날짜 미지정';
             document.getElementById('feedReviewText').textContent = item.review || '작성된 감상 후기가 없습니다.';
 
-            // 편집 뷰 폼 채우기
             document.getElementById('detailStatus').value = item.status;
             document.getElementById('detailCategory').value = item.type;
             document.getElementById('detailDate').value = item.date || '2026-03-15';
@@ -1124,7 +1091,6 @@
             }
         });
 
-        // Init App
         renderProfile();
         renderCalendar();
     </script>
