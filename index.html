@@ -213,11 +213,11 @@
 
     </main>
 
-    <!-- 날짜별 기록 리스트 모달 (캘린더 날짜 클릭 시 오픈) -->
+    <!-- 날짜별 기록 리스트 모달 -->
     <div id="dayLogModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
             <div class="p-6 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
-                <h3 id="day-modal-title" class="text-xl font-bold text-zinc-900 dark:text-white">2026.11.16 기록</h3>
+                <h3 id="day-modal-title" class="text-xl font-bold text-zinc-900 dark:text-white">기록</h3>
                 <div class="flex items-center gap-3">
                     <button onclick="openAddModalFromDay()" class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center font-bold text-lg shadow-md hover:opacity-90">+</button>
                     <button onclick="closeDayModal()" class="text-zinc-400 hover:text-zinc-900 dark:hover:text-white text-2xl font-bold">✕</button>
@@ -313,7 +313,7 @@
         let currentTab = 'calendar';
         let currentSubTab = 'movie';
         let bookViewMode = 'spine';
-        let currentMonth = 10; // 11월 (0부터 시작하므로 10)
+        let currentMonth = 10; // 11월
         let currentYear = 2026;
         let selectedApiItem = null;
         let editingRecordId = null;
@@ -327,6 +327,7 @@
         ];
 
         window.addEventListener('DOMContentLoaded', () => {
+            loadSavedSettings();
             applyProfileToUI();
             renderCalendar();
             renderCompletedList();
@@ -336,8 +337,40 @@
             updateRatingFromRange(5.0);
         });
 
+        function loadSavedSettings() {
+            const savedFont = localStorage.getItem('mylog_font') || 'Noto Sans KR';
+            const savedColor = localStorage.getItem('mylog_accent_color') || '#8b5cf6';
+            const savedTheme = localStorage.getItem('mylog_theme') || 'light';
+
+            document.getElementById('fontSelector').value = savedFont;
+            document.getElementById('bodyFontContainer').style.fontFamily = `'${savedFont}', sans-serif`;
+
+            document.getElementById('accentColorPicker').value = savedColor;
+            document.documentElement.style.setProperty('--accent-color', savedColor);
+
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeToggleBtn').innerText = '🌙';
+            } else {
+                document.documentElement.classList.remove('dark');
+                document.getElementById('themeToggleBtn').innerText = '☀️';
+            }
+        }
+
         function changeFontFamily(fontName) {
             document.getElementById('bodyFontContainer').style.fontFamily = `'${fontName}', sans-serif`;
+            localStorage.setItem('mylog_font', fontName);
+        }
+
+        function changeAccentColor(color) {
+            document.documentElement.style.setProperty('--accent-color', color);
+            localStorage.setItem('mylog_accent_color', color);
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            document.getElementById('themeToggleBtn').innerText = isDark ? '🌙' : '☀️';
+            localStorage.setItem('mylog_theme', isDark ? 'dark' : 'light');
         }
 
         function applyProfileToUI() {
@@ -621,10 +654,10 @@
             const top = [...records].sort((a,b) => b.rating - a.rating)[0];
             document.getElementById('top-rated-title').innerText = top ? top.title : '-';
 
+            // 5.0점 포함 10개 구간에 정확히 안착하도록 수정된 계산식
             const distribution = Array(10).fill(0);
             records.forEach(r => {
-                let idx = Math.floor((r.rating - 1) / 0.45);
-                if(idx > 9) idx = 9;
+                let idx = Math.min(9, Math.floor((r.rating - 1.0) / 0.4));
                 if(idx < 0) idx = 0;
                 distribution[idx]++;
             });
@@ -852,7 +885,7 @@
             }
             const category = document.getElementById('modal-category').value;
             const rating = parseFloat(document.getElementById('modal-rating-input').value);
-            const review = document.getElementById('modal-review').value || selectedApiItem.subtitle;
+            const reviewText = document.getElementById('modal-review').value || selectedApiItem.subtitle;
             const recordDate = document.getElementById('modal-date').value || new Date().toISOString().split('T')[0];
 
             if(editingRecordId) {
@@ -862,7 +895,7 @@
                             ...r,
                             category,
                             title: selectedApiItem.title,
-                            subtitle: review,
+                            subtitle: reviewText,
                             rating,
                             date: recordDate,
                             image: selectedApiItem.image
@@ -875,7 +908,7 @@
                     id: Date.now(),
                     category,
                     title: selectedApiItem.title,
-                    subtitle: review,
+                    subtitle: reviewText,
                     rating,
                     date: recordDate,
                     image: selectedApiItem.image
@@ -915,15 +948,6 @@
             updateStats();
             renderProfileFeed();
             renderRatingsAnalytics();
-        }
-
-        function changeAccentColor(color) {
-            document.documentElement.style.setProperty('--accent-color', color);
-        }
-
-        function toggleDarkMode() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            document.getElementById('themeToggleBtn').innerText = isDark ? '🌙' : '☀️';
         }
     </script>
 </body>
