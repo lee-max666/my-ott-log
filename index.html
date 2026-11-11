@@ -127,8 +127,7 @@
         <!-- 3. 평점 분석 탭 -->
         <section id="tab-ratings" class="hidden space-y-8">
             <div>
-                <h3 class="text-2xl font-bold text-zinc-900 dark:text-white">점수 분석 및 높은순 목록</h3>
-                <p class="text-base text-zinc-600 dark:text-zinc-400 mt-1">등록된 작품의 평점 분포와 고득점 작품들을 확인하세요.</p>
+                <h3 class="text-2xl font-bold text-zinc-900 dark:text-white">점수 분석</h3>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div class="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
@@ -150,7 +149,7 @@
             </div>
             
             <div class="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-8 shadow-sm">
-                <h4 class="text-lg font-bold text-zinc-900 dark:text-white mb-6">점수 구간별 분포 (초록: 고득점 / 노랑: 중간 / 빨강: 저득점)</h4>
+                <h4 class="text-lg font-bold text-zinc-900 dark:text-white mb-6">점수 분석</h4>
                 <div class="grid grid-cols-5 sm:grid-cols-10 gap-3 items-end h-56 pt-8 pb-4 px-4 border-b border-zinc-200 dark:border-zinc-800" id="score-distribution-bars"></div>
                 <div class="flex justify-between text-sm font-medium text-zinc-400 mt-4 px-2">
                     <span>1점대</span><span>2점대</span><span>3점대</span><span>4점대</span><span>5점만점</span>
@@ -177,8 +176,6 @@
 
                 <div class="pt-6 border-t border-zinc-200 dark:border-zinc-800 space-y-4">
                     <h3 class="text-lg font-bold text-zinc-900 dark:text-white">프로필 정보 수정</h3>
-                    
-                    <!-- 요청하신 귀여운 캐릭터 3개 프리셋 선택 -->
                     <div>
                         <label class="block text-sm font-medium text-zinc-500 mb-2">기본 프로필 캐릭터 선택</label>
                         <div class="flex gap-4">
@@ -216,6 +213,20 @@
 
     </main>
 
+    <!-- 날짜별 기록 리스트 모달 (캘린더 날짜 클릭 시 오픈) -->
+    <div id="dayLogModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
+            <div class="p-6 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+                <h3 id="day-modal-title" class="text-xl font-bold text-zinc-900 dark:text-white">2026.11.16 기록</h3>
+                <div class="flex items-center gap-3">
+                    <button onclick="openAddModalFromDay()" class="w-8 h-8 rounded-full bg-accent text-white flex items-center justify-center font-bold text-lg shadow-md hover:opacity-90">+</button>
+                    <button onclick="closeDayModal()" class="text-zinc-400 hover:text-zinc-900 dark:hover:text-white text-2xl font-bold">✕</button>
+                </div>
+            </div>
+            <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto" id="day-modal-items-container"></div>
+        </div>
+    </div>
+
     <!-- 기록 추가/수정 모달 -->
     <div id="recordModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
@@ -249,7 +260,6 @@
                     </div>
                 </div>
                 
-                <!-- 0.1점 단위 세밀한 평점 조절 슬라이더 및 별점 아이콘 -->
                 <div>
                     <div class="flex justify-between text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">
                         <span>평점 선택 (0.1점 단위 조절)</span>
@@ -307,6 +317,7 @@
         let currentYear = 2026;
         let selectedApiItem = null;
         let editingRecordId = null;
+        let activeSelectedDate = ''; // 현재 날짜 모달에서 보고 있는 날짜
 
         const spineColors = [
             'bg-emerald-800 text-emerald-100', 'bg-amber-700 text-amber-100', 
@@ -447,27 +458,36 @@
             for(let d=1; d<=lastDate; d++) {
                 const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const cell = document.createElement('div');
-                cell.className = "bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl p-3 min-h-[160px] flex flex-col justify-between overflow-hidden relative";
+                cell.className = "bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl p-3 min-h-[160px] flex flex-col justify-between overflow-hidden relative cursor-pointer hover:border-accent transition-all";
                 
+                // 날짜 칸 클릭 시 해당 날짜의 기록 리스트 모달 오픈
+                cell.onclick = () => openDayModal(dateStr);
+
                 const dayHeader = document.createElement('div');
-                dayHeader.className = "text-sm font-bold text-zinc-500 z-10";
-                dayHeader.innerText = d;
+                dayHeader.className = "text-sm font-bold text-zinc-500 z-10 flex items-center justify-between";
+                dayHeader.innerHTML = `<span>${d}</span>`;
+                
+                const dayRecords = records.filter(r => r.date === dateStr);
+                if(dayRecords.length > 0) {
+                    const badge = document.createElement('span');
+                    badge.className = "w-6 h-6 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center shadow-md";
+                    badge.innerText = dayRecords.length;
+                    dayHeader.appendChild(badge);
+                }
                 cell.appendChild(dayHeader);
 
-                const dayRecords = records.filter(r => r.date === dateStr);
                 const itemsContainer = document.createElement('div');
                 itemsContainer.className = "space-y-1 mt-1 overflow-y-auto flex-1 flex flex-col";
                 
-                dayRecords.forEach(rec => {
+                if(dayRecords.length > 0) {
+                    const rec = dayRecords[0]; // 대표 포스터 표시
                     const poster = document.createElement('div');
-                    poster.className = "cursor-pointer group flex-1 flex flex-col mt-1";
-                    poster.onclick = () => openEditModal(rec.id);
-                    // 제목 없이 포스터 이미지가 세로형 비율로 꽉 차게 노출되도록 구현
+                    poster.className = "flex-1 flex flex-col mt-1 relative";
                     poster.innerHTML = `
-                        <img src="${rec.image}" class="w-full h-full min-h-[105px] object-cover rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm group-hover:scale-[1.02] transition-transform">
+                        <img src="${rec.image}" class="w-full h-full min-h-[105px] object-cover rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
                     `;
                     itemsContainer.appendChild(poster);
-                });
+                }
                 cell.appendChild(itemsContainer);
                 grid.appendChild(cell);
             }
@@ -478,6 +498,50 @@
             if(currentMonth > 11) { currentMonth = 0; currentYear++; }
             if(currentMonth < 0) { currentMonth = 11; currentYear--; }
             renderCalendar();
+        }
+
+        // 특정 날짜 칸 클릭 시 뜨는 일별 기록 리스트 모달
+        function openDayModal(dateStr) {
+            activeSelectedDate = dateStr;
+            document.getElementById('day-modal-title').innerText = `${dateStr.replace(/-/g, '.')} 기록`;
+            const container = document.getElementById('day-modal-items-container');
+            container.innerHTML = '';
+
+            const dayRecords = records.filter(r => r.date === dateStr);
+            if(dayRecords.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-zinc-400 text-sm">이 날짜에 등록된 기록이 없습니다.<br>우측 상단 + 버튼을 눌러 추가하세요.</div>`;
+            } else {
+                dayRecords.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = "bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-4 flex items-center justify-between gap-4 cursor-pointer hover:border-accent transition-all";
+                    div.onclick = () => {
+                        closeDayModal();
+                        openEditModal(item.id);
+                    };
+                    div.innerHTML = `
+                        <div class="flex items-center gap-4">
+                            <img src="${item.image}" class="w-14 h-20 object-cover rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                            <div>
+                                <h4 class="text-base font-bold text-zinc-900 dark:text-white">${item.title}</h4>
+                                <p class="text-sm text-zinc-500 mt-1">${item.subtitle}</p>
+                                <span class="text-xs text-accent font-bold mt-2 block">⭐ ${item.rating}점</span>
+                            </div>
+                        </div>
+                        <button onclick="event.stopPropagation(); deleteRecord(${item.id}); openDayModal('${dateStr}');" class="text-zinc-400 hover:text-red-500 p-2 text-lg">🗑️</button>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+            document.getElementById('dayLogModal').classList.remove('hidden');
+        }
+
+        function closeDayModal() {
+            document.getElementById('dayLogModal').classList.add('hidden');
+        }
+
+        function openAddModalFromDay() {
+            closeDayModal();
+            openAddModal(activeSelectedDate);
         }
 
         function renderCompletedList() {
