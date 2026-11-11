@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MY LOG</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 폰트 추가 -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Nanum+Gothic:wght@400;700&family=Gowun+Dodum&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
@@ -44,7 +43,6 @@
             </div>
             
             <div class="flex items-center gap-4">
-                <!-- 폰트 선택 드롭다운 -->
                 <select id="fontSelector" onchange="changeFontFamily(this.value)" class="bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl px-3 py-2 text-sm text-zinc-700 dark:text-zinc-300 focus:outline-none">
                     <option value="Noto Sans KR">기본 (Noto Sans)</option>
                     <option value="Nanum Gothic">나눔고딕</option>
@@ -310,7 +308,6 @@
         let selectedApiItem = null;
         let editingRecordId = null;
 
-        // 감성적인 파스텔/빈티지 책등 색상 랜덤 배열
         const spineColors = [
             'bg-emerald-800 text-emerald-100', 'bg-amber-700 text-amber-100', 
             'bg-slate-700 text-slate-100', 'bg-rose-800 text-rose-100', 
@@ -450,24 +447,24 @@
             for(let d=1; d<=lastDate; d++) {
                 const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const cell = document.createElement('div');
-                cell.className = "bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl p-3 min-h-[150px] flex flex-col justify-between overflow-hidden";
+                cell.className = "bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl p-3 min-h-[160px] flex flex-col justify-between overflow-hidden relative";
                 
                 const dayHeader = document.createElement('div');
-                dayHeader.className = "text-sm font-bold text-zinc-500";
+                dayHeader.className = "text-sm font-bold text-zinc-500 z-10";
                 dayHeader.innerText = d;
                 cell.appendChild(dayHeader);
 
                 const dayRecords = records.filter(r => r.date === dateStr);
                 const itemsContainer = document.createElement('div');
-                itemsContainer.className = "space-y-2 mt-1 overflow-y-auto";
+                itemsContainer.className = "space-y-1 mt-1 overflow-y-auto flex-1 flex flex-col";
                 
                 dayRecords.forEach(rec => {
                     const poster = document.createElement('div');
-                    poster.className = "cursor-pointer group flex flex-col items-center";
+                    poster.className = "cursor-pointer group flex-1 flex flex-col mt-1";
                     poster.onclick = () => openEditModal(rec.id);
+                    // 제목 없이 포스터 이미지가 세로형 비율로 꽉 차게 노출되도록 구현
                     poster.innerHTML = `
-                        <img src="${rec.image}" class="w-full h-24 object-cover rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-md group-hover:scale-[1.02] transition-transform">
-                        <div class="text-[11px] font-bold text-zinc-900 dark:text-white truncate w-full text-center mt-1">${rec.title}</div>
+                        <img src="${rec.image}" class="w-full h-full min-h-[105px] object-cover rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm group-hover:scale-[1.02] transition-transform">
                     `;
                     itemsContainer.appendChild(poster);
                 });
@@ -493,12 +490,10 @@
                 return;
             }
 
-            // 책등 보기 모드 (필요한 만큼만 동적으로 선반 줄이 생성되는 구조)
             if(currentSubTab === 'book' && bookViewMode === 'spine') {
                 const shelfContainer = document.createElement('div');
                 shelfContainer.className = "bg-amber-950/20 dark:bg-zinc-900/40 border border-amber-900/30 rounded-3xl p-8 shadow-inner space-y-12";
                 
-                // 한 줄에 최대 8권씩 배치하여 필요한 만큼 선반 생성
                 const itemsPerRow = 8;
                 let rowsCount = Math.ceil(filtered.length / itemsPerRow);
                 if(rowsCount < 1) rowsCount = 1;
@@ -586,9 +581,9 @@
 
             distribution.forEach((count, i) => {
                 const heightPercent = (count / maxCount) * 100;
-                let barColor = 'rgb(234, 179, 8)'; // 노란색 (중간)
-                if(i >= 6) barColor = 'rgb(22, 163, 74)'; // 초록색 (높은 점수: 4점대 이상)
-                if(i <= 2) barColor = 'rgb(239, 68, 68)'; // 빨간색 (낮은 점수: 1~2점대)
+                let barColor = 'rgb(234, 179, 8)'; 
+                if(i >= 6) barColor = 'rgb(22, 163, 74)'; 
+                if(i <= 2) barColor = 'rgb(239, 68, 68)'; 
 
                 const col = document.createElement('div');
                 col.className = "flex flex-col items-center gap-2 h-full justify-end";
@@ -600,7 +595,6 @@
                 barsContainer.appendChild(col);
             });
 
-            // 평점 높은 순 리스트 렌더링
             const sortedContainer = document.getElementById('ratings-sorted-container');
             sortedContainer.innerHTML = '';
             const sortedRecords = [...records].sort((a,b) => b.rating - a.rating);
@@ -717,15 +711,11 @@
             document.getElementById('modal-rating-input').value = score;
             document.getElementById('preview-rating-val').innerText = `${score.toFixed(1)}점`;
             
-            // 0.1점 단위 비율에 맞춰 별 아이콘 채우기 표현
             const fullStars = Math.floor(score);
-            const remainder = score - fullStars;
             let starsHtml = '';
             for(let i=0; i<5; i++) {
                 if(i < fullStars) {
                     starsHtml += '★';
-                } else if(i === fullStars && remainder > 0) {
-                    starsHtml += '★'; // 소수점 세밀 조절 표현
                 } else {
                     starsHtml += '☆';
                 }
@@ -812,7 +802,6 @@
             const recordDate = document.getElementById('modal-date').value || new Date().toISOString().split('T')[0];
 
             if(editingRecordId) {
-                // 수정 모드
                 records = records.map(r => {
                     if(r.id === editingRecordId) {
                         return {
@@ -828,7 +817,6 @@
                     return r;
                 });
             } else {
-                // 신규 등록 모드 (화면 이동 없이 현재 캘린더 유지)
                 const newRec = {
                     id: Date.now(),
                     category,
