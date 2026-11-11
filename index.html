@@ -3,1096 +3,795 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ott log - 영화 & 도서 기록장</title>
-    <!-- 구글 폰트 연동 -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Repov Media Archive</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #0f0f12;
-            --card-bg: #18181c;
-            --card-border: #2a2a30;
-            --text-main: #f0f0f5;
-            --text-sub: #8a8a93;
-            --accent-color: #7c4dff;
-            --font-family: 'Noto Sans KR', sans-serif;
-        }
-
-        [data-theme="light"] {
-            --bg-color: #f4f5f8;
-            --card-bg: #ffffff;
-            --card-border: #e1e3e8;
-            --text-main: #1a1a1e;
-            --text-sub: #6c6d75;
-            --accent-color: #6200ee;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+            --bg-color: #0e1015;
+            --card-bg: #171922;
+            --card-border: #282b37;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --accent-color: #6366f1;
+            --accent-text: #ffffff;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: var(--font-family);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 60px;
-            transition: background-color 0.3s, color 0.3s;
+            font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+            padding-bottom: 80px;
         }
 
-        header {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px;
-            border-bottom: 1px solid var(--card-border);
-        }
-
-        .logo {
-            font-size: 24px;
-            font-weight: 900;
-            letter-spacing: -0.5px;
-            color: var(--text-main);
-        }
-
-        .header-controls {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        .font-select, .theme-picker {
-            background-color: var(--card-bg);
-            color: var(--text-main);
-            border: 1px solid var(--card-border);
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .theme-picker {
-            width: 32px;
-            height: 32px;
-            padding: 0;
-            border-radius: 50%;
-            border: none;
-        }
-
-        .btn {
-            background-color: var(--accent-color);
-            color: #fff;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 13px;
-            cursor: pointer;
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            color: var(--text-main);
-            border: 1px solid var(--card-border);
-        }
-
-        .btn-danger {
-            background-color: #ff5252;
-            color: #fff;
-            border: none;
-        }
-
-        nav {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            gap: 20px;
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--card-border);
-        }
-
-        .nav-item {
-            color: var(--text-sub);
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            padding-bottom: 5px;
-        }
-
-        .nav-item.active {
-            color: var(--text-main);
-            border-bottom: 2px solid var(--text-main);
-        }
-
-        .sub-nav {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .sub-nav-item {
+        .custom-card {
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
-            color: var(--text-sub);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
         }
 
-        .sub-nav-item.active {
-            background-color: var(--accent-color);
-            color: #fff;
-            border-color: var(--accent-color);
+        .accent-bg {
+            background-color: var(--accent-color) !important;
+            color: var(--accent-text) !important;
         }
 
-        main {
-            width: 100%;
-            max-width: 800px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
+        .accent-border {
+            border-color: var(--accent-color) !important;
         }
 
-        /* Profile Card */
-        .profile-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 24px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-            position: relative;
+        .accent-text {
+            color: var(--accent-color) !important;
         }
 
-        .profile-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--card-border);
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
-        .profile-info {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            flex: 1;
-        }
-
-        .profile-name {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .profile-bio {
-            font-size: 14px;
-            color: var(--text-sub);
-        }
-
-        .edit-profile-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            padding: 6px 12px;
-            font-size: 12px;
-        }
-
-        /* Calendar */
-        .calendar-container {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            padding: 20px;
-        }
-
-        .calendar-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .calendar-title {
-            font-size: 17px;
-            font-weight: 700;
-        }
-
-        .calendar-nav button {
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-size: 18px;
-            cursor: pointer;
-            padding: 4px 8px;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 6px;
-            text-align: center;
-        }
-
-        .day-name {
-            font-size: 12px;
-            color: var(--text-sub);
-            padding-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .day-cell {
-            aspect-ratio: 1 / 1.3;
-            background-color: rgba(255,255,255,0.02);
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            padding: 4px;
-            position: relative;
-            overflow: hidden;
-            font-size: 12px;
-            color: var(--text-sub);
-            cursor: pointer;
-        }
-
-        .day-number {
-            position: absolute;
-            top: 4px;
-            left: 4px;
-            z-index: 2;
-            font-weight: 600;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
-        }
-
-        .poster-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 6px;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        /* Grid View */
-        .item-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-        }
-
-        .media-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            cursor: pointer;
-        }
-
-        .media-poster {
-            width: 100%;
+        .aspect-poster {
             aspect-ratio: 2 / 3;
-            object-fit: cover;
         }
 
-        .media-info {
-            padding: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
+        /* Realistic Book Spine View Styling */
+        .shelf-divider {
+            height: 12px;
+            background: linear-gradient(180deg, #3d271d 0%, #261710 100%);
+            border-top: 2px solid #5a3c2e;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            border-radius: 2px;
         }
 
-        .media-title {
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+        .book-spine {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: -3px 0 6px rgba(0,0,0,0.4) inset, 2px 0 5px rgba(0,0,0,0.3);
         }
 
-        .media-rating {
-            font-size: 12px;
-            color: #ffd700;
+        .book-spine:hover {
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: -3px 0 8px rgba(0,0,0,0.5) inset, 4px 4px 12px rgba(0,0,0,0.6);
         }
 
-        /* Bookshelf View */
-        .bookshelf-container {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        /* Color Picker Custom Styles */
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
         }
-
-        .bookshelf-row {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            padding: 15px 15px 5px 15px;
-            background: linear-gradient(to bottom, transparent 80%, rgba(139, 69, 19, 0.3) 80%);
-            border-bottom: 12px solid #5c3a21;
-            border-radius: 4px;
-            min-height: 180px;
-            align-items: flex-end;
-        }
-
-        .book-item {
-            width: 90px;
-            height: 135px;
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 4px 8px 8px 4px;
-            overflow: hidden;
-            cursor: pointer;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
-            transition: transform 0.2s;
-        }
-
-        .book-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .book-cover {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Repov Style Detail Feed View */
-        .feed-item-info {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .feed-poster {
-            width: 60px;
-            height: 85px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .feed-meta h3 {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .feed-meta p {
-            font-size: 13px;
-            color: var(--text-sub);
-        }
-
-        .feed-date {
-            font-size: 13px;
-            color: var(--text-sub);
-            border-left: 2px solid var(--accent-color);
-            padding-left: 8px;
-        }
-
-        .feed-rating-stars {
-            font-size: 15px;
-            color: #ffd700;
-            font-weight: 700;
-        }
-
-        .feed-review {
-            font-size: 14px;
-            line-height: 1.6;
-            color: var(--text-main);
-            white-space: pre-wrap;
-            background: rgba(0,0,0,0.15);
-            padding: 12px;
-            border-radius: 8px;
-        }
-
-        /* Modal Overlay */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0,0,0,0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.2s;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .modal-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 16px;
-            width: 90%;
-            max-width: 480px;
-            padding: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            max-height: 85vh;
-            overflow-y: auto;
-        }
-
-        .modal-title {
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-size: 13px;
-            color: var(--text-sub);
-            font-weight: 600;
-        }
-
-        .form-group input, .form-group select, .form-group textarea {
-            background-color: var(--bg-color);
-            border: 1px solid var(--card-border);
-            color: var(--text-main);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-family: inherit;
-        }
-
-        .default-avatars {
-            display: flex;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .preset-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            object-fit: cover;
-            cursor: pointer;
-            border: 2px solid var(--card-border);
-            transition: border-color 0.2s;
-        }
-
-        .preset-avatar:hover {
-            border-color: var(--accent-color);
-        }
-
-        .search-results {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .search-item {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            padding: 10px;
-            border: 1px solid var(--card-border);
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        .search-thumb {
-            width: 45px;
-            height: 60px;
-            object-fit: cover;
-            border-radius: 4px;
-        }
-
-        .fab {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            background-color: var(--accent-color);
-            color: #fff;
+        input[type="color"]::-webkit-color-swatch {
             border: none;
-            font-size: 26px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            z-index: 10;
+            border-radius: 9999px;
         }
     </style>
 </head>
-<body data-theme="dark">
+<body class="min-h-screen text-sm selection:bg-indigo-500 selection:text-white">
 
-    <header>
-        <div class="logo">Ott log</div>
-        <div class="header-controls">
-            <select id="fontSelect" class="font-select">
-                <option value="'Noto Sans KR', sans-serif">기본 (Noto Sans)</option>
-                <option value="'Nanum Gothic', sans-serif">나눔고딕</option>
-                <option value="'Gowun Dodum', sans-serif">고운돋움</option>
-                <option value="'Poppins', sans-serif">Poppins (영문강조)</option>
-            </select>
-            <input type="color" id="accentPicker" class="theme-picker" value="#7c4dff" title="포인트 색상">
-            <button class="btn btn-secondary" id="themeToggle">🌙</button>
-        </div>
-    </header>
+    <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between relative bg-[#0e1015] shadow-2xl border-x border-[#1e212b]">
 
-    <nav>
-        <div class="nav-item active" data-tab="calendar">캘린더</div>
-        <div class="nav-item" data-tab="wish">시청예정</div>
-        <div class="nav-item" data-tab="watched">시청완료</div>
-    </nav>
-
-    <main>
-        <!-- 프로필 카드 -->
-        <section class="profile-card">
-            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop" id="displayProfileImg" class="profile-img" alt="Profile">
-            <div class="profile-info">
-                <div class="profile-name" id="displayName">시네필 회원님</div>
-                <div class="profile-bio" id="displayBio">영화와 책을 기록하는 나만의 OTT LOG입니다.</div>
+        <!-- 상단 헤더 & 네비게이션 탭 -->
+        <header class="sticky top-0 z-30 bg-[#0e1015]/95 backdrop-blur-md border-b border-[#282b37] px-4 pt-3 pb-2">
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center gap-2">
+                    <h1 class="text-xl font-black tracking-tight text-white font-['Poppins']">REPOV</h1>
+                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-gray-800 text-gray-400 font-mono">v2.5</span>
+                </div>
+                
+                <!-- 상단 컨트롤: 스마트 테마 커스텀 피커 & 추가 버튼 -->
+                <div class="flex items-center gap-2">
+                    <!-- Accent Color Picker -->
+                    <div class="relative flex items-center justify-center w-7 h-7 rounded-full border border-gray-700 bg-gray-900 overflow-hidden cursor-pointer" title="포인트 색상 변경">
+                        <input type="color" id="accentPicker" value="#6366f1" onchange="updateAccentColor(this.value)" class="absolute inset-0 w-12 h-12 -top-2 -left-2 cursor-pointer opacity-0">
+                        <div id="pickerPreview" class="w-4 h-4 rounded-full bg-[#6366f1] pointer-events-none"></div>
+                    </div>
+                    
+                    <!-- 추가 버튼 -->
+                    <button onclick="openSearchModal()" class="w-8 h-8 rounded-full custom-card flex items-center justify-center hover:bg-[#282b37] transition text-gray-200">
+                        <i class="fa-solid fa-plus text-xs"></i>
+                    </button>
+                </div>
             </div>
-            <button class="btn btn-secondary edit-profile-btn" id="openEditProfile">수정</button>
-        </section>
 
-        <!-- 캘린더 탭 -->
-        <section id="calendarTab">
-            <div class="calendar-container">
-                <div class="calendar-header">
-                    <div class="calendar-title" id="calendarMonthTitle">2026.03</div>
-                    <div class="calendar-nav">
-                        <button id="prevMonth">◀</button>
-                        <button id="nextMonth">▶</button>
+            <!-- 네비게이션 탭 (3대 메인 탭) -->
+            <nav class="flex gap-6 overflow-x-auto no-scrollbar text-xs font-semibold border-b border-transparent">
+                <button onclick="switchMainTab('profile')" id="nav-profile" class="pb-2 border-b-2 border-white text-white whitespace-nowrap transition">프로필</button>
+                <button onclick="switchMainTab('watched')" id="nav-watched" class="pb-2 border-b-2 border-transparent text-gray-400 whitespace-nowrap transition">시청완료</button>
+                <button onclick="switchMainTab('stats')" id="nav-stats" class="pb-2 border-b-2 border-transparent text-gray-400 whitespace-nowrap transition">평점</button>
+            </nav>
+        </header>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <main class="p-4 flex-1">
+
+            <!-- 1. 프로필 탭 화면 -->
+            <div id="view-profile" class="space-y-6">
+                <!-- 프로필 카드 -->
+                <div class="custom-card rounded-2xl p-4 relative overflow-hidden bg-gradient-to-br from-[#1b1e2a] to-[#12141d]">
+                    <div class="flex items-start justify-between">
+                        <div class="flex gap-3 items-center">
+                            <img id="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-full object-cover border-2 border-gray-600 shadow-md">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h2 id="user-name" class="font-bold text-base text-white">아카이버</h2>
+                                    <button onclick="editProfilePrompt()" class="text-[10px] text-gray-400 hover:text-white"><i class="fa-solid fa-pen"></i></button>
+                                </div>
+                                <p id="user-bio" class="text-xs text-gray-400 mt-0.5">영화와 책을 나만의 시선으로 아카이빙합니다 🎬📚</p>
+                                <span class="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10px] bg-indigo-500/20 accent-text font-semibold">Cinephile & Reader</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="calendar-grid" id="calendarGrid"></div>
-            </div>
-        </section>
 
-        <!-- 시청예정 탭 -->
-        <section id="wishTab" style="display: none;">
-            <div class="item-grid" id="wishGrid"></div>
-        </section>
-
-        <!-- 시청완료 탭 -->
-        <section id="watchedTab" style="display: none;">
-            <div class="sub-nav">
-                <div class="sub-nav-item active" data-sub="movie">영화</div>
-                <div class="sub-nav-item" data-sub="drama">드라마</div>
-                <div class="sub-nav-item" data-sub="book">책 (책장)</div>
-            </div>
-            <div id="watchedContentContainer"></div>
-        </section>
-    </main>
-
-    <button class="fab" id="openSearchModal">+</button>
-
-    <!-- 프로필 수정 모달 -->
-    <div class="modal-overlay" id="profileModal">
-        <div class="modal-card">
-            <div class="modal-title">프로필 수정</div>
-            <div class="form-group">
-                <label>이름 / 닉네임</label>
-                <input type="text" id="editName">
-            </div>
-            <div class="form-group">
-                <label>기본 프로필 캐릭터 선택</label>
-                <div class="default-avatars">
-                    <img src="https://github.com/lee-max666/mars.github.io/blob/main/%E2%98%85.jpg?raw=true" class="preset-avatar" onclick="setPresetAvatar(this.src)">
-                    <img src="https://github.com/lee-max666/mars.github.io/blob/main/%E2%98%85%20(1).jpg?raw=true" class="preset-avatar" onclick="setPresetAvatar(this.src)">
-                    <img src="https://github.com/lee-max666/mars.github.io/blob/main/%E2%98%85%20(2).jpg?raw=true" class="preset-avatar" onclick="setPresetAvatar(this.src)">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>또는 내 사진 파일 직접 업로드</label>
-                <input type="file" id="editFile" accept="image/*">
-            </div>
-            <div class="form-group">
-                <label>프로필 이미지 주소(URL)</label>
-                <input type="text" id="editImg">
-            </div>
-            <div class="form-group">
-                <label>한줄 소개</label>
-                <input type="text" id="editBio">
-            </div>
-            <div style="display: flex; gap: 10px; margin-top: 10px;">
-                <button class="btn" style="flex:1" id="saveProfileBtn">저장</button>
-                <button class="btn btn-secondary" style="flex:1" id="closeProfileBtn">취소</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 검색 및 기록 추가 모달 -->
-    <div class="modal-overlay" id="searchModal">
-        <div class="modal-card">
-            <div class="modal-title">작품 검색 및 등록</div>
-            <div class="form-group">
-                <label>카테고리</label>
-                <select id="searchType">
-                    <option value="movie">영화</option>
-                    <option value="drama">드라마</option>
-                    <option value="book">책</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>한국어 제목 검색</label>
-                <input type="text" id="searchInput" placeholder="예: 미키 17, 기생충...">
-            </div>
-            <div class="search-results" id="searchResults"></div>
-            <button class="btn btn-secondary" id="closeSearchBtn" style="margin-top: 10px;">닫기</button>
-        </div>
-    </div>
-
-    <!-- 상세 피드 / 수정 모달 -->
-    <div class="modal-overlay" id="detailModal">
-        <div class="modal-card">
-            <div style="display: flex; justify-content: space-between; align-items: center;">
-                <div class="modal-title">상세 기록 피드</div>
-                <button class="btn btn-secondary" id="toggleEditModeBtn" style="font-size:12px; padding:4px 10px;">수정</button>
-            </div>
-            <input type="hidden" id="detailId">
-
-            <!-- 읽기 전용 피드 뷰 -->
-            <div id="feedReadView" style="display:flex; flex-direction:column; gap:12px;">
-                <div class="feed-item-info">
-                    <img id="feedPoster" class="feed-poster" src="">
-                    <div class="feed-meta">
-                        <h3 id="feedTitleText">작품 제목</h3>
-                        <p id="feedCategoryText">영화</p>
-                        <div class="feed-rating-stars" id="feedStarsText">⭐⭐⭐⭐⭐ 5.0</div>
+                <!-- 수집 통계 요약 카드 -->
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="custom-card p-3 rounded-xl flex flex-col items-center justify-center text-center">
+                        <span class="text-xs text-gray-400">영화</span>
+                        <span id="profile-movie-count" class="text-base font-bold text-white mt-0.5">0</span>
+                    </div>
+                    <div class="custom-card p-3 rounded-xl flex flex-col items-center justify-center text-center">
+                        <span class="text-xs text-gray-400">드라마</span>
+                        <span id="profile-tv-count" class="text-base font-bold text-white mt-0.5">0</span>
+                    </div>
+                    <div class="custom-card p-3 rounded-xl flex flex-col items-center justify-center text-center">
+                        <span class="text-xs text-gray-400">책</span>
+                        <span id="profile-book-count" class="text-base font-bold text-white mt-0.5">0</span>
                     </div>
                 </div>
-                <div class="feed-date" id="feedDateText">2026.03.15 (Sun)</div>
-                <div class="feed-review" id="feedReviewText">남겨진 감상 후기가 없습니다.</div>
-            </div>
 
-            <!-- 편집 뷰 -->
-            <div id="feedEditView" style="display:none; flex-direction:column; gap:12px;">
-                <div class="form-group">
-                    <label>상태 분류</label>
-                    <select id="detailStatus">
-                        <option value="watched">시청완료 (달력 표시)</option>
-                        <option value="wish">시청예정</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>카테고리</label>
-                    <select id="detailCategory">
-                        <option value="movie">영화</option>
-                        <option value="drama">드라마</option>
-                        <option value="book">책</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>완료 날짜 (YYYY-MM-DD)</label>
-                    <input type="date" id="detailDate">
-                </div>
-                <div class="form-group">
-                    <label>평점 & 별점 시각화: <span id="ratingValueText" style="color:#ffd700; font-weight:bold; font-size:15px;">5.0</span> (<span id="ratingStarPreview">⭐⭐⭐⭐⭐</span>)</label>
-                    <input type="range" id="detailRating" min="0" max="5" step="0.1" value="5">
-                </div>
-                <div class="form-group">
-                    <label>감상 후기</label>
-                    <textarea id="detailReview" rows="4" placeholder="작품에 대한 생각과 느낀점을 기록해 보세요."></textarea>
-                </div>
-                <div style="display: flex; gap: 10px; margin-top: 5px;">
-                    <button class="btn" style="flex:1" id="saveDetailBtn">저장하기</button>
-                    <button class="btn btn-danger" style="flex:1" id="deleteDetailBtn">삭제</button>
+                <!-- 최근 기록 맛보기 피드 -->
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="font-bold text-sm text-white flex items-center gap-1.5">
+                            <i class="fa-solid fa-clock-rotate-left accent-text"></i> 최근 남긴 감상
+                        </h3>
+                        <button onclick="switchMainTab('watched')" class="text-xs text-gray-400 hover:text-white">전체보기 <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
+                    </div>
+                    <div id="profile-recent-feed" class="space-y-3">
+                        <!-- JS로 바인딩 -->
+                    </div>
                 </div>
             </div>
 
-            <button class="btn btn-secondary" id="closeDetailBtn" style="margin-top: 5px;">닫기</button>
+            <!-- 2. 시청완료 탭 화면 (Sub-tabs: 전체 / 영화 / 드라마 / 책) -->
+            <div id="view-watched" class="hidden space-y-4">
+                <!-- Sub Navigation Tabs -->
+                <div class="flex justify-between items-center bg-[#171922] p-1 rounded-xl border border-[#282b37] text-xs">
+                    <div class="flex gap-1 flex-1">
+                        <button onclick="switchSubTab('all')" id="subnav-all" class="flex-1 py-1.5 rounded-lg font-medium text-center bg-[#282b37] text-white">전체</button>
+                        <button onclick="switchSubTab('movie')" id="subnav-movie" class="flex-1 py-1.5 rounded-lg font-medium text-center text-gray-400">영화</button>
+                        <button onclick="switchSubTab('tv')" id="subnav-tv" class="flex-1 py-1.5 rounded-lg font-medium text-center text-gray-400">드라마</button>
+                        <button onclick="switchSubTab('book')" id="subnav-book" class="flex-1 py-1.5 rounded-lg font-medium text-center text-gray-400">책</button>
+                    </div>
+                </div>
+
+                <!-- 도서 전용 View Switch Toggle (책 subtab 활성화시에만 표시) -->
+                <div id="book-view-toggle-container" class="hidden justify-between items-center bg-[#12141c] px-3 py-2 rounded-lg border border-[#232633]">
+                    <span class="text-xs font-semibold text-gray-300 flex items-center gap-1.5">
+                        <i class="fa-solid fa-book-bookmark accent-text"></i> 책장 스타일
+                    </span>
+                    <div class="flex items-center bg-[#1c1f2b] p-0.5 rounded-lg border border-gray-700 text-[11px]">
+                        <button onclick="setBookView('spine')" id="btn-view-spine" class="px-2.5 py-1 rounded-md text-white font-medium bg-gray-700 shadow">책등 보기</button>
+                        <button onclick="setBookView('cover')" id="btn-view-cover" class="px-2.5 py-1 rounded-md text-gray-400 font-medium">표지 보기</button>
+                    </div>
+                </div>
+
+                <!-- 수집 콘텐츠 표시 컨테이너 -->
+                <div id="watched-list-container">
+                    <!-- JS Rendering -->
+                </div>
+            </div>
+
+            <!-- 3. 평점 통계 탭 화면 -->
+            <div id="view-stats" class="hidden space-y-5">
+                <!-- 평균 평점 요약 카드 -->
+                <div class="custom-card p-4 rounded-2xl space-y-3 bg-gradient-to-br from-[#1a1d29] to-[#12141d]">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                        <div>
+                            <div class="text-xs text-gray-400">전체 기록 평균 평점</div>
+                            <div class="flex items-baseline gap-1 mt-0.5">
+                                <span id="stat-overall-avg" class="text-2xl font-black text-amber-400">0.0</span>
+                                <span class="text-xs text-gray-500">/ 5.0</span>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-gray-400">총 감상 작품</span>
+                            <div id="stat-total-count" class="text-base font-bold text-white">0개</div>
+                        </div>
+                    </div>
+
+                    <!-- 카테고리별 평점 세부 -->
+                    <div class="grid grid-cols-3 gap-2 text-center pt-1 text-xs">
+                        <div class="bg-[#12141d] p-2 rounded-xl">
+                            <span class="text-gray-400 block text-[10px]">🎬 영화</span>
+                            <span id="stat-movie-avg" class="font-bold text-white mt-0.5 block">0.0</span>
+                        </div>
+                        <div class="bg-[#12141d] p-2 rounded-xl">
+                            <span class="text-gray-400 block text-[10px]">📺 드라마</span>
+                            <span id="stat-tv-avg" class="font-bold text-white mt-0.5 block">0.0</span>
+                        </div>
+                        <div class="bg-[#12141d] p-2 rounded-xl">
+                            <span class="text-gray-400 block text-[10px]">📚 책</span>
+                            <span id="stat-book-avg" class="font-bold text-white mt-0.5 block">0.0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 점수 분포 그래프 -->
+                <div class="custom-card p-4 rounded-2xl space-y-3">
+                    <h3 class="font-bold text-sm text-white flex items-center justify-between">
+                        <span>점수 분포 분석</span>
+                        <span class="text-[10px] text-gray-400 font-normal">0.5 ~ 5.0 점</span>
+                    </h3>
+                    <div id="rating-distribution-bar" class="flex items-end justify-between h-28 pt-4 px-2 border-b border-gray-800 gap-1">
+                        <!-- JS Dynamic Bar Render -->
+                    </div>
+                </div>
+
+                <!-- 평점 그룹별 리스트 피드 -->
+                <div class="space-y-4">
+                    <h3 class="font-bold text-sm text-white">평점별 감상 피드</h3>
+                    <div id="rating-grouped-feed" class="space-y-4">
+                        <!-- JS Dynamic Feed Group Render -->
+                    </div>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- 라이브 통합 검색 및 추가 모달 -->
+        <div id="search-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+            <div class="bg-[#171922] border border-[#282b37] w-full max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-4 max-h-[85vh] flex flex-col shadow-2xl">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                    <div>
+                        <h3 class="font-bold text-base text-white">실시간 미디어 검색</h3>
+                        <p class="text-[11px] text-gray-400">TMDB(영화/TV) & Kakao(도서) 검색 연동</p>
+                    </div>
+                    <button onclick="closeSearchModal()" class="w-8 h-8 rounded-full bg-gray-800 text-gray-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <!-- 실시간 검색 입력 창 -->
+                <div class="flex gap-2">
+                    <input type="text" id="search-input" placeholder="검색어를 입력하세요 (예: 파묘, 미키17, 면세 미술)" 
+                           onkeypress="if(event.key==='Enter') performLiveSearch()"
+                           class="flex-1 bg-[#0e1015] border border-gray-800 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500">
+                    <button onclick="performLiveSearch()" class="accent-bg px-4 py-2 rounded-xl text-xs font-semibold shadow hover:opacity-90">검색</button>
+                </div>
+
+                <!-- 실시간 검색 결과 리스트 -->
+                <div id="search-results" class="flex-1 overflow-y-auto space-y-2.5 no-scrollbar pr-1 min-h-[280px]">
+                    <div class="text-center text-gray-500 text-xs py-12 flex flex-col items-center justify-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-2xl opacity-40"></i>
+                        <span>영화, 드라마, 도서 제목을 검색해 보세요.</span>
+                    </div>
+                </div>
+            </div>
         </div>
+
+        <!-- 감상 등록/수정 모달 -->
+        <div id="review-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="bg-[#171922] border border-[#282b37] w-full max-w-sm rounded-2xl p-4 space-y-4 shadow-2xl">
+                <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                    <h3 id="review-modal-title" class="font-bold text-sm text-white">감상 기록하기</h3>
+                    <button onclick="closeReviewModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+
+                <div class="flex gap-3 items-center bg-[#0e1015] p-2 rounded-xl border border-gray-800">
+                    <img id="modal-item-poster" src="" class="w-12 h-16 object-cover rounded-lg">
+                    <div class="flex-1 min-w-0">
+                        <div id="modal-item-title" class="font-bold text-xs text-white truncate">제목</div>
+                        <div id="modal-item-sub" class="text-[10px] text-gray-400 truncate">정보</div>
+                    </div>
+                </div>
+
+                <!-- 별점 선택기 -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs">
+                        <span class="text-gray-400">평점 선택</span>
+                        <span id="star-rating-val" class="font-bold text-amber-400">★ 5.0</span>
+                    </div>
+                    <input type="range" id="rating-range" min="0.5" max="5.0" step="0.5" value="5.0" oninput="updateRatingDisplay(this.value)" class="w-full accent-amber-400 cursor-pointer">
+                </div>
+
+                <!-- 관람/독서 일자 -->
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400 block">날짜</label>
+                    <input type="date" id="review-date" class="w-full bg-[#0e1015] border border-gray-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none">
+                </div>
+
+                <!-- 한 줄 감상평 -->
+                <div class="space-y-1">
+                    <label class="text-xs text-gray-400 block">감상평</label>
+                    <textarea id="review-comment" rows="3" placeholder="작품에 대한 생각이나 한 줄 감상을 적어주세요." class="w-full bg-[#0e1015] border border-gray-800 rounded-xl p-2.5 text-xs text-white placeholder-gray-600 focus:outline-none resize-none"></textarea>
+                </div>
+
+                <div class="flex gap-2 pt-2">
+                    <button onclick="closeReviewModal()" class="flex-1 py-2 bg-gray-800 text-gray-300 rounded-xl text-xs font-medium hover:bg-gray-700">취소</button>
+                    <button onclick="saveReviewSubmit()" class="flex-1 py-2 accent-bg rounded-xl text-xs font-semibold shadow">저장하기</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 하단 고정 네비게이션 바 -->
+        <footer class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#0e1015]/95 border-t border-[#282b37] px-8 py-2 flex justify-between items-center text-xs z-20">
+            <button onclick="switchMainTab('profile')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition">
+                <i class="fa-solid fa-house text-base"></i>
+                <span class="text-[10px]">피드</span>
+            </button>
+            <button onclick="openSearchModal()" class="w-10 h-10 rounded-full accent-bg flex items-center justify-center text-white -mt-4 shadow-lg border-2 border-[#0e1015] hover:scale-105 transition">
+                <i class="fa-solid fa-plus text-base"></i>
+            </button>
+            <button onclick="switchMainTab('stats')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition">
+                <i class="fa-solid fa-chart-pie text-base"></i>
+                <span class="text-[10px]">평점분석</span>
+            </button>
+        </footer>
+
     </div>
 
+    <!-- Application Logic & Scripts -->
     <script>
-        let profile = JSON.parse(localStorage.getItem('ottlog_profile')) || {
-            name: "시네필 회원님",
-            bio: "영화와 책을 기록하는 나만의 OTT LOG입니다.",
-            img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop"
-        };
+        // 발급받으신 API 인증 키 세팅
+        const TMDB_BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjA5MGEzYmIxZmRkYWM2MzZlNDI0YmRjNTVjNmI2MiIsIm5iZiI6MTc5NDM3NTQ0Ny4zNDYsInN1YiI6IjZhZjNmZjE3MjY5MmI2ZjRjMWQzOTFlZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tHiA32lj9x1lcU95eDEgjMCEI5j8Q2SHlbpIWv_NBks";
+        const KAKAO_REST_KEY = "488cb5471dfa88c4133dd98d4958ab92";
 
-        let currentFont = localStorage.getItem('ottlog_font') || "'Noto Sans KR', sans-serif";
+        // 애플리케이션 기본 데이터 상태
+        let currentMainTab = 'profile';
+        let currentSubTab = 'all';
+        let bookViewMode = 'spine'; // 'spine' or 'cover'
+        let pendingItem = null; // 감상 등록 중인 아이템 객체
 
-        let records = JSON.parse(localStorage.getItem('ottlog_records')) || [
-            { id: 1, type: 'movie', title: '미키 17', date: '2026-03-05', poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&auto=format&fit=crop', status: 'watched', rating: 4.8, review: '연출과 철학적인 스토리가 무척 인상적이었다. 꼭 봐야 하는 작품.' },
-            { id: 2, type: 'book', title: '기생충 스토리북', date: '2026-03-12', poster: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&auto=format&fit=crop', status: 'watched', rating: 4.5, review: '시나리오의 디테일과 각본의 매력을 책으로 다시 느껴본다.' },
-            { id: 3, type: 'drama', title: '기묘한 이야기', date: '', poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=300&auto=format&fit=crop', status: 'wish', rating: 5.0, review: '' }
+        // LocalStorage 연동 데이터베이스
+        let archiveData = JSON.parse(localStorage.getItem('repov_archive_data')) || [
+            { id: 101, type: 'movie', title: '미키 17', poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&auto=format&fit=crop&q=80', date: '2026-11-04', rating: 4.8, comment: '봉준호 감독 특유의 위트와 상상력이 압도적이었음.', info: '2026 · 영화' },
+            { id: 102, type: 'book', title: '면세 미술', poster: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&auto=format&fit=crop&q=80', date: '2026-11-08', rating: 5.0, comment: '지구 내전 시대의 미술에 관한 탁월한 통찰력.', info: '히토 슈타이얼 · 도서', spineColor: '#3a5a40' },
+            { id: 103, type: 'tv', title: '오징어 게임 시즌2', poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=300&auto=format&fit=crop&q=80', date: '2026-11-10', rating: 4.2, comment: '몰입감이 높아 밤새워 정주행함.', info: '2024 · 드라마' }
         ];
 
-        let currentDate = new Date(2026, 2, 1);
-        let currentSubTab = 'movie';
+        let userProfile = JSON.parse(localStorage.getItem('repov_user_profile')) || {
+            name: '아카이버',
+            bio: '영화와 책을 나만의 시선으로 아카이빙합니다 🎬📚',
+            avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
+        };
 
-        const fontSelect = document.getElementById('fontSelect');
-        document.body.style.fontFamily = currentFont;
-        fontSelect.value = currentFont;
+        // 스마트 콘트라스트 보정 및 accent 색상 변경
+        function updateAccentColor(colorHex) {
+            document.documentElement.style.setProperty('--accent-color', colorHex);
+            document.getElementById('pickerPreview').style.backgroundColor = colorHex;
 
-        fontSelect.addEventListener('change', (e) => {
-            currentFont = e.target.value;
-            document.body.style.fontFamily = currentFont;
-            localStorage.setItem('ottlog_font', currentFont);
-        });
-
-        function renderProfile() {
-            document.getElementById('displayName').textContent = profile.name;
-            document.getElementById('displayBio').textContent = profile.bio;
-            document.getElementById('displayProfileImg').src = profile.img;
+            // Relative Luminance 계산 (W3C 표준 스마트 대비 로직)
+            const rgb = hexToRgb(colorHex);
+            if (rgb) {
+                const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
+                const textColor = luminance > 0.6 ? '#000000' : '#ffffff';
+                document.documentElement.style.setProperty('--accent-text', textColor);
+            }
+            localStorage.setItem('repov_accent_color', colorHex);
         }
 
-        function setPresetAvatar(url) {
-            document.getElementById('editImg').value = url;
+        function hexToRgb(hex) {
+            const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                r: parseInt(result[1], 16),
+                g: parseInt(result[2], 16),
+                b: parseInt(result[3], 16)
+            } : null;
         }
 
-        document.getElementById('openEditProfile').addEventListener('click', () => {
-            document.getElementById('editName').value = profile.name;
-            document.getElementById('editImg').value = profile.img;
-            document.getElementById('editBio').value = profile.bio;
-            document.getElementById('profileModal').classList.add('active');
-        });
-
-        document.getElementById('closeProfileBtn').addEventListener('click', () => {
-            document.getElementById('profileModal').classList.remove('active');
-        });
-
-        document.getElementById('editFile').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(evt) {
-                    document.getElementById('editImg').value = evt.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        document.getElementById('saveProfileBtn').addEventListener('click', () => {
-            profile.name = document.getElementById('editName').value;
-            profile.img = document.getElementById('editImg').value || profile.img;
-            profile.bio = document.getElementById('editBio').value;
-            localStorage.setItem('ottlog_profile', JSON.stringify(profile));
-            renderProfile();
-            document.getElementById('profileModal').classList.remove('active');
-        });
-
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            const isDark = document.body.getAttribute('data-theme') === 'dark';
-            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
-        });
-
-        document.getElementById('accentPicker').addEventListener('input', (e) => {
-            document.documentElement.style.setProperty('--accent-color', e.target.value);
-        });
-
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                item.classList.add('active');
-                const tab = item.getAttribute('data-tab');
-                document.getElementById('calendarTab').style.display = tab === 'calendar' ? 'block' : 'none';
-                document.getElementById('wishTab').style.display = tab === 'wish' ? 'block' : 'none';
-                document.getElementById('watchedTab').style.display = tab === 'watched' ? 'block' : 'none';
-
-                if (tab === 'wish') renderWish();
-                if (tab === 'watched') renderWatched();
-            });
-        });
-
-        document.querySelectorAll('.sub-nav-item').forEach(sub => {
-            sub.addEventListener('click', () => {
-                document.querySelectorAll('.sub-nav-item').forEach(s => s.classList.remove('active'));
-                sub.classList.add('active');
-                currentSubTab = sub.getAttribute('data-sub');
-                renderWatched();
-            });
-        });
-
-        function renderCalendar() {
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth();
-            document.getElementById('calendarMonthTitle').textContent = `${year}.${String(month + 1).padStart(2, '0')}`;
-
-            const grid = document.getElementById('calendarGrid');
-            grid.innerHTML = '';
-
-            ['일', '월', '화', '수', '목', '금', '토'].forEach(d => {
-                const dh = document.createElement('div');
-                dh.className = 'day-name';
-                dh.textContent = d;
-                grid.appendChild(dh);
+        // 메인 탭 전환
+        function switchMainTab(tabName) {
+            currentMainTab = tabName;
+            ['profile', 'watched', 'stats'].forEach(t => {
+                document.getElementById(`view-${t}`).classList.add('hidden');
+                const btn = document.getElementById(`nav-${t}`);
+                btn.classList.replace('text-white', 'text-gray-400');
+                btn.classList.replace('border-white', 'border-transparent');
             });
 
-            const firstDay = new Date(year, month, 1).getDay();
-            const totalDays = new Date(year, month + 1, 0).getDate();
+            document.getElementById(`view-${tabName}`).classList.remove('hidden');
+            const activeBtn = document.getElementById(`nav-${tabName}`);
+            activeBtn.classList.replace('text-gray-400', 'text-white');
+            activeBtn.classList.replace('border-transparent', 'border-white');
 
-            for (let i = 0; i < firstDay; i++) {
-                grid.appendChild(document.createElement('div'));
-            }
-
-            for (let day = 1; day <= totalDays; day++) {
-                const cell = document.createElement('div');
-                cell.className = 'day-cell';
-                cell.innerHTML = `<span class="day-number">${day}</span>`;
-
-                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-                const matchedRecord = records.find(r => r.date === dateStr && r.status === 'watched');
-
-                if (matchedRecord) {
-                    const img = document.createElement('img');
-                    img.src = matchedRecord.poster;
-                    img.className = 'poster-img';
-                    cell.appendChild(img);
-                    cell.addEventListener('click', () => openDetailModal(matchedRecord.id));
-                }
-
-                grid.appendChild(cell);
-            }
+            if (tabName === 'profile') renderProfileFeed();
+            if (tabName === 'watched') renderWatchedList();
+            if (tabName === 'stats') renderStatsDashboard();
         }
 
-        document.getElementById('prevMonth').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        });
+        // 시청완료 서브 탭 전환
+        function switchSubTab(subType) {
+            currentSubTab = subType;
+            ['all', 'movie', 'tv', 'book'].forEach(st => {
+                const btn = document.getElementById(`subnav-${st}`);
+                btn.className = "flex-1 py-1.5 rounded-lg font-medium text-center text-gray-400";
+            });
 
-        document.getElementById('nextMonth').addEventListener('click', () => {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        });
+            const activeSubBtn = document.getElementById(`subnav-${subType}`);
+            activeSubBtn.className = "flex-1 py-1.5 rounded-lg font-medium text-center bg-[#282b37] text-white shadow";
 
-        function renderWish() {
-            const grid = document.getElementById('wishGrid');
-            grid.innerHTML = '';
-            const wishes = records.filter(r => r.status === 'wish');
+            // 도서 전용 보기 토글 표시 여부
+            const toggleBox = document.getElementById('book-view-toggle-container');
+            if (subType === 'book') {
+                toggleBox.classList.remove('hidden');
+                toggleBox.classList.add('flex');
+            } else {
+                toggleBox.classList.add('hidden');
+                toggleBox.classList.remove('flex');
+            }
 
-            wishes.forEach(item => {
-                const card = document.createElement('div');
-                card.className = 'media-card';
-                card.innerHTML = `
-                    <img src="${item.poster}" class="media-poster">
-                    <div class="media-info">
-                        <div class="media-title">${item.title}</div>
-                        <div class="media-rating">⭐ ${item.rating || 5.0}</div>
+            renderWatchedList();
+        }
+
+        // 도서 책장 보기 방식 변경 (책등 vs 표지)
+        function setBookView(mode) {
+            bookViewMode = mode;
+            const btnSpine = document.getElementById('btn-view-spine');
+            const btnCover = document.getElementById('btn-view-cover');
+
+            if (mode === 'spine') {
+                btnSpine.className = "px-2.5 py-1 rounded-md text-white font-medium bg-gray-700 shadow";
+                btnCover.className = "px-2.5 py-1 rounded-md text-gray-400 font-medium";
+            } else {
+                btnCover.className = "px-2.5 py-1 rounded-md text-white font-medium bg-gray-700 shadow";
+                btnSpine.className = "px-2.5 py-1 rounded-md text-gray-400 font-medium";
+            }
+            renderWatchedList();
+        }
+
+        // 프로필 뷰 랜더링
+        function renderProfileFeed() {
+            document.getElementById('user-name').innerText = userProfile.name;
+            document.getElementById('user-bio').innerText = userProfile.bio;
+            document.getElementById('user-avatar').src = userProfile.avatar;
+
+            const movies = archiveData.filter(d => d.type === 'movie');
+            const tvs = archiveData.filter(d => d.type === 'tv');
+            const books = archiveData.filter(d => d.type === 'book');
+
+            document.getElementById('profile-movie-count').innerText = `${movies.length}편`;
+            document.getElementById('profile-tv-count').innerText = `${tvs.length}편`;
+            document.getElementById('profile-book-count').innerText = `${books.length}권`;
+
+            const recentContainer = document.getElementById('profile-recent-feed');
+            const recentItems = [...archiveData].reverse().slice(0, 3);
+
+            if (recentItems.length === 0) {
+                recentContainer.innerHTML = `<div class="text-center text-gray-500 py-6 text-xs">아직 등록된 기록이 없습니다.</div>`;
+                return;
+            }
+
+            recentContainer.innerHTML = recentItems.map(item => `
+                <div class="custom-card p-3 rounded-xl flex gap-3 items-center">
+                    <img src="${item.poster}" class="w-12 h-16 object-cover rounded-lg shadow">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-xs text-white truncate">${item.title}</span>
+                            <span class="text-amber-400 text-xs font-semibold">★ ${item.rating.toFixed(1)}</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 mt-1 line-clamp-2">${item.comment || '남긴 기록이 없습니다.'}</p>
+                        <span class="text-[10px] text-gray-500 mt-1 block">${item.date} 감상</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 시청완료 메인 목로 랜더링 (책등 View 및 표지 Grid 지원)
+        function renderWatchedList() {
+            const container = document.getElementById('watched-list-container');
+            let filtered = archiveData;
+
+            if (currentSubTab !== 'all') {
+                filtered = archiveData.filter(d => d.type === currentSubTab);
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = `<div class="text-center text-gray-500 py-12 text-xs">해당하는 감상 기록이 없습니다.</div>`;
+                return;
+            }
+
+            // 책 탭이면서 책등 보기(spine) 모드일 경우
+            if (currentSubTab === 'book' && bookViewMode === 'spine') {
+                const spineColors = ['#2b3a4a', '#4a2b2b', '#2b4a3a', '#4a422b', '#3b2b4a', '#2b454a', '#543d2b'];
+                
+                container.innerHTML = `
+                    <div class="space-y-6 pt-2">
+                        <div class="bg-[#12141c] p-4 pb-0 rounded-2xl border border-[#232633] shadow-inner">
+                            <div class="flex items-end justify-start gap-2 overflow-x-auto no-scrollbar pb-1 min-h-[220px]">
+                                ${filtered.map((book, idx) => {
+                                    const bgColor = book.spineColor || spineColors[idx % spineColors.length];
+                                    return `
+                                        <div onclick="openItemDetail(${book.id})" class="book-spine shrink-0 w-11 h-48 rounded-t-md p-2 flex flex-col justify-between items-center text-white cursor-pointer relative" style="background-color: ${bgColor}">
+                                            <div class="text-[9px] bg-black/40 px-1 py-0.5 rounded text-amber-300 font-bold">${book.rating.toFixed(1)}</div>
+                                            <div class="text-xs font-bold tracking-wider my-auto line-clamp-1 truncate">${book.title}</div>
+                                            <div class="w-1.5 h-1.5 rounded-full bg-amber-400 mb-1"></div>
+                                        </div>
+                                    `;
+                                }).join('')}
+                            </div>
+                            <!-- 나무 책장 받침대 스타일 -->
+                            <div class="shelf-divider -mx-4"></div>
+                        </div>
                     </div>
                 `;
-                card.addEventListener('click', () => openDetailModal(item.id));
-                grid.appendChild(card);
-            });
-        }
-
-        function renderWatched() {
-            const container = document.getElementById('watchedContentContainer');
-            container.innerHTML = '';
-            const watchedList = records.filter(r => r.status === 'watched' && r.type === currentSubTab);
-
-            if (currentSubTab === 'book') {
-                const shelfDiv = document.createElement('div');
-                shelfDiv.className = 'bookshelf-container';
-                
-                const rowDiv = document.createElement('div');
-                rowDiv.className = 'bookshelf-row';
-
-                if (watchedList.length === 0) {
-                    rowDiv.innerHTML = `<div style="color:var(--text-sub); font-size:13px; padding:10px;">등록된 책이 없습니다. 책장에 책을 꽂아보세요!</div>`;
-                }
-
-                watchedList.forEach(item => {
-                    const book = document.createElement('div');
-                    book.className = 'book-item';
-                    book.innerHTML = `<img src="${item.poster}" class="book-cover">`;
-                    book.addEventListener('click', () => openDetailModal(item.id));
-                    rowDiv.appendChild(book);
-                });
-
-                shelfDiv.appendChild(rowDiv);
-                container.appendChild(shelfDiv);
-            } else {
-                const grid = document.createElement('div');
-                grid.className = 'item-grid';
-
-                watchedList.forEach(item => {
-                    const card = document.createElement('div');
-                    card.className = 'media-card';
-                    card.innerHTML = `
-                        <img src="${item.poster}" class="media-poster">
-                        <div class="media-info">
-                            <div class="media-title">${item.title}</div>
-                            <div class="media-rating">⭐ ${item.rating || 5.0}</div>
-                        </div>
-                    `;
-                    card.addEventListener('click', () => openDetailModal(item.id));
-                    grid.appendChild(card);
-                });
-                container.appendChild(grid);
+                return;
             }
+
+            // 일반 표지 그리드 및 카드 피드 형태
+            container.innerHTML = `
+                <div class="grid grid-cols-3 gap-3">
+                    ${filtered.map(item => `
+                        <div onclick="openItemDetail(${item.id})" class="space-y-1 cursor-pointer group">
+                            <div class="w-full aspect-poster rounded-xl custom-card overflow-hidden relative shadow-md group-hover:scale-105 transition">
+                                <img src="${item.poster}" class="w-full h-full object-cover">
+                                <div class="absolute top-1 right-1 bg-black/70 backdrop-blur-xs px-1.5 py-0.5 rounded-md text-amber-400 text-[10px] font-bold">
+                                    ★ ${item.rating.toFixed(1)}
+                                </div>
+                            </div>
+                            <div class="font-semibold text-xs text-white truncate">${item.title}</div>
+                            <div class="text-[10px] text-gray-500 truncate">${item.date}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
         }
 
-        document.getElementById('openSearchModal').addEventListener('click', () => {
-            document.getElementById('searchModal').classList.add('active');
-        });
+        // 평점 및 통계 분석 랜더링
+        function renderStatsDashboard() {
+            if (archiveData.length === 0) return;
 
-        document.getElementById('closeSearchBtn').addEventListener('click', () => {
-            document.getElementById('searchModal').classList.remove('active');
-        });
+            const totalCount = archiveData.length;
+            const overallAvg = (archiveData.reduce((acc, cur) => acc + cur.rating, 0) / totalCount).toFixed(1);
 
-        document.getElementById('searchInput').addEventListener('input', (e) => {
-            const query = e.target.value.trim();
-            const container = document.getElementById('searchResults');
-            container.innerHTML = '';
+            document.getElementById('stat-overall-avg').innerText = overallAvg;
+            document.getElementById('stat-total-count').innerText = `${totalCount}개`;
+
+            const calcAvg = (type) => {
+                const items = archiveData.filter(d => d.type === type);
+                if (items.length === 0) return '0.0';
+                return (items.reduce((acc, cur) => acc + cur.rating, 0) / items.length).toFixed(1);
+            };
+
+            document.getElementById('stat-movie-avg').innerText = `${calcAvg('movie')}점`;
+            document.getElementById('stat-tv-avg').innerText = `${calcAvg('tv')}점`;
+            document.getElementById('stat-book-avg').innerText = `${calcAvg('book')}점`;
+
+            // 점수 분포 분포도 계산 (0.5 ~ 5.0)
+            const scores = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
+            const distMap = {};
+            scores.forEach(s => distMap[s] = 0);
+
+            archiveData.forEach(d => {
+                const rounded = Math.round(d.rating * 2) / 2;
+                if (distMap[rounded] !== undefined) distMap[rounded]++;
+            });
+
+            const maxFreq = Math.max(...Object.values(distMap), 1);
+            const barContainer = document.getElementById('rating-distribution-bar');
+
+            barContainer.innerHTML = scores.map(score => {
+                const count = distMap[score];
+                const heightPercent = (count / maxFreq) * 100;
+                return `
+                    <div class="flex flex-col items-center flex-1 h-full justify-end gap-1">
+                        <span class="text-[9px] text-gray-400 font-bold">${count > 0 ? count : ''}</span>
+                        <div class="w-full bg-indigo-500/30 rounded-t-sm relative flex items-end overflow-hidden" style="height: ${Math.max(heightPercent, 5)}%">
+                            <div class="w-full accent-bg rounded-t-sm" style="height: 100%"></div>
+                        </div>
+                        <span class="text-[9px] text-gray-500">${score}</span>
+                    </div>
+                `;
+            }).join('');
+
+            // 평점별 그룹 피드 랜더링
+            const groupContainer = document.getElementById('rating-grouped-feed');
+            const grouped = {};
+
+            archiveData.forEach(item => {
+                const key = item.rating.toFixed(1);
+                if (!grouped[key]) grouped[key] = [];
+                grouped[key].push(item);
+            });
+
+            const sortedKeys = Object.keys(grouped).sort((a, b) => b - a);
+
+            groupContainer.innerHTML = sortedKeys.map(key => `
+                <div class="space-y-2">
+                    <div class="text-xs font-bold text-amber-400 flex items-center gap-1 border-b border-gray-800 pb-1">
+                        <span>★ ${key}점 라인업</span>
+                        <span class="text-[10px] text-gray-500 font-normal">(${grouped[key].length}개)</span>
+                    </div>
+                    <div class="space-y-2">
+                        ${grouped[key].map(item => `
+                            <div class="custom-card p-2.5 rounded-xl flex gap-3 items-center">
+                                <img src="${item.poster}" class="w-10 h-14 object-cover rounded-lg">
+                                <div class="flex-1 min-w-0">
+                                    <div class="font-bold text-xs text-white truncate">${item.title}</div>
+                                    <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-1">${item.comment || '남긴 감상이 없습니다.'}</div>
+                                    <div class="text-[9px] text-gray-500 mt-1">${item.info || ''} · ${item.date}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // TMDB & Kakao 라이브 API 연동 검색
+        async function performLiveSearch() {
+            const query = document.getElementById('search-input').value.trim();
+            const resultsContainer = document.getElementById('search-results');
 
             if (!query) return;
 
-            const mockResults = [
-                { title: query, poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=200&auto=format&fit=crop' },
-                { title: query + ' (디렉터스컷)', poster: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&auto=format&fit=crop' }
-            ];
+            resultsContainer.innerHTML = `<div class="text-center text-gray-400 py-10 text-xs"><i class="fa-solid fa-spinner fa-spin text-lg block mb-2"></i>검색 중...</div>`;
 
-            mockResults.forEach(res => {
-                const item = document.createElement('div');
-                item.className = 'search-item';
-                item.innerHTML = `
-                    <img src="${res.poster}" class="search-thumb">
-                    <div style="flex:1; font-weight:600;">${res.title}</div>
-                    <button class="btn" style="font-size:11px;">+ 선택</button>
-                `;
-                item.addEventListener('click', () => {
-                    const selectedType = document.getElementById('searchType').value;
-                    const newRec = {
-                        id: Date.now(),
-                        type: selectedType,
-                        title: res.title,
-                        date: '2026-03-15',
-                        poster: res.poster,
-                        status: 'watched',
-                        rating: 5.0,
-                        review: '새롭게 추가된 작품입니다. 감상 후기를 남겨보세요!'
-                    };
-                    records.push(newRec);
-                    localStorage.setItem('ottlog_records', JSON.stringify(records));
-                    renderCalendar();
-                    document.getElementById('searchModal').classList.remove('active');
-                    openDetailModal(newRec.id);
-                });
-                container.appendChild(item);
-            });
-        });
+            try {
+                // 1. TMDB Multi Search (영화/TV)
+                const tmdbPromise = fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(query)}&language=ko-KR&page=1`, {
+                    headers: { Authorization: `Bearer ${TMDB_BEARER_TOKEN}` }
+                }).then(res => res.json()).catch(() => ({ results: [] }));
 
-        const ratingSlider = document.getElementById('detailRating');
-        const ratingValueText = document.getElementById('ratingValueText');
-        const ratingStarPreview = document.getElementById('ratingStarPreview');
+                // 2. Kakao Book Search (도서)
+                const kakaoPromise = fetch(`https://dapi.kakao.com/v3/search/book?query=${encodeURIComponent(query)}`, {
+                    headers: { Authorization: `KakaoAK ${KAKAO_REST_KEY}` }
+                }).then(res => res.json()).catch(() => ({ documents: [] }));
 
-        ratingSlider.addEventListener('input', (e) => {
-            const val = Number(e.target.value).toFixed(1);
-            ratingValueText.textContent = val;
-            const fullStars = Math.floor(val);
-            ratingStarPreview.textContent = '⭐'.repeat(fullStars) + (val % 1 >= 0.5 ? '✨' : '');
-        });
+                const [tmdbRes, kakaoRes] = await Promise.all([tmdbPromise, kakaoPromise]);
 
-        let isEditMode = false;
+                let items = [];
 
-        function openDetailModal(id) {
-            const item = records.find(r => r.id === id);
-            if (!item) return;
+                // TMDB 결과 파싱
+                if (tmdbRes.results) {
+                    tmdbRes.results.forEach(m => {
+                        if (m.media_type === 'movie' || m.media_type === 'tv') {
+                            const poster = m.poster_path ? `https://image.tmdb.org/t/p/w300${m.poster_path}` : 'https://via.placeholder.com/150x225?text=No+Cover';
+                            const title = m.title || m.name;
+                            const year = (m.release_date || m.first_air_date || '').split('-')[0];
+                            items.push({
+                                type: m.media_type,
+                                title: title,
+                                poster: poster,
+                                info: `${year ? year + ' · ' : ''}${m.media_type === 'movie' ? '영화' : '드라마'}`
+                            });
+                        }
+                    });
+                }
 
-            isEditMode = false;
-            updateDetailViewMode();
+                // Kakao 결과 파싱
+                if (kakaoRes.documents) {
+                    kakaoRes.documents.forEach(b => {
+                        const poster = b.thumbnail || 'https://via.placeholder.com/150x225?text=No+Cover';
+                        items.push({
+                            type: 'book',
+                            title: b.title,
+                            poster: poster,
+                            info: `${b.authors ? b.authors.join(', ') : '저자 미상'} · 도서`
+                        });
+                    });
+                }
 
-            document.getElementById('detailId').value = item.id;
-            
-            document.getElementById('feedPoster').src = item.poster;
-            document.getElementById('feedTitleText').textContent = item.title;
-            document.getElementById('feedCategoryText').textContent = item.type === 'movie' ? '🎬 영화' : (item.type === 'drama' ? '📺 드라마' : '📚 책');
-            const ratingNum = item.rating || 5.0;
-            document.getElementById('feedStarsText').textContent = `⭐ ${ratingNum}`;
-            document.getElementById('feedDateText').textContent = item.date ? `${item.date} 기록됨` : '날짜 미지정';
-            document.getElementById('feedReviewText').textContent = item.review || '작성된 감상 후기가 없습니다.';
+                if (items.length === 0) {
+                    resultsContainer.innerHTML = `<div class="text-center text-gray-500 py-10 text-xs">검색 결과가 없습니다.</div>`;
+                    return;
+                }
 
-            document.getElementById('detailStatus').value = item.status;
-            document.getElementById('detailCategory').value = item.type;
-            document.getElementById('detailDate').value = item.date || '2026-03-15';
-            ratingSlider.value = ratingNum;
-            ratingValueText.textContent = Number(ratingNum).toFixed(1);
-            ratingStarPreview.textContent = '⭐'.repeat(Math.floor(ratingNum));
-            document.getElementById('detailReview').value = item.review || '';
+                resultsContainer.innerHTML = items.map((item, idx) => `
+                    <div class="custom-card p-2 rounded-xl flex gap-3 items-center">
+                        <img src="${item.poster}" class="w-12 h-16 object-cover rounded-lg shadow">
+                        <div class="flex-1 min-w-0">
+                            <div class="font-bold text-xs text-white truncate">${item.title}</div>
+                            <div class="text-[10px] text-gray-400 mt-0.5 truncate">${item.info}</div>
+                            <button onclick='openReviewModalFromSearch(${JSON.stringify(item).replace(/'/g, "&apos;")})' class="mt-2 accent-bg px-3 py-1 rounded-lg text-[10px] font-semibold">
+                                + 감상 기록
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
 
-            document.getElementById('detailModal').classList.add('active');
-        }
-
-        function updateDetailViewMode() {
-            const readView = document.getElementById('feedReadView');
-            const editView = document.getElementById('feedEditView');
-            const toggleBtn = document.getElementById('toggleEditModeBtn');
-
-            if (isEditMode) {
-                readView.style.display = 'none';
-                editView.style.display = 'flex';
-                toggleBtn.textContent = '보기';
-            } else {
-                readView.style.display = 'flex';
-                editView.style.display = 'none';
-                toggleBtn.textContent = '수정';
+            } catch (err) {
+                resultsContainer.innerHTML = `<div class="text-center text-red-400 py-10 text-xs">검색 중 오류가 발생했습니다.</div>`;
             }
         }
 
-        document.getElementById('toggleEditModeBtn').addEventListener('click', () => {
-            isEditMode = !isEditMode;
-            updateDetailViewMode();
-        });
+        // 검색 모달 컨트롤
+        function openSearchModal() { document.getElementById('search-modal').classList.remove('hidden'); }
+        function closeSearchModal() { document.getElementById('search-modal').classList.add('hidden'); }
 
-        document.getElementById('closeDetailBtn').addEventListener('click', () => {
-            document.getElementById('detailModal').classList.remove('active');
-        });
+        // 감상 모달 컨트롤
+        function openReviewModalFromSearch(item) {
+            pendingItem = item;
+            document.getElementById('modal-item-poster').src = item.poster;
+            document.getElementById('modal-item-title').innerText = item.title;
+            document.getElementById('modal-item-sub').innerText = item.info;
+            document.getElementById('review-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('review-comment').value = '';
+            document.getElementById('rating-range').value = 5.0;
+            updateRatingDisplay(5.0);
 
-        document.getElementById('saveDetailBtn').addEventListener('click', () => {
-            const id = Number(document.getElementById('detailId').value);
-            const index = records.findIndex(r => r.id === id);
-            if (index !== -1) {
-                records[index].status = document.getElementById('detailStatus').value;
-                records[index].type = document.getElementById('detailCategory').value;
-                records[index].date = document.getElementById('detailDate').value;
-                records[index].rating = parseFloat(ratingSlider.value);
-                records[index].review = document.getElementById('detailReview').value;
+            closeSearchModal();
+            document.getElementById('review-modal').classList.remove('hidden');
+        }
 
-                localStorage.setItem('ottlog_records', JSON.stringify(records));
-                renderCalendar();
-                renderWish();
-                renderWatched();
-                document.getElementById('detailModal').classList.remove('active');
+        function closeReviewModal() {
+            document.getElementById('review-modal').classList.add('hidden');
+        }
+
+        function updateRatingDisplay(val) {
+            document.getElementById('star-rating-val').innerText = `★ ${parseFloat(val).toFixed(1)}`;
+        }
+
+        function saveReviewSubmit() {
+            if (!pendingItem) return;
+
+            const ratingVal = parseFloat(document.getElementById('rating-range').value);
+            const dateVal = document.getElementById('review-date').value || new Date().toISOString().split('T')[0];
+            const commentVal = document.getElementById('review-comment').value.trim();
+
+            const newItem = {
+                id: Date.now(),
+                type: pendingItem.type,
+                title: pendingItem.title,
+                poster: pendingItem.poster,
+                info: pendingItem.info,
+                rating: ratingVal,
+                date: dateVal,
+                comment: commentVal
+            };
+
+            archiveData.push(newItem);
+            localStorage.setItem('repov_archive_data', JSON.stringify(archiveData));
+
+            closeReviewModal();
+            alert(`'${newItem.title}' 감상이 아카이브에 기록되었습니다!`);
+
+            if (currentMainTab === 'profile') renderProfileFeed();
+            if (currentMainTab === 'watched') renderWatchedList();
+            if (currentMainTab === 'stats') renderStatsDashboard();
+        }
+
+        function editProfilePrompt() {
+            const name = prompt("프로필 이름을 입력하세요:", userProfile.name);
+            if (name) {
+                userProfile.name = name;
+                localStorage.setItem('repov_user_profile', JSON.stringify(userProfile));
+                renderProfileFeed();
             }
-        });
+        }
 
-        document.getElementById('deleteDetailBtn').addEventListener('click', () => {
-            if (confirm("정말로 이 기록을 삭제하시겠습니까?")) {
-                const id = Number(document.getElementById('detailId').value);
-                records = records.filter(r => r.id !== id);
-                localStorage.setItem('ottlog_records', JSON.stringify(records));
-                renderCalendar();
-                renderWish();
-                renderWatched();
-                document.getElementById('detailModal').classList.remove('active');
+        // 초기화
+        window.onload = function() {
+            const savedAccent = localStorage.getItem('repov_accent_color');
+            if (savedAccent) {
+                document.getElementById('accentPicker').value = savedAccent;
+                updateAccentColor(savedAccent);
             }
-        });
-
-        renderProfile();
-        renderCalendar();
+            renderProfileFeed();
+        };
     </script>
 </body>
 </html>
