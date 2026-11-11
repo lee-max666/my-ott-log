@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Repov Media Archive</title>
+    <title>MY LOG</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-color: #0e1015;
-            --card-bg: #171922;
-            --card-border: #282b37;
+            --bg-color: #0d0f14;
+            --card-bg: #161922;
+            --card-border: #232736;
             --text-main: #f1f5f9;
             --text-muted: #94a3b8;
             --accent-color: #6366f1;
@@ -26,7 +26,6 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
-            padding-bottom: 80px;
         }
 
         .custom-card {
@@ -62,10 +61,10 @@
 
         /* Realistic Book Spine View Styling */
         .shelf-divider {
-            height: 12px;
+            height: 14px;
             background: linear-gradient(180deg, #3d271d 0%, #261710 100%);
             border-top: 2px solid #5a3c2e;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
             border-radius: 2px;
         }
 
@@ -77,8 +76,8 @@
         }
 
         .book-spine:hover {
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: -3px 0 8px rgba(0,0,0,0.5) inset, 4px 4px 12px rgba(0,0,0,0.6);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: -3px 0 8px rgba(0,0,0,0.5) inset, 4px 4px 14px rgba(0,0,0,0.7);
         }
 
         /* Color Picker Custom Styles */
@@ -91,225 +90,262 @@
         }
     </style>
 </head>
-<body class="min-h-screen text-sm selection:bg-indigo-500 selection:text-white">
+<body class="min-h-screen text-sm selection:bg-indigo-500 selection:text-white antialiased">
 
-    <div class="max-w-md mx-auto min-h-screen flex flex-col justify-between relative bg-[#0e1015] shadow-2xl border-x border-[#1e212b]">
+    <!-- PC 및 모바일 겸용 반앙형 최적화 메인 컨테이너 (max-w-5xl) -->
+    <div class="max-w-5xl mx-auto min-h-screen flex flex-col bg-[#0d0f14] shadow-2xl border-x border-[#1e2230]">
 
         <!-- 상단 헤더 & 네비게이션 탭 -->
-        <header class="sticky top-0 z-30 bg-[#0e1015]/95 backdrop-blur-md border-b border-[#282b37] px-4 pt-3 pb-2">
-            <div class="flex justify-between items-center mb-3">
-                <div class="flex items-center gap-2">
-                    <h1 class="text-xl font-black tracking-tight text-white font-['Poppins']">REPOV</h1>
-                    <span class="text-[10px] px-2 py-0.5 rounded-full bg-gray-800 text-gray-400 font-mono">v2.5</span>
+        <header class="sticky top-0 z-30 bg-[#0d0f14]/95 backdrop-blur-md border-b border-[#232736] px-4 sm:px-8 pt-4 pb-3">
+            <div class="flex justify-between items-center mb-4">
+                <!-- 브랜드 헤더 MY LOG -->
+                <div class="flex items-center gap-3">
+                    <h1 class="text-2xl font-black tracking-tight text-white font-['Poppins']">MY LOG</h1>
                 </div>
                 
-                <!-- 상단 컨트롤: 스마트 테마 커스텀 피커 & 추가 버튼 -->
-                <div class="flex items-center gap-2">
+                <!-- 상단 우측 컨트롤: 포인트 색상 피커 & 감상 추가(+) 버튼 -->
+                <div class="flex items-center gap-3">
                     <!-- Accent Color Picker -->
-                    <div class="relative flex items-center justify-center w-7 h-7 rounded-full border border-gray-700 bg-gray-900 overflow-hidden cursor-pointer" title="포인트 색상 변경">
+                    <div class="relative flex items-center justify-center w-8 h-8 rounded-full border border-gray-700 bg-gray-900 overflow-hidden cursor-pointer shadow" title="포인트 색상 변경">
                         <input type="color" id="accentPicker" value="#6366f1" onchange="updateAccentColor(this.value)" class="absolute inset-0 w-12 h-12 -top-2 -left-2 cursor-pointer opacity-0">
                         <div id="pickerPreview" class="w-4 h-4 rounded-full bg-[#6366f1] pointer-events-none"></div>
                     </div>
                     
-                    <!-- 추가 버튼 -->
-                    <button onclick="openSearchModal()" class="w-8 h-8 rounded-full custom-card flex items-center justify-center hover:bg-[#282b37] transition text-gray-200">
+                    <!-- 감상 추가 버튼 -->
+                    <button onclick="openSearchModal()" class="px-3.5 py-1.5 rounded-xl accent-bg flex items-center gap-1.5 font-semibold text-xs shadow-lg hover:opacity-90 transition">
                         <i class="fa-solid fa-plus text-xs"></i>
+                        <span class="hidden sm:inline">기록 추가</span>
                     </button>
                 </div>
             </div>
 
-            <!-- 네비게이션 탭 (3대 메인 탭) -->
-            <nav class="flex gap-6 overflow-x-auto no-scrollbar text-xs font-semibold border-b border-transparent">
-                <button onclick="switchMainTab('profile')" id="nav-profile" class="pb-2 border-b-2 border-white text-white whitespace-nowrap transition">프로필</button>
-                <button onclick="switchMainTab('watched')" id="nav-watched" class="pb-2 border-b-2 border-transparent text-gray-400 whitespace-nowrap transition">시청완료</button>
-                <button onclick="switchMainTab('stats')" id="nav-stats" class="pb-2 border-b-2 border-transparent text-gray-400 whitespace-nowrap transition">평점</button>
+            <!-- 네비게이션 메인 탭 (기본 메인: 캘린더) -->
+            <nav class="flex gap-8 text-sm font-bold border-b border-gray-800/80">
+                <button onclick="switchMainTab('calendar')" id="nav-calendar" class="pb-3 border-b-2 border-white text-white whitespace-nowrap transition flex items-center gap-2">
+                    <i class="fa-solid fa-calendar-days text-xs"></i> 캘린더
+                </button>
+                <button onclick="switchMainTab('watched')" id="nav-watched" class="pb-3 border-b-2 border-transparent text-gray-400 whitespace-nowrap transition flex items-center gap-2 hover:text-gray-200">
+                    <i class="fa-solid fa-film text-xs"></i> 시청완료
+                </button>
+                <button onclick="switchMainTab('stats')" id="nav-stats" class="pb-3 border-b-2 border-transparent text-gray-400 whitespace-nowrap transition flex items-center gap-2 hover:text-gray-200">
+                    <i class="fa-solid fa-chart-pie text-xs"></i> 평점
+                </button>
+                <button onclick="switchMainTab('profile')" id="nav-profile" class="pb-3 border-b-2 border-transparent text-gray-400 whitespace-nowrap transition flex items-center gap-2 hover:text-gray-200">
+                    <i class="fa-solid fa-user text-xs"></i> 프로필
+                </button>
             </nav>
         </header>
 
         <!-- 메인 콘텐츠 영역 -->
-        <main class="p-4 flex-1">
+        <main class="p-4 sm:p-8 flex-1">
 
-            <!-- 1. 프로필 탭 화면 -->
-            <div id="view-profile" class="space-y-6">
-                <!-- 프로필 카드 -->
-                <div class="custom-card rounded-2xl p-4 relative overflow-hidden bg-gradient-to-br from-[#1b1e2a] to-[#12141d]">
-                    <div class="flex items-start justify-between">
-                        <div class="flex gap-3 items-center">
-                            <img id="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" class="w-16 h-16 rounded-full object-cover border-2 border-gray-600 shadow-md">
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <h2 id="user-name" class="font-bold text-base text-white">아카이버</h2>
-                                    <button onclick="editProfilePrompt()" class="text-[10px] text-gray-400 hover:text-white"><i class="fa-solid fa-pen"></i></button>
-                                </div>
-                                <p id="user-bio" class="text-xs text-gray-400 mt-0.5">영화와 책을 나만의 시선으로 아카이빙합니다 🎬📚</p>
-                                <span class="inline-block mt-2 px-2.5 py-0.5 rounded-full text-[10px] bg-indigo-500/20 accent-text font-semibold">Cinephile & Reader</span>
-                            </div>
-                        </div>
+            <!-- 1. 캘린더 탭 화면 (기본 랜딩 화면) -->
+            <div id="view-calendar" class="space-y-5">
+                <div class="flex justify-between items-center bg-[#161922] p-4 rounded-2xl border border-[#232736]">
+                    <div class="flex items-center gap-3">
+                        <h2 id="calendar-month-year" class="font-bold text-lg text-white font-['Poppins']">2026년 11월</h2>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="changeMonth(-1)" class="w-8 h-8 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 flex items-center justify-center text-xs"><i class="fa-solid fa-chevron-left"></i></button>
+                        <button onclick="changeMonth(0)" class="px-3 py-1.5 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 text-xs font-semibold">오늘</button>
+                        <button onclick="changeMonth(1)" class="w-8 h-8 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 flex items-center justify-center text-xs"><i class="fa-solid fa-chevron-right"></i></button>
                     </div>
                 </div>
 
-                <!-- 수집 통계 요약 카드 -->
-                <div class="grid grid-cols-3 gap-2">
-                    <div class="custom-card p-3 rounded-xl flex flex-col items-center justify-center text-center">
-                        <span class="text-xs text-gray-400">영화</span>
-                        <span id="profile-movie-count" class="text-base font-bold text-white mt-0.5">0</span>
-                    </div>
-                    <div class="custom-card p-3 rounded-xl flex flex-col items-center justify-center text-center">
-                        <span class="text-xs text-gray-400">드라마</span>
-                        <span id="profile-tv-count" class="text-base font-bold text-white mt-0.5">0</span>
-                    </div>
-                    <div class="custom-card p-3 rounded-xl flex flex-col items-center justify-center text-center">
-                        <span class="text-xs text-gray-400">책</span>
-                        <span id="profile-book-count" class="text-base font-bold text-white mt-0.5">0</span>
-                    </div>
+                <!-- 캘린더 요일 헤더 -->
+                <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-gray-400 bg-[#12141d] p-2 rounded-xl border border-gray-800">
+                    <div class="text-rose-400">일</div>
+                    <div>월</div>
+                    <div>화</div>
+                    <div>수</div>
+                    <div>목</div>
+                    <div>금</div>
+                    <div class="text-indigo-400">토</div>
                 </div>
 
-                <!-- 최근 기록 맛보기 피드 -->
-                <div>
-                    <div class="flex justify-between items-center mb-3">
-                        <h3 class="font-bold text-sm text-white flex items-center gap-1.5">
-                            <i class="fa-solid fa-clock-rotate-left accent-text"></i> 최근 남긴 감상
-                        </h3>
-                        <button onclick="switchMainTab('watched')" class="text-xs text-gray-400 hover:text-white">전체보기 <i class="fa-solid fa-chevron-right text-[10px]"></i></button>
-                    </div>
-                    <div id="profile-recent-feed" class="space-y-3">
-                        <!-- JS로 바인딩 -->
-                    </div>
+                <!-- 캘린더 그리드 랜더링 영역 -->
+                <div id="calendar-grid" class="grid grid-cols-7 gap-1.5 sm:gap-2">
+                    <!-- JS Rendering -->
                 </div>
             </div>
 
             <!-- 2. 시청완료 탭 화면 (Sub-tabs: 전체 / 영화 / 드라마 / 책) -->
-            <div id="view-watched" class="hidden space-y-4">
-                <!-- Sub Navigation Tabs -->
-                <div class="flex justify-between items-center bg-[#171922] p-1 rounded-xl border border-[#282b37] text-xs">
-                    <div class="flex gap-1 flex-1">
-                        <button onclick="switchSubTab('all')" id="subnav-all" class="flex-1 py-1.5 rounded-lg font-medium text-center bg-[#282b37] text-white">전체</button>
-                        <button onclick="switchSubTab('movie')" id="subnav-movie" class="flex-1 py-1.5 rounded-lg font-medium text-center text-gray-400">영화</button>
-                        <button onclick="switchSubTab('tv')" id="subnav-tv" class="flex-1 py-1.5 rounded-lg font-medium text-center text-gray-400">드라마</button>
-                        <button onclick="switchSubTab('book')" id="subnav-book" class="flex-1 py-1.5 rounded-lg font-medium text-center text-gray-400">책</button>
+            <div id="view-watched" class="hidden space-y-5">
+                <!-- 서브 서브네비게이션 & 보기 모드 토글 -->
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-[#161922] p-2 rounded-2xl border border-[#232736]">
+                    <div class="flex gap-1 w-full sm:w-auto">
+                        <button onclick="switchSubTab('all')" id="subnav-all" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold bg-[#232736] text-white">전체</button>
+                        <button onclick="switchSubTab('movie')" id="subnav-movie" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white">영화</button>
+                        <button onclick="switchSubTab('tv')" id="subnav-tv" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white">드라마</button>
+                        <button onclick="switchSubTab('book')" id="subnav-book" class="flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white">책</button>
+                    </div>
+
+                    <!-- 도서 전용 책장 스타일 토글 (책 서브탭 활성화시에만 노출) -->
+                    <div id="book-view-toggle-container" class="hidden items-center gap-2 bg-[#0d0f14] px-3 py-1.5 rounded-xl border border-gray-800 w-full sm:w-auto justify-between sm:justify-start">
+                        <span class="text-xs font-semibold text-gray-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-book-bookmark accent-text"></i> 책장 보기
+                        </span>
+                        <div class="flex items-center bg-[#1c1f2b] p-0.5 rounded-lg border border-gray-700 text-xs">
+                            <button onclick="setBookView('spine')" id="btn-view-spine" class="px-3 py-1 rounded-md text-white font-medium bg-gray-700 shadow">책등 보기</button>
+                            <button onclick="setBookView('cover')" id="btn-view-cover" class="px-3 py-1 rounded-md text-gray-400 font-medium">표지 보기</button>
+                        </div>
                     </div>
                 </div>
 
-                <!-- 도서 전용 View Switch Toggle (책 subtab 활성화시에만 표시) -->
-                <div id="book-view-toggle-container" class="hidden justify-between items-center bg-[#12141c] px-3 py-2 rounded-lg border border-[#232633]">
-                    <span class="text-xs font-semibold text-gray-300 flex items-center gap-1.5">
-                        <i class="fa-solid fa-book-bookmark accent-text"></i> 책장 스타일
-                    </span>
-                    <div class="flex items-center bg-[#1c1f2b] p-0.5 rounded-lg border border-gray-700 text-[11px]">
-                        <button onclick="setBookView('spine')" id="btn-view-spine" class="px-2.5 py-1 rounded-md text-white font-medium bg-gray-700 shadow">책등 보기</button>
-                        <button onclick="setBookView('cover')" id="btn-view-cover" class="px-2.5 py-1 rounded-md text-gray-400 font-medium">표지 보기</button>
-                    </div>
-                </div>
-
-                <!-- 수집 콘텐츠 표시 컨테이너 -->
+                <!-- 수집 콘텐츠 목록 컨테이너 -->
                 <div id="watched-list-container">
                     <!-- JS Rendering -->
                 </div>
             </div>
 
-            <!-- 3. 평점 통계 탭 화면 -->
-            <div id="view-stats" class="hidden space-y-5">
+            <!-- 3. 평점 탭 화면 (통계 및 평가 목록) -->
+            <div id="view-stats" class="hidden space-y-6">
                 <!-- 평균 평점 요약 카드 -->
-                <div class="custom-card p-4 rounded-2xl space-y-3 bg-gradient-to-br from-[#1a1d29] to-[#12141d]">
-                    <div class="flex justify-between items-center border-b border-gray-800 pb-3">
+                <div class="custom-card p-5 rounded-2xl space-y-4 bg-gradient-to-br from-[#181c28] to-[#12141d]">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-gray-800 pb-4">
                         <div>
-                            <div class="text-xs text-gray-400">전체 기록 평균 평점</div>
-                            <div class="flex items-baseline gap-1 mt-0.5">
-                                <span id="stat-overall-avg" class="text-2xl font-black text-amber-400">0.0</span>
+                            <div class="text-xs text-gray-400 font-semibold">전체 아카이브 평균 평점</div>
+                            <div class="flex items-baseline gap-2 mt-1">
+                                <span id="stat-overall-avg" class="text-3xl font-black text-amber-400 font-['Poppins']">0.0</span>
                                 <span class="text-xs text-gray-500">/ 5.0</span>
                             </div>
                         </div>
-                        <div class="text-right">
-                            <span class="text-xs text-gray-400">총 감상 작품</span>
-                            <div id="stat-total-count" class="text-base font-bold text-white">0개</div>
+                        <div class="text-left sm:text-right">
+                            <span class="text-xs text-gray-400 font-semibold">총 감상 및 기록</span>
+                            <div id="stat-total-count" class="text-lg font-bold text-white mt-0.5">0개</div>
                         </div>
                     </div>
 
                     <!-- 카테고리별 평점 세부 -->
-                    <div class="grid grid-cols-3 gap-2 text-center pt-1 text-xs">
-                        <div class="bg-[#12141d] p-2 rounded-xl">
-                            <span class="text-gray-400 block text-[10px]">🎬 영화</span>
-                            <span id="stat-movie-avg" class="font-bold text-white mt-0.5 block">0.0</span>
+                    <div class="grid grid-cols-3 gap-3 text-center pt-1">
+                        <div class="bg-[#0d0f14] p-3 rounded-xl border border-gray-800">
+                            <span class="text-gray-400 block text-xs">🎬 영화</span>
+                            <span id="stat-movie-avg" class="font-bold text-sm text-white mt-1 block">0.0점</span>
                         </div>
-                        <div class="bg-[#12141d] p-2 rounded-xl">
-                            <span class="text-gray-400 block text-[10px]">📺 드라마</span>
-                            <span id="stat-tv-avg" class="font-bold text-white mt-0.5 block">0.0</span>
+                        <div class="bg-[#0d0f14] p-3 rounded-xl border border-gray-800">
+                            <span class="text-gray-400 block text-xs">📺 드라마</span>
+                            <span id="stat-tv-avg" class="font-bold text-sm text-white mt-1 block">0.0점</span>
                         </div>
-                        <div class="bg-[#12141d] p-2 rounded-xl">
-                            <span class="text-gray-400 block text-[10px]">📚 책</span>
-                            <span id="stat-book-avg" class="font-bold text-white mt-0.5 block">0.0</span>
+                        <div class="bg-[#0d0f14] p-3 rounded-xl border border-gray-800">
+                            <span class="text-gray-400 block text-xs">📚 책</span>
+                            <span id="stat-book-avg" class="font-bold text-sm text-white mt-1 block">0.0점</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 점수 분포 그래프 -->
-                <div class="custom-card p-4 rounded-2xl space-y-3">
-                    <h3 class="font-bold text-sm text-white flex items-center justify-between">
-                        <span>점수 분포 분석</span>
-                        <span class="text-[10px] text-gray-400 font-normal">0.5 ~ 5.0 점</span>
-                    </h3>
-                    <div id="rating-distribution-bar" class="flex items-end justify-between h-28 pt-4 px-2 border-b border-gray-800 gap-1">
+                <!-- 점수 분포 분석 그래프 -->
+                <div class="custom-card p-5 rounded-2xl space-y-3">
+                    <div class="flex justify-between items-center border-b border-gray-800 pb-2">
+                        <h3 class="font-bold text-sm text-white">점수 분포 분석</h3>
+                        <span class="text-xs text-gray-500">0.5 ~ 5.0 점</span>
+                    </div>
+                    <div id="rating-distribution-bar" class="flex items-end justify-between h-32 pt-6 px-2 gap-1.5 sm:gap-3">
                         <!-- JS Dynamic Bar Render -->
                     </div>
                 </div>
 
                 <!-- 평점 그룹별 리스트 피드 -->
                 <div class="space-y-4">
-                    <h3 class="font-bold text-sm text-white">평점별 감상 피드</h3>
+                    <h3 class="font-bold text-base text-white">평점별 작품 라인업</h3>
                     <div id="rating-grouped-feed" class="space-y-4">
                         <!-- JS Dynamic Feed Group Render -->
                     </div>
                 </div>
             </div>
 
+            <!-- 4. 프로필 탭 화면 -->
+            <div id="view-profile" class="hidden space-y-6">
+                <div class="custom-card rounded-2xl p-6 relative overflow-hidden bg-gradient-to-br from-[#1b1e2a] to-[#12141d]">
+                    <div class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
+                        <div class="flex gap-4 items-center">
+                            <img id="user-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" class="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-gray-600 shadow-lg">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h2 id="user-name" class="font-bold text-lg text-white">아카이버</h2>
+                                    <button onclick="editProfilePrompt()" class="text-xs text-gray-400 hover:text-white"><i class="fa-solid fa-pen"></i></button>
+                                </div>
+                                <p id="user-bio" class="text-xs text-gray-400 mt-1">나만의 시선으로 영화, 드라마, 책을 기록합니다 🎬📚</p>
+                                <span class="inline-block mt-2 px-3 py-1 rounded-full text-xs bg-indigo-500/20 accent-text font-semibold">Media Collector</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 수집 통계 요약 카드 -->
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="custom-card p-4 rounded-xl text-center">
+                        <span class="text-xs text-gray-400 font-semibold block">🎬 영화</span>
+                        <span id="profile-movie-count" class="text-lg font-bold text-white mt-1 block">0</span>
+                    </div>
+                    <div class="custom-card p-4 rounded-xl text-center">
+                        <span class="text-xs text-gray-400 font-semibold block">📺 드라마</span>
+                        <span id="profile-tv-count" class="text-lg font-bold text-white mt-1 block">0</span>
+                    </div>
+                    <div class="custom-card p-4 rounded-xl text-center">
+                        <span class="text-xs text-gray-400 font-semibold block">📚 책</span>
+                        <span id="profile-book-count" class="text-lg font-bold text-white mt-1 block">0</span>
+                    </div>
+                </div>
+
+                <!-- 최근 기록 피드 -->
+                <div class="space-y-3">
+                    <h3 class="font-bold text-sm text-white flex items-center gap-2">
+                        <i class="fa-solid fa-clock-rotate-left accent-text"></i> 최근 남긴 감상
+                    </h3>
+                    <div id="profile-recent-feed" class="space-y-3">
+                        <!-- JS Render -->
+                    </div>
+                </div>
+            </div>
+
         </main>
 
-        <!-- 라이브 통합 검색 및 추가 모달 -->
-        <div id="search-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-            <div class="bg-[#171922] border border-[#282b37] w-full max-w-md rounded-t-2xl sm:rounded-2xl p-4 space-y-4 max-h-[85vh] flex flex-col shadow-2xl">
+        <!-- 라이브 통합 검색 모달 -->
+        <div id="search-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+            <div class="bg-[#161922] border border-[#232736] w-full max-w-lg rounded-2xl p-5 space-y-4 max-h-[85vh] flex flex-col shadow-2xl">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-3">
                     <div>
                         <h3 class="font-bold text-base text-white">실시간 미디어 검색</h3>
-                        <p class="text-[11px] text-gray-400">TMDB(영화/TV) & Kakao(도서) 검색 연동</p>
+                        <p class="text-xs text-gray-400">TMDB(영화/TV) & 카카오(도서) 연동 API</p>
                     </div>
                     <button onclick="closeSearchModal()" class="w-8 h-8 rounded-full bg-gray-800 text-gray-400 hover:text-white flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
-                <!-- 실시간 검색 입력 창 -->
+                <!-- 검색어 입력 창 -->
                 <div class="flex gap-2">
-                    <input type="text" id="search-input" placeholder="검색어를 입력하세요 (예: 파묘, 미키17, 면세 미술)" 
+                    <input type="text" id="search-input" placeholder="검색어를 입력하세요 (예: 파묘, 오징어게임, 면세 미술)" 
                            onkeypress="if(event.key==='Enter') performLiveSearch()"
-                           class="flex-1 bg-[#0e1015] border border-gray-800 rounded-xl px-3 py-2 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500">
-                    <button onclick="performLiveSearch()" class="accent-bg px-4 py-2 rounded-xl text-xs font-semibold shadow hover:opacity-90">검색</button>
+                           class="flex-1 bg-[#0d0f14] border border-gray-800 rounded-xl px-4 py-2.5 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-indigo-500">
+                    <button onclick="performLiveSearch()" class="accent-bg px-5 py-2.5 rounded-xl text-xs font-semibold shadow hover:opacity-90">검색</button>
                 </div>
 
-                <!-- 실시간 검색 결과 리스트 -->
-                <div id="search-results" class="flex-1 overflow-y-auto space-y-2.5 no-scrollbar pr-1 min-h-[280px]">
-                    <div class="text-center text-gray-500 text-xs py-12 flex flex-col items-center justify-center gap-2">
-                        <i class="fa-solid fa-magnifying-glass text-2xl opacity-40"></i>
-                        <span>영화, 드라마, 도서 제목을 검색해 보세요.</span>
+                <!-- 검색 결과 리스트 -->
+                <div id="search-results" class="flex-1 overflow-y-auto space-y-2.5 no-scrollbar pr-1 min-h-[300px]">
+                    <div class="text-center text-gray-500 text-xs py-16 flex flex-col items-center justify-center gap-2">
+                        <i class="fa-solid fa-magnifying-glass text-3xl opacity-30"></i>
+                        <span>영화, 드라마, 도서 제목을 자유롭게 검색해 보세요.</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 감상 등록/수정 모달 -->
+        <!-- 감상 작성 및 날짜 등록 모달 -->
         <div id="review-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-            <div class="bg-[#171922] border border-[#282b37] w-full max-w-sm rounded-2xl p-4 space-y-4 shadow-2xl">
+            <div class="bg-[#161922] border border-[#232736] w-full max-w-md rounded-2xl p-5 space-y-4 shadow-2xl">
                 <div class="flex justify-between items-center border-b border-gray-800 pb-2">
-                    <h3 id="review-modal-title" class="font-bold text-sm text-white">감상 기록하기</h3>
+                    <h3 class="font-bold text-sm text-white">감상 기록하기</h3>
                     <button onclick="closeReviewModal()" class="text-gray-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
-                <div class="flex gap-3 items-center bg-[#0e1015] p-2 rounded-xl border border-gray-800">
+                <div class="flex gap-3 items-center bg-[#0d0f14] p-3 rounded-xl border border-gray-800">
                     <img id="modal-item-poster" src="" class="w-12 h-16 object-cover rounded-lg">
                     <div class="flex-1 min-w-0">
                         <div id="modal-item-title" class="font-bold text-xs text-white truncate">제목</div>
-                        <div id="modal-item-sub" class="text-[10px] text-gray-400 truncate">정보</div>
+                        <div id="modal-item-sub" class="text-[11px] text-gray-400 truncate">정보</div>
                     </div>
                 </div>
 
-                <!-- 별점 선택기 -->
+                <!-- 별점 선택 -->
                 <div class="space-y-1">
                     <div class="flex justify-between text-xs">
                         <span class="text-gray-400">평점 선택</span>
@@ -318,55 +354,43 @@
                     <input type="range" id="rating-range" min="0.5" max="5.0" step="0.5" value="5.0" oninput="updateRatingDisplay(this.value)" class="w-full accent-amber-400 cursor-pointer">
                 </div>
 
-                <!-- 관람/독서 일자 -->
+                <!-- 관람/독서 날짜 -->
                 <div class="space-y-1">
-                    <label class="text-xs text-gray-400 block">날짜</label>
-                    <input type="date" id="review-date" class="w-full bg-[#0e1015] border border-gray-800 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none">
+                    <label class="text-xs text-gray-400 block">날짜 (캘린더에 표시됨)</label>
+                    <input type="date" id="review-date" class="w-full bg-[#0d0f14] border border-gray-800 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
                 </div>
 
                 <!-- 한 줄 감상평 -->
                 <div class="space-y-1">
                     <label class="text-xs text-gray-400 block">감상평</label>
-                    <textarea id="review-comment" rows="3" placeholder="작품에 대한 생각이나 한 줄 감상을 적어주세요." class="w-full bg-[#0e1015] border border-gray-800 rounded-xl p-2.5 text-xs text-white placeholder-gray-600 focus:outline-none resize-none"></textarea>
+                    <textarea id="review-comment" rows="3" placeholder="작품에 대한 생각이나 한 줄 감상을 적어주세요." class="w-full bg-[#0d0f14] border border-gray-800 rounded-xl p-3 text-xs text-white placeholder-gray-600 focus:outline-none resize-none"></textarea>
                 </div>
 
                 <div class="flex gap-2 pt-2">
-                    <button onclick="closeReviewModal()" class="flex-1 py-2 bg-gray-800 text-gray-300 rounded-xl text-xs font-medium hover:bg-gray-700">취소</button>
-                    <button onclick="saveReviewSubmit()" class="flex-1 py-2 accent-bg rounded-xl text-xs font-semibold shadow">저장하기</button>
+                    <button onclick="closeReviewModal()" class="flex-1 py-2.5 bg-gray-800 text-gray-300 rounded-xl text-xs font-medium hover:bg-gray-700">취소</button>
+                    <button onclick="saveReviewSubmit()" class="flex-1 py-2.5 accent-bg rounded-xl text-xs font-semibold shadow">저장하기</button>
                 </div>
             </div>
         </div>
 
-        <!-- 하단 고정 네비게이션 바 -->
-        <footer class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-[#0e1015]/95 border-t border-[#282b37] px-8 py-2 flex justify-between items-center text-xs z-20">
-            <button onclick="switchMainTab('profile')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition">
-                <i class="fa-solid fa-house text-base"></i>
-                <span class="text-[10px]">피드</span>
-            </button>
-            <button onclick="openSearchModal()" class="w-10 h-10 rounded-full accent-bg flex items-center justify-center text-white -mt-4 shadow-lg border-2 border-[#0e1015] hover:scale-105 transition">
-                <i class="fa-solid fa-plus text-base"></i>
-            </button>
-            <button onclick="switchMainTab('stats')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white transition">
-                <i class="fa-solid fa-chart-pie text-base"></i>
-                <span class="text-[10px]">평점분석</span>
-            </button>
-        </footer>
-
     </div>
 
-    <!-- Application Logic & Scripts -->
+    <!-- Application JavaScript Logic -->
     <script>
-        // 발급받으신 API 인증 키 세팅
+        // API 인증 키
         const TMDB_BEARER_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwYjA5MGEzYmIxZmRkYWM2MzZlNDI0YmRjNTVjNmI2MiIsIm5iZiI6MTc5NDM3NTQ0Ny4zNDYsInN1YiI6IjZhZjNmZjE3MjY5MmI2ZjRjMWQzOTFlZSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.tHiA32lj9x1lcU95eDEgjMCEI5j8Q2SHlbpIWv_NBks";
         const KAKAO_REST_KEY = "488cb5471dfa88c4133dd98d4958ab92";
 
-        // 애플리케이션 기본 데이터 상태
-        let currentMainTab = 'profile';
+        // 상태 데이터
+        let currentMainTab = 'calendar'; // 기본 메인 화면: 캘린더
         let currentSubTab = 'all';
         let bookViewMode = 'spine'; // 'spine' or 'cover'
-        let pendingItem = null; // 감상 등록 중인 아이템 객체
+        let pendingItem = null;
 
-        // LocalStorage 연동 데이터베이스
+        // 현재 캘린더 날짜 상태 (2026년 11월)
+        let currentDate = new Date(2026, 10, 1);
+
+        // LocalStorage 데이터베이스
         let archiveData = JSON.parse(localStorage.getItem('repov_archive_data')) || [
             { id: 101, type: 'movie', title: '미키 17', poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&auto=format&fit=crop&q=80', date: '2026-11-04', rating: 4.8, comment: '봉준호 감독 특유의 위트와 상상력이 압도적이었음.', info: '2026 · 영화' },
             { id: 102, type: 'book', title: '면세 미술', poster: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&auto=format&fit=crop&q=80', date: '2026-11-08', rating: 5.0, comment: '지구 내전 시대의 미술에 관한 탁월한 통찰력.', info: '히토 슈타이얼 · 도서', spineColor: '#3a5a40' },
@@ -375,16 +399,15 @@
 
         let userProfile = JSON.parse(localStorage.getItem('repov_user_profile')) || {
             name: '아카이버',
-            bio: '영화와 책을 나만의 시선으로 아카이빙합니다 🎬📚',
+            bio: '나만의 시선으로 영화, 드라마, 책을 기록합니다 🎬📚',
             avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
         };
 
-        // 스마트 콘트라스트 보정 및 accent 색상 변경
+        // 스마트 콘트라스트 보정 및 포인트 색상 업데이트
         function updateAccentColor(colorHex) {
             document.documentElement.style.setProperty('--accent-color', colorHex);
             document.getElementById('pickerPreview').style.backgroundColor = colorHex;
 
-            // Relative Luminance 계산 (W3C 표준 스마트 대비 로직)
             const rgb = hexToRgb(colorHex);
             if (rgb) {
                 const luminance = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
@@ -406,7 +429,7 @@
         // 메인 탭 전환
         function switchMainTab(tabName) {
             currentMainTab = tabName;
-            ['profile', 'watched', 'stats'].forEach(t => {
+            ['calendar', 'watched', 'stats', 'profile'].forEach(t => {
                 document.getElementById(`view-${t}`).classList.add('hidden');
                 const btn = document.getElementById(`nav-${t}`);
                 btn.classList.replace('text-white', 'text-gray-400');
@@ -418,9 +441,67 @@
             activeBtn.classList.replace('text-gray-400', 'text-white');
             activeBtn.classList.replace('border-transparent', 'border-white');
 
-            if (tabName === 'profile') renderProfileFeed();
+            if (tabName === 'calendar') renderCalendar();
             if (tabName === 'watched') renderWatchedList();
             if (tabName === 'stats') renderStatsDashboard();
+            if (tabName === 'profile') renderProfileFeed();
+        }
+
+        // 캘린더 월 이동
+        function changeMonth(offset) {
+            if (offset === 0) {
+                currentDate = new Date();
+            } else {
+                currentDate.setMonth(currentDate.getMonth() + offset);
+            }
+            renderCalendar();
+        }
+
+        // 캘린더 랜더링
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            document.getElementById('calendar-month-year').innerText = `${year}년 ${month + 1}월`;
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const lastDate = new Date(year, month + 1, 0).getDate();
+
+            const grid = document.getElementById('calendar-grid');
+            grid.innerHTML = '';
+
+            // 지난 달 빈 셀
+            for (let i = 0; i < firstDay; i++) {
+                grid.innerHTML += `<div class="h-24 sm:h-32 bg-[#12141d]/40 rounded-xl border border-gray-900/50"></div>`;
+            }
+
+            // 현재 달 날짜 셀
+            for (let day = 1; day <= lastDate; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const itemsOnDay = archiveData.filter(item => item.date === dateStr);
+
+                let contentHtml = '';
+                if (itemsOnDay.length > 0) {
+                    contentHtml = itemsOnDay.map(item => `
+                        <div class="relative group aspect-poster rounded-lg overflow-hidden border border-gray-700 shadow my-0.5">
+                            <img src="${item.poster}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition p-1 text-[9px] text-white flex flex-col justify-between">
+                                <span class="font-bold truncate">${item.title}</span>
+                                <span class="text-amber-400 font-bold">★ ${item.rating.toFixed(1)}</span>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                grid.innerHTML += `
+                    <div class="h-24 sm:h-32 bg-[#161922] p-1.5 rounded-xl border border-[#232736] flex flex-col justify-between overflow-hidden">
+                        <span class="text-xs font-bold text-gray-400">${day}</span>
+                        <div class="flex-1 overflow-y-auto no-scrollbar space-y-1 mt-1">
+                            ${contentHtml}
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         // 시청완료 서브 탭 전환
@@ -428,13 +509,12 @@
             currentSubTab = subType;
             ['all', 'movie', 'tv', 'book'].forEach(st => {
                 const btn = document.getElementById(`subnav-${st}`);
-                btn.className = "flex-1 py-1.5 rounded-lg font-medium text-center text-gray-400";
+                btn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold text-gray-400 hover:text-white";
             });
 
             const activeSubBtn = document.getElementById(`subnav-${subType}`);
-            activeSubBtn.className = "flex-1 py-1.5 rounded-lg font-medium text-center bg-[#282b37] text-white shadow";
+            activeSubBtn.className = "flex-1 sm:flex-none px-4 py-2 rounded-xl text-xs font-bold bg-[#232736] text-white shadow";
 
-            // 도서 전용 보기 토글 표시 여부
             const toggleBox = document.getElementById('book-view-toggle-container');
             if (subType === 'book') {
                 toggleBox.classList.remove('hidden');
@@ -447,60 +527,23 @@
             renderWatchedList();
         }
 
-        // 도서 책장 보기 방식 변경 (책등 vs 표지)
+        // 책장 보기 토글
         function setBookView(mode) {
             bookViewMode = mode;
             const btnSpine = document.getElementById('btn-view-spine');
             const btnCover = document.getElementById('btn-view-cover');
 
             if (mode === 'spine') {
-                btnSpine.className = "px-2.5 py-1 rounded-md text-white font-medium bg-gray-700 shadow";
-                btnCover.className = "px-2.5 py-1 rounded-md text-gray-400 font-medium";
+                btnSpine.className = "px-3 py-1 rounded-md text-white font-medium bg-gray-700 shadow";
+                btnCover.className = "px-3 py-1 rounded-md text-gray-400 font-medium";
             } else {
-                btnCover.className = "px-2.5 py-1 rounded-md text-white font-medium bg-gray-700 shadow";
-                btnSpine.className = "px-2.5 py-1 rounded-md text-gray-400 font-medium";
+                btnCover.className = "px-3 py-1 rounded-md text-white font-medium bg-gray-700 shadow";
+                btnSpine.className = "px-3 py-1 rounded-md text-gray-400 font-medium";
             }
             renderWatchedList();
         }
 
-        // 프로필 뷰 랜더링
-        function renderProfileFeed() {
-            document.getElementById('user-name').innerText = userProfile.name;
-            document.getElementById('user-bio').innerText = userProfile.bio;
-            document.getElementById('user-avatar').src = userProfile.avatar;
-
-            const movies = archiveData.filter(d => d.type === 'movie');
-            const tvs = archiveData.filter(d => d.type === 'tv');
-            const books = archiveData.filter(d => d.type === 'book');
-
-            document.getElementById('profile-movie-count').innerText = `${movies.length}편`;
-            document.getElementById('profile-tv-count').innerText = `${tvs.length}편`;
-            document.getElementById('profile-book-count').innerText = `${books.length}권`;
-
-            const recentContainer = document.getElementById('profile-recent-feed');
-            const recentItems = [...archiveData].reverse().slice(0, 3);
-
-            if (recentItems.length === 0) {
-                recentContainer.innerHTML = `<div class="text-center text-gray-500 py-6 text-xs">아직 등록된 기록이 없습니다.</div>`;
-                return;
-            }
-
-            recentContainer.innerHTML = recentItems.map(item => `
-                <div class="custom-card p-3 rounded-xl flex gap-3 items-center">
-                    <img src="${item.poster}" class="w-12 h-16 object-cover rounded-lg shadow">
-                    <div class="flex-1 min-w-0">
-                        <div class="flex justify-between items-start">
-                            <span class="font-bold text-xs text-white truncate">${item.title}</span>
-                            <span class="text-amber-400 text-xs font-semibold">★ ${item.rating.toFixed(1)}</span>
-                        </div>
-                        <p class="text-[11px] text-gray-400 mt-1 line-clamp-2">${item.comment || '남긴 기록이 없습니다.'}</p>
-                        <span class="text-[10px] text-gray-500 mt-1 block">${item.date} 감상</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // 시청완료 메인 목로 랜더링 (책등 View 및 표지 Grid 지원)
+        // 시청완료 리스트 랜더링
         function renderWatchedList() {
             const container = document.getElementById('watched-list-container');
             let filtered = archiveData;
@@ -510,49 +553,46 @@
             }
 
             if (filtered.length === 0) {
-                container.innerHTML = `<div class="text-center text-gray-500 py-12 text-xs">해당하는 감상 기록이 없습니다.</div>`;
+                container.innerHTML = `<div class="text-center text-gray-500 py-16 text-xs">등록된 기록이 없습니다.</div>`;
                 return;
             }
 
-            // 책 탭이면서 책등 보기(spine) 모드일 경우
+            // 책 서브탭이면서 책등 보기 모드
             if (currentSubTab === 'book' && bookViewMode === 'spine') {
                 const spineColors = ['#2b3a4a', '#4a2b2b', '#2b4a3a', '#4a422b', '#3b2b4a', '#2b454a', '#543d2b'];
                 
                 container.innerHTML = `
-                    <div class="space-y-6 pt-2">
-                        <div class="bg-[#12141c] p-4 pb-0 rounded-2xl border border-[#232633] shadow-inner">
-                            <div class="flex items-end justify-start gap-2 overflow-x-auto no-scrollbar pb-1 min-h-[220px]">
-                                ${filtered.map((book, idx) => {
-                                    const bgColor = book.spineColor || spineColors[idx % spineColors.length];
-                                    return `
-                                        <div onclick="openItemDetail(${book.id})" class="book-spine shrink-0 w-11 h-48 rounded-t-md p-2 flex flex-col justify-between items-center text-white cursor-pointer relative" style="background-color: ${bgColor}">
-                                            <div class="text-[9px] bg-black/40 px-1 py-0.5 rounded text-amber-300 font-bold">${book.rating.toFixed(1)}</div>
-                                            <div class="text-xs font-bold tracking-wider my-auto line-clamp-1 truncate">${book.title}</div>
-                                            <div class="w-1.5 h-1.5 rounded-full bg-amber-400 mb-1"></div>
-                                        </div>
-                                    `;
-                                }).join('')}
-                            </div>
-                            <!-- 나무 책장 받침대 스타일 -->
-                            <div class="shelf-divider -mx-4"></div>
+                    <div class="bg-[#12141c] p-6 pb-0 rounded-2xl border border-[#232736] shadow-inner">
+                        <div class="flex items-end justify-start gap-3 overflow-x-auto no-scrollbar pb-1 min-h-[240px]">
+                            ${filtered.map((book, idx) => {
+                                const bgColor = book.spineColor || spineColors[idx % spineColors.length];
+                                return `
+                                    <div class="book-spine shrink-0 w-12 h-52 rounded-t-md p-2 flex flex-col justify-between items-center text-white cursor-pointer relative" style="background-color: ${bgColor}">
+                                        <div class="text-[9px] bg-black/40 px-1 py-0.5 rounded text-amber-300 font-bold">${book.rating.toFixed(1)}</div>
+                                        <div class="text-xs font-bold tracking-wider my-auto line-clamp-1 truncate">${book.title}</div>
+                                        <div class="w-2 h-2 rounded-full bg-amber-400 mb-1"></div>
+                                    </div>
+                                `;
+                            }).join('')}
                         </div>
+                        <div class="shelf-divider -mx-6"></div>
                     </div>
                 `;
                 return;
             }
 
-            // 일반 표지 그리드 및 카드 피드 형태
+            // 일반 표지 카드 그리드 (PC 4컬럼, 모바일 3컬럼)
             container.innerHTML = `
-                <div class="grid grid-cols-3 gap-3">
+                <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3 sm:gap-4">
                     ${filtered.map(item => `
-                        <div onclick="openItemDetail(${item.id})" class="space-y-1 cursor-pointer group">
+                        <div class="space-y-1.5 cursor-pointer group">
                             <div class="w-full aspect-poster rounded-xl custom-card overflow-hidden relative shadow-md group-hover:scale-105 transition">
                                 <img src="${item.poster}" class="w-full h-full object-cover">
-                                <div class="absolute top-1 right-1 bg-black/70 backdrop-blur-xs px-1.5 py-0.5 rounded-md text-amber-400 text-[10px] font-bold">
+                                <div class="absolute top-1.5 right-1.5 bg-black/80 backdrop-blur-xs px-2 py-0.5 rounded-md text-amber-400 text-[10px] font-bold">
                                     ★ ${item.rating.toFixed(1)}
                                 </div>
                             </div>
-                            <div class="font-semibold text-xs text-white truncate">${item.title}</div>
+                            <div class="font-bold text-xs text-white truncate">${item.title}</div>
                             <div class="text-[10px] text-gray-500 truncate">${item.date}</div>
                         </div>
                     `).join('')}
@@ -560,7 +600,7 @@
             `;
         }
 
-        // 평점 및 통계 분석 랜더링
+        // 평점 통계 대시보드 랜더링
         function renderStatsDashboard() {
             if (archiveData.length === 0) return;
 
@@ -580,7 +620,7 @@
             document.getElementById('stat-tv-avg').innerText = `${calcAvg('tv')}점`;
             document.getElementById('stat-book-avg').innerText = `${calcAvg('book')}점`;
 
-            // 점수 분포 분포도 계산 (0.5 ~ 5.0)
+            // 점수 분포 계산
             const scores = [0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0];
             const distMap = {};
             scores.forEach(s => distMap[s] = 0);
@@ -598,16 +638,16 @@
                 const heightPercent = (count / maxFreq) * 100;
                 return `
                     <div class="flex flex-col items-center flex-1 h-full justify-end gap-1">
-                        <span class="text-[9px] text-gray-400 font-bold">${count > 0 ? count : ''}</span>
-                        <div class="w-full bg-indigo-500/30 rounded-t-sm relative flex items-end overflow-hidden" style="height: ${Math.max(heightPercent, 5)}%">
+                        <span class="text-[10px] text-gray-400 font-bold">${count > 0 ? count : ''}</span>
+                        <div class="w-full bg-indigo-500/20 rounded-t-sm relative flex items-end overflow-hidden" style="height: ${Math.max(heightPercent, 5)}%">
                             <div class="w-full accent-bg rounded-t-sm" style="height: 100%"></div>
                         </div>
-                        <span class="text-[9px] text-gray-500">${score}</span>
+                        <span class="text-[10px] text-gray-500">${score}</span>
                     </div>
                 `;
             }).join('');
 
-            // 평점별 그룹 피드 랜더링
+            // 평점 그룹별 리스트 피드
             const groupContainer = document.getElementById('rating-grouped-feed');
             const grouped = {};
 
@@ -622,17 +662,17 @@
             groupContainer.innerHTML = sortedKeys.map(key => `
                 <div class="space-y-2">
                     <div class="text-xs font-bold text-amber-400 flex items-center gap-1 border-b border-gray-800 pb-1">
-                        <span>★ ${key}점 라인업</span>
+                        <span>★ ${key}점 명작 라인업</span>
                         <span class="text-[10px] text-gray-500 font-normal">(${grouped[key].length}개)</span>
                     </div>
-                    <div class="space-y-2">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         ${grouped[key].map(item => `
-                            <div class="custom-card p-2.5 rounded-xl flex gap-3 items-center">
+                            <div class="custom-card p-3 rounded-xl flex gap-3 items-center">
                                 <img src="${item.poster}" class="w-10 h-14 object-cover rounded-lg">
                                 <div class="flex-1 min-w-0">
                                     <div class="font-bold text-xs text-white truncate">${item.title}</div>
-                                    <div class="text-[10px] text-gray-400 mt-0.5 line-clamp-1">${item.comment || '남긴 감상이 없습니다.'}</div>
-                                    <div class="text-[9px] text-gray-500 mt-1">${item.info || ''} · ${item.date}</div>
+                                    <div class="text-[11px] text-gray-400 mt-0.5 line-clamp-1">${item.comment || '남긴 감상이 없습니다.'}</div>
+                                    <div class="text-[10px] text-gray-500 mt-1">${item.info || ''} · ${item.date}</div>
                                 </div>
                             </div>
                         `).join('')}
@@ -641,22 +681,48 @@
             `).join('');
         }
 
-        // TMDB & Kakao 라이브 API 연동 검색
+        // 프로필 랜더링
+        function renderProfileFeed() {
+            document.getElementById('user-name').innerText = userProfile.name;
+            document.getElementById('user-bio').innerText = userProfile.bio;
+            document.getElementById('user-avatar').src = userProfile.avatar;
+
+            document.getElementById('profile-movie-count').innerText = `${archiveData.filter(d => d.type === 'movie').length}편`;
+            document.getElementById('profile-tv-count').innerText = `${archiveData.filter(d => d.type === 'tv').length}편`;
+            document.getElementById('profile-book-count').innerText = `${archiveData.filter(d => d.type === 'book').length}권`;
+
+            const recentContainer = document.getElementById('profile-recent-feed');
+            const recentItems = [...archiveData].reverse().slice(0, 3);
+
+            recentContainer.innerHTML = recentItems.map(item => `
+                <div class="custom-card p-3 rounded-xl flex gap-3 items-center">
+                    <img src="${item.poster}" class="w-12 h-16 object-cover rounded-lg shadow">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex justify-between items-start">
+                            <span class="font-bold text-xs text-white truncate">${item.title}</span>
+                            <span class="text-amber-400 text-xs font-semibold">★ ${item.rating.toFixed(1)}</span>
+                        </div>
+                        <p class="text-[11px] text-gray-400 mt-1 line-clamp-2">${item.comment || '기록이 없습니다.'}</p>
+                        <span class="text-[10px] text-gray-500 mt-1 block">${item.date} 기록</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // 실시간 API 검색
         async function performLiveSearch() {
             const query = document.getElementById('search-input').value.trim();
             const resultsContainer = document.getElementById('search-results');
 
             if (!query) return;
 
-            resultsContainer.innerHTML = `<div class="text-center text-gray-400 py-10 text-xs"><i class="fa-solid fa-spinner fa-spin text-lg block mb-2"></i>검색 중...</div>`;
+            resultsContainer.innerHTML = `<div class="text-center text-gray-400 py-12 text-xs"><i class="fa-solid fa-spinner fa-spin text-lg block mb-2"></i>실시간 검색 중...</div>`;
 
             try {
-                // 1. TMDB Multi Search (영화/TV)
                 const tmdbPromise = fetch(`https://api.themoviedb.org/3/search/multi?query=${encodeURIComponent(query)}&language=ko-KR&page=1`, {
                     headers: { Authorization: `Bearer ${TMDB_BEARER_TOKEN}` }
                 }).then(res => res.json()).catch(() => ({ results: [] }));
 
-                // 2. Kakao Book Search (도서)
                 const kakaoPromise = fetch(`https://dapi.kakao.com/v3/search/book?query=${encodeURIComponent(query)}`, {
                     headers: { Authorization: `KakaoAK ${KAKAO_REST_KEY}` }
                 }).then(res => res.json()).catch(() => ({ documents: [] }));
@@ -665,7 +731,6 @@
 
                 let items = [];
 
-                // TMDB 결과 파싱
                 if (tmdbRes.results) {
                     tmdbRes.results.forEach(m => {
                         if (m.media_type === 'movie' || m.media_type === 'tv') {
@@ -682,7 +747,6 @@
                     });
                 }
 
-                // Kakao 결과 파싱
                 if (kakaoRes.documents) {
                     kakaoRes.documents.forEach(b => {
                         const poster = b.thumbnail || 'https://via.placeholder.com/150x225?text=No+Cover';
@@ -696,33 +760,32 @@
                 }
 
                 if (items.length === 0) {
-                    resultsContainer.innerHTML = `<div class="text-center text-gray-500 py-10 text-xs">검색 결과가 없습니다.</div>`;
+                    resultsContainer.innerHTML = `<div class="text-center text-gray-500 py-12 text-xs">검색 결과가 없습니다.</div>`;
                     return;
                 }
 
-                resultsContainer.innerHTML = items.map((item, idx) => `
-                    <div class="custom-card p-2 rounded-xl flex gap-3 items-center">
+                resultsContainer.innerHTML = items.map(item => `
+                    <div class="custom-card p-3 rounded-xl flex gap-3 items-center">
                         <img src="${item.poster}" class="w-12 h-16 object-cover rounded-lg shadow">
                         <div class="flex-1 min-w-0">
                             <div class="font-bold text-xs text-white truncate">${item.title}</div>
-                            <div class="text-[10px] text-gray-400 mt-0.5 truncate">${item.info}</div>
+                            <div class="text-[11px] text-gray-400 mt-0.5 truncate">${item.info}</div>
                             <button onclick='openReviewModalFromSearch(${JSON.stringify(item).replace(/'/g, "&apos;")})' class="mt-2 accent-bg px-3 py-1 rounded-lg text-[10px] font-semibold">
-                                + 감상 기록
+                                + 기록 추가
                             </button>
                         </div>
                     </div>
                 `).join('');
 
             } catch (err) {
-                resultsContainer.innerHTML = `<div class="text-center text-red-400 py-10 text-xs">검색 중 오류가 발생했습니다.</div>`;
+                resultsContainer.innerHTML = `<div class="text-center text-red-400 py-12 text-xs">검색 중 오류가 발생했습니다.</div>`;
             }
         }
 
-        // 검색 모달 컨트롤
+        // 모달 컨트롤
         function openSearchModal() { document.getElementById('search-modal').classList.remove('hidden'); }
         function closeSearchModal() { document.getElementById('search-modal').classList.add('hidden'); }
 
-        // 감상 모달 컨트롤
         function openReviewModalFromSearch(item) {
             pendingItem = item;
             document.getElementById('modal-item-poster').src = item.poster;
@@ -737,9 +800,7 @@
             document.getElementById('review-modal').classList.remove('hidden');
         }
 
-        function closeReviewModal() {
-            document.getElementById('review-modal').classList.add('hidden');
-        }
+        function closeReviewModal() { document.getElementById('review-modal').classList.add('hidden'); }
 
         function updateRatingDisplay(val) {
             document.getElementById('star-rating-val').innerText = `★ ${parseFloat(val).toFixed(1)}`;
@@ -767,11 +828,11 @@
             localStorage.setItem('repov_archive_data', JSON.stringify(archiveData));
 
             closeReviewModal();
-            alert(`'${newItem.title}' 감상이 아카이브에 기록되었습니다!`);
 
-            if (currentMainTab === 'profile') renderProfileFeed();
+            if (currentMainTab === 'calendar') renderCalendar();
             if (currentMainTab === 'watched') renderWatchedList();
             if (currentMainTab === 'stats') renderStatsDashboard();
+            if (currentMainTab === 'profile') renderProfileFeed();
         }
 
         function editProfilePrompt() {
@@ -790,7 +851,7 @@
                 document.getElementById('accentPicker').value = savedAccent;
                 updateAccentColor(savedAccent);
             }
-            renderProfileFeed();
+            renderCalendar();
         };
     </script>
 </body>
