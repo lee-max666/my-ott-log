@@ -117,7 +117,7 @@
                     <button onclick="switchSubTab('book')" id="sub-nav-book" class="px-5 py-2.5 rounded-2xl text-base font-medium bg-zinc-100 dark:bg-zinc-900 text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white">책</button>
                 </div>
                 <div id="book-view-toggle-container" class="hidden flex items-center gap-1.5 bg-zinc-100 dark:bg-zinc-900 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-800">
-                    <button onclick="setBookView('spine')" id="btn-view-spine" class="px-4 py-2 text-sm font-medium rounded-xl bg-accent text-white transition-all">책등 보기</button>
+                    <button onclick="setBookView('spine')" id="btn-view-spine" class="px-4 py-2 text-sm font-medium rounded-xl bg-accent text-white transition-all">책장 보기</button>
                     <button onclick="setBookView('cover')" id="btn-view-cover" class="px-4 py-2 text-sm font-medium rounded-xl text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all">표지 보기</button>
                 </div>
             </div>
@@ -317,7 +317,7 @@
         let currentYear = 2026;
         let selectedApiItem = null;
         let editingRecordId = null;
-        let activeSelectedDate = ''; // 현재 날짜 모달에서 보고 있는 날짜
+        let activeSelectedDate = '';
 
         const spineColors = [
             'bg-emerald-800 text-emerald-100', 'bg-amber-700 text-amber-100', 
@@ -460,35 +460,26 @@
                 const cell = document.createElement('div');
                 cell.className = "bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl p-3 min-h-[160px] flex flex-col justify-between overflow-hidden relative cursor-pointer hover:border-accent transition-all";
                 
-                // 날짜 칸 클릭 시 해당 날짜의 기록 리스트 모달 오픈
                 cell.onclick = () => openDayModal(dateStr);
 
-                const dayHeader = document.createElement('div');
-                dayHeader.className = "text-sm font-bold text-zinc-500 z-10 flex items-center justify-between";
-                dayHeader.innerHTML = `<span>${d}</span>`;
-                
                 const dayRecords = records.filter(r => r.date === dateStr);
-                if(dayRecords.length > 0) {
-                    const badge = document.createElement('span');
-                    badge.className = "w-6 h-6 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center shadow-md";
-                    badge.innerText = dayRecords.length;
-                    dayHeader.appendChild(badge);
-                }
-                cell.appendChild(dayHeader);
 
-                const itemsContainer = document.createElement('div');
-                itemsContainer.className = "space-y-1 mt-1 overflow-y-auto flex-1 flex flex-col";
-                
                 if(dayRecords.length > 0) {
-                    const rec = dayRecords[0]; // 대표 포스터 표시
-                    const poster = document.createElement('div');
-                    poster.className = "flex-1 flex flex-col mt-1 relative";
-                    poster.innerHTML = `
-                        <img src="${rec.image}" class="w-full h-full min-h-[105px] object-cover rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                    const rec = dayRecords[0];
+                    const badgeHtml = (dayRecords.length > 1) ? `<span class="absolute top-3 right-3 w-6 h-6 rounded-full bg-accent text-white text-xs font-bold flex items-center justify-center shadow-md z-20">${dayRecords.length}</span>` : '';
+                    
+                    cell.innerHTML = `
+                        ${badgeHtml}
+                        <div class="absolute inset-0 z-0">
+                            <img src="${rec.image}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="text-sm font-bold text-white dark:text-white z-10 drop-shadow-[0_1px_2px_rgba(0,0,0,0.8)]">${d}</div>
                     `;
-                    itemsContainer.appendChild(poster);
+                } else {
+                    cell.innerHTML = `
+                        <div class="text-sm font-bold text-zinc-500 z-10">${d}</div>
+                    `;
                 }
-                cell.appendChild(itemsContainer);
                 grid.appendChild(cell);
             }
         }
@@ -500,7 +491,6 @@
             renderCalendar();
         }
 
-        // 특정 날짜 칸 클릭 시 뜨는 일별 기록 리스트 모달
         function openDayModal(dateStr) {
             activeSelectedDate = dateStr;
             document.getElementById('day-modal-title').innerText = `${dateStr.replace(/-/g, '.')} 기록`;
