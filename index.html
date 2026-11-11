@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MY LOG</title>
+    
+    <!-- 링크 공유 시 깔끔하게 뜨도록 설정한 메타 태그 -->
+    <meta property="og:title" content="MY LOG">
+    <meta property="og:description" content="나만의 영화, 드라마, 책 아카이브 공간입니다.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://lee-max666.github.io/my-ott-log/">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Nanum+Gothic:wght@400;700&family=Gowun+Dodum&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
@@ -25,11 +32,7 @@
         ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.2); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(150, 150, 150, 0.4); }
         .spine-item { writing-mode: vertical-rl; text-orientation: mixed; }
-        
-        /* PC 기준 레이아웃을 모바일에서도 완벽하게 유지하기 위한 뷰어 래퍼 */
-        .pc-viewport-wrapper {
-            min-width: 1100px;
-        }
+        .pc-viewport-wrapper { min-width: 1100px; }
     </style>
 </head>
 <body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 min-h-screen selection:bg-accent selection:text-white transition-colors duration-200 overflow-x-auto" id="bodyFontContainer">
