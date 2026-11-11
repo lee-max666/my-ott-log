@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>repov - 영화 & 도서 기록장</title>
+    <title>Ott log - 영화 & 도서 기록장</title>
+    <!-- 구글 폰트 연동 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@300;400;700;900&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             --bg-color: #0f0f12;
@@ -12,9 +17,7 @@
             --text-main: #f0f0f5;
             --text-sub: #8a8a93;
             --accent-color: #7c4dff;
-            --accent-hover: #651fff;
-            --danger-color: #ff5252;
-            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-family: 'Noto Sans KR', sans-serif;
         }
 
         [data-theme="light"] {
@@ -24,7 +27,6 @@
             --text-main: #1a1a1e;
             --text-sub: #6c6d75;
             --accent-color: #6200ee;
-            --accent-hover: #3700b3;
         }
 
         * {
@@ -45,7 +47,6 @@
             transition: background-color 0.3s, color 0.3s;
         }
 
-        /* Header Navigation */
         header {
             width: 100%;
             max-width: 800px;
@@ -57,8 +58,8 @@
         }
 
         .logo {
-            font-size: 22px;
-            font-weight: 800;
+            font-size: 24px;
+            font-weight: 900;
             letter-spacing: -0.5px;
             color: var(--text-main);
         }
@@ -69,13 +70,22 @@
             align-items: center;
         }
 
-        .theme-picker {
-            width: 28px;
-            height: 28px;
-            border: none;
-            border-radius: 50%;
+        .font-select, .theme-picker {
+            background-color: var(--card-bg);
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
             cursor: pointer;
-            background: none;
+        }
+
+        .theme-picker {
+            width: 32px;
+            height: 32px;
+            padding: 0;
+            border-radius: 50%;
+            border: none;
         }
 
         .btn {
@@ -87,11 +97,6 @@
             font-weight: 600;
             font-size: 13px;
             cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .btn:hover {
-            opacity: 0.9;
         }
 
         .btn-secondary {
@@ -100,14 +105,18 @@
             border: 1px solid var(--card-border);
         }
 
-        /* Navigation Bar */
+        .btn-danger {
+            background-color: #ff5252;
+            color: #fff;
+            border: none;
+        }
+
         nav {
             width: 100%;
             max-width: 800px;
             display: flex;
             gap: 20px;
             padding: 15px 20px;
-            overflow-x: auto;
             border-bottom: 1px solid var(--card-border);
         }
 
@@ -115,10 +124,8 @@
             color: var(--text-sub);
             font-size: 14px;
             font-weight: 600;
-            text-decoration: none;
-            padding-bottom: 5px;
             cursor: pointer;
-            white-space: nowrap;
+            padding-bottom: 5px;
         }
 
         .nav-item.active {
@@ -126,7 +133,6 @@
             border-bottom: 2px solid var(--text-main);
         }
 
-        /* Main Container */
         main {
             width: 100%;
             max-width: 800px;
@@ -146,7 +152,6 @@
             gap: 20px;
             align-items: center;
             position: relative;
-            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.1) 100%), var(--card-bg);
         }
 
         .profile-img {
@@ -174,13 +179,6 @@
             color: var(--text-sub);
         }
 
-        .profile-link {
-            font-size: 12px;
-            color: var(--accent-color);
-            text-decoration: none;
-            word-break: break-all;
-        }
-
         .edit-profile-btn {
             position: absolute;
             top: 15px;
@@ -189,20 +187,7 @@
             font-size: 11px;
         }
 
-        /* Section Titles */
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .section-title {
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        /* Calendar Styling */
+        /* Calendar */
         .calendar-container {
             background-color: var(--card-bg);
             border: 1px solid var(--card-border);
@@ -249,7 +234,6 @@
             aspect-ratio: 1 / 1.3;
             background-color: rgba(255,255,255,0.02);
             border-radius: 8px;
-            border: 1px solid transparent;
             display: flex;
             flex-direction: column;
             padding: 4px;
@@ -257,10 +241,7 @@
             overflow: hidden;
             font-size: 11px;
             color: var(--text-sub);
-        }
-
-        .day-cell.has-item {
-            border-color: var(--card-border);
+            cursor: pointer;
         }
 
         .day-number {
@@ -282,7 +263,7 @@
             left: 0;
         }
 
-        /* Wishlist / Grid View */
+        /* Wishlist Grid */
         .item-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
@@ -296,7 +277,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            position: relative;
+            cursor: pointer;
         }
 
         .media-poster {
@@ -320,12 +301,12 @@
             text-overflow: ellipsis;
         }
 
-        .media-type {
-            font-size: 10px;
-            color: var(--text-sub);
+        .media-rating {
+            font-size: 11px;
+            color: #ffd700;
         }
 
-        /* Modals */
+        /* Modal Overlay */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -357,7 +338,7 @@
             display: flex;
             flex-direction: column;
             gap: 15px;
-            max-height: 80vh;
+            max-height: 85vh;
             overflow-y: auto;
         }
 
@@ -377,13 +358,14 @@
             color: var(--text-sub);
         }
 
-        .form-group input, .form-group select {
+        .form-group input, .form-group select, .form-group textarea {
             background-color: var(--bg-color);
             border: 1px solid var(--card-border);
             color: var(--text-main);
             padding: 10px;
             border-radius: 8px;
             font-size: 13px;
+            font-family: inherit;
         }
 
         .search-results {
@@ -403,10 +385,6 @@
             cursor: pointer;
         }
 
-        .search-item:hover {
-            border-color: var(--accent-color);
-        }
-
         .search-thumb {
             width: 40px;
             height: 55px;
@@ -414,24 +392,6 @@
             border-radius: 4px;
         }
 
-        .search-meta {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .search-meta-title {
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .search-meta-sub {
-            font-size: 11px;
-            color: var(--text-sub);
-        }
-
-        /* Bottom Floating Action Button */
         .fab {
             position: fixed;
             bottom: 20px;
@@ -443,9 +403,6 @@
             color: #fff;
             border: none;
             font-size: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,0,0,0.4);
             z-index: 10;
@@ -455,9 +412,16 @@
 <body data-theme="dark">
 
     <header>
-        <div class="logo">repov</div>
+        <div class="logo">Ott log</div>
         <div class="header-controls">
-            <input type="color" id="accentPicker" class="theme-picker" value="#7c4dff" title="포인트 색상 변경">
+            <!-- 폰트 선택기 -->
+            <select id="fontSelect" class="font-select">
+                <option value="'Noto Sans KR', sans-serif">기본 (Noto Sans)</option>
+                <option value="'Nanum Gothic', sans-serif">나눔고딕</option>
+                <option value="'Gowun Dodum', sans-serif">고운돋움</option>
+                <option value="'Poppins', sans-serif">Poppins (영문강조)</option>
+            </select>
+            <input type="color" id="accentPicker" class="theme-picker" value="#7c4dff" title="포인트 색상">
             <button class="btn btn-secondary" id="themeToggle">🌙</button>
         </div>
     </header>
@@ -465,22 +429,20 @@
     <nav>
         <div class="nav-item active" data-tab="calendar">캘린더</div>
         <div class="nav-item" data-tab="wishlist">위시리스트</div>
-        <div class="nav-item" data-tab="profile">프로필</div>
     </nav>
 
     <main>
-        <!-- 프로필 섹션 -->
+        <!-- 프로필 카드 -->
         <section class="profile-card">
             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop" id="displayProfileImg" class="profile-img" alt="Profile">
             <div class="profile-info">
                 <div class="profile-name" id="displayName">시네필 회원님</div>
-                <div class="profile-bio" id="displayBio">좋아하는 영화와 책을 수집하는 공간입니다.</div>
-                <a href="#" class="profile-link" id="displayLink" target="_blank">https://youtube.com</a>
+                <div class="profile-bio" id="displayBio">영화와 책을 기록하는 나만의 OTT LOG입니다.</div>
             </div>
             <button class="btn btn-secondary edit-profile-btn" id="openEditProfile">수정</button>
         </section>
 
-        <!-- 캘린더 탭 Content -->
+        <!-- 캘린더 탭 -->
         <section id="calendarTab">
             <div class="calendar-container">
                 <div class="calendar-header">
@@ -490,20 +452,13 @@
                         <button id="nextMonth">▶</button>
                     </div>
                 </div>
-                <div class="calendar-grid" id="calendarGrid">
-                    <!-- Dynamic Calendar Grid -->
-                </div>
+                <div class="calendar-grid" id="calendarGrid"></div>
             </div>
         </section>
 
-        <!-- 위시리스트 탭 Content -->
+        <!-- 위시리스트 탭 -->
         <section id="wishlistTab" style="display: none;">
-            <div class="section-header">
-                <div class="section-title">볼 예정 / 읽을 예정</div>
-            </div>
-            <div class="item-grid" id="wishlistGrid">
-                <!-- Dynamic Wishlist Grid -->
-            </div>
+            <div class="item-grid" id="wishlistGrid"></div>
         </section>
     </main>
 
@@ -518,16 +473,16 @@
                 <input type="text" id="editName">
             </div>
             <div class="form-group">
-                <label>프로필 이미지 주소(URL)</label>
+                <label>프로필 사진 파일 직접 업로드</label>
+                <input type="file" id="editFile" accept="image/*">
+            </div>
+            <div class="form-group">
+                <label>또는 이미지 URL 주소 입력</label>
                 <input type="text" id="editImg">
             </div>
             <div class="form-group">
                 <label>한줄 소개</label>
                 <input type="text" id="editBio">
-            </div>
-            <div class="form-group">
-                <label>링크 (유튜브, 블로그 등)</label>
-                <input type="text" id="editLink">
             </div>
             <div style="display: flex; gap: 10px; margin-top: 10px;">
                 <button class="btn" style="flex:1" id="saveProfileBtn">저장</button>
@@ -536,66 +491,103 @@
         </div>
     </div>
 
-    <!-- 영화/책 검색 및 추가 모달 -->
+    <!-- 검색 및 기록 추가 모달 -->
     <div class="modal-overlay" id="searchModal">
         <div class="modal-card">
-            <div class="modal-title">기록 추가하기</div>
+            <div class="modal-title">영화 & 도서 검색 및 등록</div>
             <div class="form-group">
                 <label>카테고리</label>
                 <select id="searchType">
-                    <option value="movie">영화 (TMDB)</option>
-                    <option value="book">도서 (Kakao Book)</option>
+                    <option value="movie">영화</option>
+                    <option value="book">도서</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>한국어로 제목 검색</label>
+                <label>한국어 제목 검색</label>
                 <input type="text" id="searchInput" placeholder="예: 미키 17, 틴틴팅클...">
             </div>
-            <div class="search-results" id="searchResults">
-                <!-- Search Result List -->
-            </div>
+            <div class="search-results" id="searchResults"></div>
             <button class="btn btn-secondary" id="closeSearchBtn" style="margin-top: 10px;">닫기</button>
+        </div>
+    </div>
+
+    <!-- 상세 보기 / 수정 / 삭제 모달 -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal-card">
+            <div class="modal-title" id="detailTitle">상세 기록 정보</div>
+            <input type="hidden" id="detailId">
+            <div class="form-group">
+                <label>시청 / 완독 상태</label>
+                <select id="detailStatus">
+                    <option value="watched">시청/완독 완료 (달력 표시)</option>
+                    <option value="wish">볼 예정 (위시리스트)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>날짜 지정 (YYYY-MM-DD)</label>
+                <input type="date" id="detailDate">
+            </div>
+            <div class="form-group">
+                <label>평점 (1 ~ 5점)</label>
+                <select id="detailRating">
+                    <option value="5">⭐⭐⭐⭐⭐ (5.0)</option>
+                    <option value="4">⭐⭐⭐⭐ (4.0)</option>
+                    <option value="3">⭐⭐⭐ (3.0)</option>
+                    <option value="2">⭐⭐ (2.0)</option>
+                    <option value="1">⭐ (1.0)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>감상 후기 (한줄평 및 감상문)</label>
+                <textarea id="detailReview" rows="4" placeholder="작품에 대한 생각과 느낀점을 기록해 보세요."></textarea>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn" style="flex:1" id="saveDetailBtn">수정 저장</button>
+                <button class="btn btn-danger" style="flex:1" id="deleteDetailBtn">삭제</button>
+                <button class="btn btn-secondary" style="flex:1" id="closeDetailBtn">취소</button>
+            </div>
         </div>
     </div>
 
     <script>
         // Data Management (Local Storage)
-        let profile = JSON.parse(localStorage.getItem('repov_profile')) || {
-            name: "왓더헬",
-            bio: "가세요",
-            img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop",
-            link: "https://youtube.com"
+        let profile = JSON.parse(localStorage.getItem('ottlog_profile')) || {
+            name: "시네필 회원님",
+            bio: "영화와 책을 기록하는 나만의 OTT LOG입니다.",
+            img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop"
         };
 
-        let records = JSON.parse(localStorage.getItem('repov_records')) || [
-            { id: 1, type: 'movie', title: '미키 17', date: '2026-03-05', poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&auto=format&fit=crop', status: 'watched' },
-            { id: 2, type: 'book', title: '틴틴팅클!', date: '2026-03-12', poster: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&auto=format&fit=crop', status: 'watched' },
-            { id: 3, type: 'movie', title: '파묘', date: '', poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=300&auto=format&fit=crop', status: 'wish' }
+        let currentFont = localStorage.getItem('ottlog_font') || "'Noto Sans KR', sans-serif";
+
+        let records = JSON.parse(localStorage.getItem('ottlog_records')) || [
+            { id: 1, type: 'movie', title: '미키 17', date: '2026-03-05', poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&auto=format&fit=crop', status: 'watched', rating: '5', review: '연출과 철학적인 스토리가 무척 인상적이었다.' },
+            { id: 2, type: 'book', title: '틴틴팅클!', date: '2026-03-12', poster: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&auto=format&fit=crop', status: 'watched', rating: '4', review: '귀엽고 마음이 따뜻해지는 만화 책.' }
         ];
 
-        let currentDate = new Date(2026, 2, 1); // 2026.03
+        let currentDate = new Date(2026, 2, 1);
 
-        // DOM Elements
-        const themeToggle = document.getElementById('themeToggle');
-        const accentPicker = document.getElementById('accentPicker');
-        const navItems = document.querySelectorAll('.nav-item');
-        const calendarTab = document.getElementById('calendarTab');
-        const wishlistTab = document.getElementById('wishlistTab');
+        // Font Setup
+        const fontSelect = document.getElementById('fontSelect');
+        document.body.style.fontFamily = currentFont;
+        fontSelect.value = currentFont;
 
-        // Profile Render & Edit
+        fontSelect.addEventListener('change', (e) => {
+            currentFont = e.target.value;
+            document.body.style.fontFamily = currentFont;
+            localStorage.setItem('ottlog_font', currentFont);
+        });
+
+        // Profile Functions
         function renderProfile() {
             document.getElementById('displayName').textContent = profile.name;
             document.getElementById('displayBio').textContent = profile.bio;
             document.getElementById('displayProfileImg').src = profile.img;
-            document.getElementById('displayLink').textContent = profile.link;
-            document.getElementById('displayLink').href = profile.link;
         }
 
         document.getElementById('openEditProfile').addEventListener('click', () => {
             document.getElementById('editName').value = profile.name;
             document.getElementById('editImg').value = profile.img;
             document.getElementById('editBio').value = profile.bio;
-            document.getElementById('editLink').value = profile.link;
             document.getElementById('profileModal').classList.add('active');
         });
 
@@ -603,45 +595,51 @@
             document.getElementById('profileModal').classList.remove('active');
         });
 
+        // File Upload Handler for Profile Image
+        document.getElementById('editFile').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    document.getElementById('editImg').value = evt.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
         document.getElementById('saveProfileBtn').addEventListener('click', () => {
             profile.name = document.getElementById('editName').value;
-            profile.img = document.getElementById('editImg').value;
+            profile.img = document.getElementById('editImg').value || profile.img;
             profile.bio = document.getElementById('editBio').value;
-            profile.link = document.getElementById('editLink').value;
-            localStorage.setItem('repov_profile', JSON.stringify(profile));
+            localStorage.setItem('ottlog_profile', JSON.stringify(profile));
             renderProfile();
             document.getElementById('profileModal').classList.remove('active');
         });
 
         // Theme Toggle
-        themeToggle.addEventListener('click', () => {
+        document.getElementById('themeToggle').addEventListener('click', () => {
             const isDark = document.body.getAttribute('data-theme') === 'dark';
             document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-            themeToggle.textContent = isDark ? '☀️' : '🌙';
+            document.getElementById('themeToggle').textContent = isDark ? '☀️' : '🌙';
         });
 
-        accentPicker.addEventListener('input', (e) => {
+        document.getElementById('accentPicker').addEventListener('input', (e) => {
             document.documentElement.style.setProperty('--accent-color', e.target.value);
         });
 
-        // Nav Switching
-        navItems.forEach(item => {
+        // Tab Switch
+        document.querySelectorAll('.nav-item').forEach(item => {
             item.addEventListener('click', () => {
-                navItems.forEach(n => n.classList.remove('active'));
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
                 item.classList.add('active');
                 const tab = item.getAttribute('data-tab');
-                if (tab === 'calendar') {
-                    calendarTab.style.display = 'block';
-                    wishlistTab.style.display = 'none';
-                } else if (tab === 'wishlist') {
-                    calendarTab.style.display = 'none';
-                    wishlistTab.style.display = 'block';
-                    renderWishlist();
-                }
+                document.getElementById('calendarTab').style.display = tab === 'calendar' ? 'block' : 'none';
+                document.getElementById('wishlistTab').style.display = tab === 'wishlist' ? 'block' : 'none';
+                if (tab === 'wishlist') renderWishlist();
             });
         });
 
-        // Render Calendar
+        // Calendar Render
         function renderCalendar() {
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
@@ -650,12 +648,11 @@
             const grid = document.getElementById('calendarGrid');
             grid.innerHTML = '';
 
-            const days = ['일', '월', '화', '수', '목', '금', '토'];
-            days.forEach(d => {
-                const dayHeader = document.createElement('div');
-                dayHeader.className = 'day-name';
-                dayHeader.textContent = d;
-                grid.appendChild(dayHeader);
+            ['일', '월', '화', '수', '목', '금', '토'].forEach(d => {
+                const dh = document.createElement('div');
+                dh.className = 'day-name';
+                dh.textContent = d;
+                grid.appendChild(dh);
             });
 
             const firstDay = new Date(year, month, 1).getDay();
@@ -674,11 +671,11 @@
                 const matchedRecord = records.find(r => r.date === dateStr && r.status === 'watched');
 
                 if (matchedRecord) {
-                    cell.classList.add('has-item');
                     const img = document.createElement('img');
                     img.src = matchedRecord.poster;
                     img.className = 'poster-img';
                     cell.appendChild(img);
+                    cell.addEventListener('click', () => openDetailModal(matchedRecord.id));
                 }
 
                 grid.appendChild(cell);
@@ -695,7 +692,7 @@
             renderCalendar();
         });
 
-        // Render Wishlist
+        // Wishlist Render
         function renderWishlist() {
             const grid = document.getElementById('wishlistGrid');
             grid.innerHTML = '';
@@ -705,37 +702,36 @@
                 const card = document.createElement('div');
                 card.className = 'media-card';
                 card.innerHTML = `
-                    <img src="${item.poster}" class="media-poster" alt="${item.title}">
+                    <img src="${item.poster}" class="media-poster">
                     <div class="media-info">
                         <div class="media-title">${item.title}</div>
-                        <div class="media-type">${item.type === 'movie' ? '🎬 영화' : '📚 도서'}</div>
+                        <div class="media-rating">${'⭐'.repeat(item.rating || 5)}</div>
                     </div>
                 `;
+                card.addEventListener('click', () => openDetailModal(item.id));
                 grid.appendChild(card);
             });
         }
 
-        // Search & Mock Add
-        const searchModal = document.getElementById('searchModal');
+        // Search Modal
         document.getElementById('openSearchModal').addEventListener('click', () => {
-            searchModal.classList.add('active');
+            document.getElementById('searchModal').classList.add('active');
         });
 
         document.getElementById('closeSearchBtn').addEventListener('click', () => {
-            searchModal.classList.remove('active');
+            document.getElementById('searchModal').classList.remove('active');
         });
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const query = e.target.value.trim();
-            const resultsContainer = document.getElementById('searchResults');
-            resultsContainer.innerHTML = '';
+            const container = document.getElementById('searchResults');
+            container.innerHTML = '';
 
             if (!query) return;
 
-            // Mocked API Search Results
             const mockResults = [
-                { title: query, sub: '2025 · 한국어 개봉', poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=200&auto=format&fit=crop' },
-                { title: query + ' 특별판', sub: '2024 · 출판/제작', poster: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&auto=format&fit=crop' }
+                { title: query, poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=200&auto=format&fit=crop' },
+                { title: query + ' (극장판/특별판)', poster: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&auto=format&fit=crop' }
             ];
 
             mockResults.forEach(res => {
@@ -743,33 +739,77 @@
                 item.className = 'search-item';
                 item.innerHTML = `
                     <img src="${res.poster}" class="search-thumb">
-                    <div class="search-meta">
-                        <div class="search-meta-title">${res.title}</div>
-                        <div class="search-meta-sub">${res.sub}</div>
-                    </div>
-                    <button class="btn btn-secondary" style="font-size:10px;">+ 추가</button>
+                    <div style="flex:1;">${res.title}</div>
+                    <button class="btn" style="font-size:10px;">+ 선택</button>
                 `;
                 item.addEventListener('click', () => {
-                    const status = confirm("시청 완료(달력 표시)로 등록하시겠습니까?\n'취소' 선택 시 [위시리스트]에 저장됩니다.") ? 'watched' : 'wish';
-                    const targetDate = status === 'watched' ? '2026-03-15' : '';
-                    records.push({
+                    const newRec = {
                         id: Date.now(),
                         type: document.getElementById('searchType').value,
                         title: res.title,
-                        date: targetDate,
+                        date: '2026-03-15',
                         poster: res.poster,
-                        status: status
-                    });
-                    localStorage.setItem('repov_records', JSON.stringify(records));
+                        status: 'watched',
+                        rating: '5',
+                        review: ''
+                    };
+                    records.push(newRec);
+                    localStorage.setItem('ottlog_records', JSON.stringify(records));
                     renderCalendar();
-                    searchModal.classList.remove('active');
-                    alert('성공적으로 등록되었습니다!');
+                    document.getElementById('searchModal').classList.remove('active');
+                    openDetailModal(newRec.id);
                 });
-                resultsContainer.appendChild(item);
+                container.appendChild(item);
             });
         });
 
-        // Initialize App
+        // Detail / Edit / Delete Modal
+        function openDetailModal(id) {
+            const item = records.find(r => r.id === id);
+            if (!item) return;
+
+            document.getElementById('detailId').value = item.id;
+            document.getElementById('detailTitle').textContent = `[${item.type === 'movie' ? '영화' : '책'}] ${item.title}`;
+            document.getElementById('detailStatus').value = item.status;
+            document.getElementById('detailDate').value = item.date || '2026-03-15';
+            document.getElementById('detailRating').value = item.rating || '5';
+            document.getElementById('detailReview').value = item.review || '';
+
+            document.getElementById('detailModal').classList.add('active');
+        }
+
+        document.getElementById('closeDetailBtn').addEventListener('click', () => {
+            document.getElementById('detailModal').classList.remove('active');
+        });
+
+        document.getElementById('saveDetailBtn').addEventListener('click', () => {
+            const id = Number(document.getElementById('detailId').value);
+            const index = records.findIndex(r => r.id === id);
+            if (index !== -1) {
+                records[index].status = document.getElementById('detailStatus').value;
+                records[index].date = document.getElementById('detailDate').value;
+                records[index].rating = document.getElementById('detailRating').value;
+                records[index].review = document.getElementById('detailReview').value;
+
+                localStorage.setItem('ottlog_records', JSON.stringify(records));
+                renderCalendar();
+                renderWishlist();
+                document.getElementById('detailModal').classList.remove('active');
+            }
+        });
+
+        document.getElementById('deleteDetailBtn').addEventListener('click', () => {
+            if (confirm("정말로 이 기록을 삭제하시겠습니까?")) {
+                const id = Number(document.getElementById('detailId').value);
+                records = records.filter(r => r.id !== id);
+                localStorage.setItem('ottlog_records', JSON.stringify(records));
+                renderCalendar();
+                renderWishlist();
+                document.getElementById('detailModal').classList.remove('active');
+            }
+        });
+
+        // Init App
         renderProfile();
         renderCalendar();
     </script>
