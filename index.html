@@ -59,4 +59,719 @@
         .logo {
             font-size: 22px;
             font-weight: 800;
-            letter-spacing: -0
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .theme-picker {
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            background: none;
+        }
+
+        .btn {
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--card-border);
+        }
+
+        /* Navigation Bar */
+        nav {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            gap: 20px;
+            padding: 15px 20px;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .nav-item {
+            color: var(--text-sub);
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            padding-bottom: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .nav-item.active {
+            color: var(--text-main);
+            border-bottom: 2px solid var(--text-main);
+        }
+
+        /* Main Container */
+        main {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            position: relative;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.1) 100%), var(--card-bg);
+        }
+
+        .profile-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--card-border);
+        }
+
+        .profile-info {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .profile-bio {
+            font-size: 13px;
+            color: var(--text-sub);
+        }
+
+        .profile-link {
+            font-size: 12px;
+            color: var(--accent-color);
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .edit-profile-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 10px;
+            font-size: 11px;
+        }
+
+        /* Section Titles */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        /* Calendar Styling */
+        .calendar-container {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .calendar-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .calendar-nav button {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 16px;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 6px;
+            text-align: center;
+        }
+
+        .day-name {
+            font-size: 11px;
+            color: var(--text-sub);
+            padding-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .day-cell {
+            aspect-ratio: 1 / 1.3;
+            background-color: rgba(255,255,255,0.02);
+            border-radius: 8px;
+            border: 1px solid transparent;
+            display: flex;
+            flex-direction: column;
+            padding: 4px;
+            position: relative;
+            overflow: hidden;
+            font-size: 11px;
+            color: var(--text-sub);
+        }
+
+        .day-cell.has-item {
+            border-color: var(--card-border);
+        }
+
+        .day-number {
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            z-index: 2;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .poster-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        /* Wishlist / Grid View */
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 15px;
+        }
+
+        .media-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .media-poster {
+            width: 100%;
+            aspect-ratio: 2 / 3;
+            object-fit: cover;
+        }
+
+        .media-info {
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .media-title {
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .media-type {
+            font-size: 10px;
+            color: var(--text-sub);
+        }
+
+        /* Modals */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 450px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            color: var(--text-sub);
+        }
+
+        .form-group input, .form-group select {
+            background-color: var(--bg-color);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .search-results {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .search-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 8px;
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .search-item:hover {
+            border-color: var(--accent-color);
+        }
+
+        .search-thumb {
+            width: 40px;
+            height: 55px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+
+        .search-meta {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .search-meta-title {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .search-meta-sub {
+            font-size: 11px;
+            color: var(--text-sub);
+        }
+
+        /* Bottom Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body data-theme="dark">
+
+    <header>
+        <div class="logo">repov</div>
+        <div class="header-controls">
+            <input type="color" id="accentPicker" class="theme-picker" value="#7c4dff" title="포인트 색상 변경">
+            <button class="btn btn-secondary" id="themeToggle">🌙</button>
+        </div>
+    </header>
+
+    <nav>
+        <div class="nav-item active" data-tab="calendar">캘린더</div>
+        <div class="nav-item" data-tab="wishlist">위시리스트</div>
+        <div class="nav-item" data-tab="profile">프로필</div>
+    </nav>
+
+    <main>
+        <!-- 프로필 섹션 -->
+        <section class="profile-card">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop" id="displayProfileImg" class="profile-img" alt="Profile">
+            <div class="profile-info">
+                <div class="profile-name" id="displayName">시네필 회원님</div>
+                <div class="profile-bio" id="displayBio">좋아하는 영화와 책을 수집하는 공간입니다.</div>
+                <a href="#" class="profile-link" id="displayLink" target="_blank">https://youtube.com</a>
+            </div>
+            <button class="btn btn-secondary edit-profile-btn" id="openEditProfile">수정</button>
+        </section>
+
+        <!-- 캘린더 탭 Content -->
+        <section id="calendarTab">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <div class="calendar-title" id="calendarMonthTitle">2026.03</div>
+                    <div class="calendar-nav">
+                        <button id="prevMonth">◀</button>
+                        <button id="nextMonth">▶</button>
+                    </div>
+                </div>
+                <div class="calendar-grid" id="calendarGrid">
+                    <!-- Dynamic Calendar Grid -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 위시리스트 탭 Content -->
+        <section id="wishlistTab" style="display: none;">
+            <div class="section-header">
+                <div class="section-title">볼 예정 / 읽을 예정</div>
+            </div>
+            <div class="item-grid" id="wishlistGrid">
+                <!-- Dynamic Wishlist Grid -->
+            </div>
+        </section>
+    </main>
+
+    <button class="fab" id="openSearchModal">+</button>
+
+    <!-- 프로필 수정 모달 -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-card">
+            <div class="modal-title">프로필 수정</div>
+            <div class="form-group">
+                <label>이름 / 닉네임</label>
+                <input type="text" id="editName">
+            </div>
+            <div class="form-group">
+                <label>프로필 이미지 주소(URL)</label>
+                <input type="text" id="editImg">
+            </div>
+            <div class="form-group">
+                <label>한줄 소개</label>
+                <input type="text" id="editBio">
+            </div>
+            <div class="form-group">
+                <label>링크 (유튜브, 블로그 등)</label>
+                <input type="text" id="editLink">
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 10px;">
+                <button class="btn" style="flex:1" id="saveProfileBtn">저장</button>
+                <button class="btn btn-secondary" style="flex:1" id="closeProfileBtn">취소</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 영화/책 검색 및 추가 모달 -->
+    <div class="modal-overlay" id="searchModal">
+        <div class="modal-card">
+            <div class="modal-title">기록 추가하기</div>
+            <div class="form-group">
+                <label>카테고리</label>
+                <select id="searchType">
+                    <option value="movie">영화 (TMDB)</option>
+                    <option value="book">도서 (Kakao Book)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>한국어로 제목 검색</label>
+                <input type="text" id="searchInput" placeholder="예: 미키 17, 틴틴팅클...">
+            </div>
+            <div class="search-results" id="searchResults">
+                <!-- Search Result List -->
+            </div>
+            <button class="btn btn-secondary" id="closeSearchBtn" style="margin-top: 10px;">닫기</button>
+        </div>
+    </div>
+
+    <script>
+        // Data Management (Local Storage)
+        let profile = JSON.parse(localStorage.getItem('repov_profile')) || {
+            name: "왓더헬",
+            bio: "가세요",
+            img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop",
+            link: "https://youtube.com"
+        };
+
+        let records = JSON.parse(localStorage.getItem('repov_records')) || [
+            { id: 1, type: 'movie', title: '미키 17', date: '2026-03-05', poster: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300&auto=format&fit=crop', status: 'watched' },
+            { id: 2, type: 'book', title: '틴틴팅클!', date: '2026-03-12', poster: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300&auto=format&fit=crop', status: 'watched' },
+            { id: 3, type: 'movie', title: '파묘', date: '', poster: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=300&auto=format&fit=crop', status: 'wish' }
+        ];
+
+        let currentDate = new Date(2026, 2, 1); // 2026.03
+
+        // DOM Elements
+        const themeToggle = document.getElementById('themeToggle');
+        const accentPicker = document.getElementById('accentPicker');
+        const navItems = document.querySelectorAll('.nav-item');
+        const calendarTab = document.getElementById('calendarTab');
+        const wishlistTab = document.getElementById('wishlistTab');
+
+        // Profile Render & Edit
+        function renderProfile() {
+            document.getElementById('displayName').textContent = profile.name;
+            document.getElementById('displayBio').textContent = profile.bio;
+            document.getElementById('displayProfileImg').src = profile.img;
+            document.getElementById('displayLink').textContent = profile.link;
+            document.getElementById('displayLink').href = profile.link;
+        }
+
+        document.getElementById('openEditProfile').addEventListener('click', () => {
+            document.getElementById('editName').value = profile.name;
+            document.getElementById('editImg').value = profile.img;
+            document.getElementById('editBio').value = profile.bio;
+            document.getElementById('editLink').value = profile.link;
+            document.getElementById('profileModal').classList.add('active');
+        });
+
+        document.getElementById('closeProfileBtn').addEventListener('click', () => {
+            document.getElementById('profileModal').classList.remove('active');
+        });
+
+        document.getElementById('saveProfileBtn').addEventListener('click', () => {
+            profile.name = document.getElementById('editName').value;
+            profile.img = document.getElementById('editImg').value;
+            profile.bio = document.getElementById('editBio').value;
+            profile.link = document.getElementById('editLink').value;
+            localStorage.setItem('repov_profile', JSON.stringify(profile));
+            renderProfile();
+            document.getElementById('profileModal').classList.remove('active');
+        });
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+            themeToggle.textContent = isDark ? '☀️' : '🌙';
+        });
+
+        accentPicker.addEventListener('input', (e) => {
+            document.documentElement.style.setProperty('--accent-color', e.target.value);
+        });
+
+        // Nav Switching
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(n => n.classList.remove('active'));
+                item.classList.add('active');
+                const tab = item.getAttribute('data-tab');
+                if (tab === 'calendar') {
+                    calendarTab.style.display = 'block';
+                    wishlistTab.style.display = 'none';
+                } else if (tab === 'wishlist') {
+                    calendarTab.style.display = 'none';
+                    wishlistTab.style.display = 'block';
+                    renderWishlist();
+                }
+            });
+        });
+
+        // Render Calendar
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            document.getElementById('calendarMonthTitle').textContent = `${year}.${String(month + 1).padStart(2, '0')}`;
+
+            const grid = document.getElementById('calendarGrid');
+            grid.innerHTML = '';
+
+            const days = ['일', '월', '화', '수', '목', '금', '토'];
+            days.forEach(d => {
+                const dayHeader = document.createElement('div');
+                dayHeader.className = 'day-name';
+                dayHeader.textContent = d;
+                grid.appendChild(dayHeader);
+            });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const totalDays = new Date(year, month + 1, 0).getDate();
+
+            for (let i = 0; i < firstDay; i++) {
+                grid.appendChild(document.createElement('div'));
+            }
+
+            for (let day = 1; day <= totalDays; day++) {
+                const cell = document.createElement('div');
+                cell.className = 'day-cell';
+                cell.innerHTML = `<span class="day-number">${day}</span>`;
+
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const matchedRecord = records.find(r => r.date === dateStr && r.status === 'watched');
+
+                if (matchedRecord) {
+                    cell.classList.add('has-item');
+                    const img = document.createElement('img');
+                    img.src = matchedRecord.poster;
+                    img.className = 'poster-img';
+                    cell.appendChild(img);
+                }
+
+                grid.appendChild(cell);
+            }
+        }
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        // Render Wishlist
+        function renderWishlist() {
+            const grid = document.getElementById('wishlistGrid');
+            grid.innerHTML = '';
+            const wishes = records.filter(r => r.status === 'wish');
+
+            wishes.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'media-card';
+                card.innerHTML = `
+                    <img src="${item.poster}" class="media-poster" alt="${item.title}">
+                    <div class="media-info">
+                        <div class="media-title">${item.title}</div>
+                        <div class="media-type">${item.type === 'movie' ? '🎬 영화' : '📚 도서'}</div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Search & Mock Add
+        const searchModal = document.getElementById('searchModal');
+        document.getElementById('openSearchModal').addEventListener('click', () => {
+            searchModal.classList.add('active');
+        });
+
+        document.getElementById('closeSearchBtn').addEventListener('click', () => {
+            searchModal.classList.remove('active');
+        });
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const query = e.target.value.trim();
+            const resultsContainer = document.getElementById('searchResults');
+            resultsContainer.innerHTML = '';
+
+            if (!query) return;
+
+            // Mocked API Search Results
+            const mockResults = [
+                { title: query, sub: '2025 · 한국어 개봉', poster: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=200&auto=format&fit=crop' },
+                { title: query + ' 특별판', sub: '2024 · 출판/제작', poster: 'https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=200&auto=format&fit=crop' }
+            ];
+
+            mockResults.forEach(res => {
+                const item = document.createElement('div');
+                item.className = 'search-item';
+                item.innerHTML = `
+                    <img src="${res.poster}" class="search-thumb">
+                    <div class="search-meta">
+                        <div class="search-meta-title">${res.title}</div>
+                        <div class="search-meta-sub">${res.sub}</div>
+                    </div>
+                    <button class="btn btn-secondary" style="font-size:10px;">+ 추가</button>
+                `;
+                item.addEventListener('click', () => {
+                    const status = confirm("시청 완료(달력 표시)로 등록하시겠습니까?\n'취소' 선택 시 [위시리스트]에 저장됩니다.") ? 'watched' : 'wish';
+                    const targetDate = status === 'watched' ? '2026-03-15' : '';
+                    records.push({
+                        id: Date.now(),
+                        type: document.getElementById('searchType').value,
+                        title: res.title,
+                        date: targetDate,
+                        poster: res.poster,
+                        status: status
+                    });
+                    localStorage.setItem('repov_records', JSON.stringify(records));
+                    renderCalendar();
+                    searchModal.classList.remove('active');
+                    alert('성공적으로 등록되었습니다!');
+                });
+                resultsContainer.appendChild(item);
+            });
+        });
+
+        // Initialize App
+        renderProfile();
+        renderCalendar();
+    </script>
+</body>
+</html>
