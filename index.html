@@ -43,12 +43,10 @@
             </div>
             
             <div class="flex items-center gap-4">
-                <!-- 컬러 피터 및 라이트/다크 토글 -->
                 <div class="flex items-center gap-3 bg-zinc-100 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-full px-4 py-2">
                     <input type="color" id="accentColorPicker" value="#8b5cf6" class="w-6 h-6 rounded-full border-0 cursor-pointer bg-transparent" onchange="changeAccentColor(this.value)" title="포인트 컬러 선택">
                     <button onclick="toggleDarkMode()" class="text-zinc-600 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors text-base" id="themeToggleBtn">☀️</button>
                 </div>
-                <!-- 기록 추가 버튼 -->
                 <button onclick="openAddModal()" class="bg-accent text-white px-5 py-2.5 rounded-xl text-base font-medium flex items-center gap-2 shadow-lg shadow-accent/20 hover:opacity-90 transition-opacity">
                     <span>+ 기록하기</span>
                 </button>
@@ -59,9 +57,8 @@
     <!-- 메인 컨테이너 -->
     <main class="max-w-6xl mx-auto px-6 py-10">
 
-        <!-- 1. 캘린더 탭 (프로필 카드 포함) -->
+        <!-- 1. 캘린더 탭 -->
         <section id="tab-calendar" class="space-y-8">
-            <!-- 프로필 카드 요약 -->
             <div class="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
                 <div class="flex items-center gap-6">
                     <img id="user-avatar-img" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" alt="Avatar" class="w-20 h-20 rounded-full object-cover border-4 border-accent shadow-md">
@@ -71,41 +68,36 @@
                             <button onclick="switchTab('profile')" class="text-sm text-zinc-500 hover:text-accent font-medium">✏️ 수정</button>
                         </div>
                         <p id="user-bio-display" class="text-base text-zinc-600 dark:text-zinc-400 mt-1">영화와 책을 나만의 시선으로 아카이빙합니다 🎬 📚</p>
-                        <span class="inline-block mt-3 px-3 py-1 rounded-full text-xs bg-accent/10 text-accent font-semibold">Cinephile & Reader</span>
                     </div>
                 </div>
-                <!-- 카운트 통계 배지 -->
                 <div class="flex items-center gap-4 w-full sm:w-auto justify-around">
                     <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl px-6 py-4 text-center min-w-[100px]">
                         <span class="block text-sm text-zinc-500">영화</span>
-                        <span class="text-xl font-bold text-zinc-900 dark:text-white" id="stat-movie-count">1편</span>
+                        <span class="text-xl font-bold text-zinc-900 dark:text-white" id="stat-movie-count">0편</span>
                     </div>
                     <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl px-6 py-4 text-center min-w-[100px]">
                         <span class="block text-sm text-zinc-500">드라마</span>
-                        <span class="text-xl font-bold text-zinc-900 dark:text-white" id="stat-drama-count">1편</span>
+                        <span class="text-xl font-bold text-zinc-900 dark:text-white" id="stat-drama-count">0편</span>
                     </div>
                     <div class="bg-zinc-50 dark:bg-zinc-950/60 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl px-6 py-4 text-center min-w-[100px]">
                         <span class="block text-sm text-zinc-500">책</span>
-                        <span class="text-xl font-bold text-zinc-900 dark:text-white" id="stat-book-count">1권</span>
+                        <span class="text-xl font-bold text-zinc-900 dark:text-white" id="stat-book-count">0권</span>
                     </div>
                 </div>
             </div>
 
-            <!-- 캘린더 본문 영역 -->
             <div class="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-8 shadow-sm">
                 <div class="flex items-center justify-between mb-8">
                     <h3 class="text-xl font-bold text-zinc-900 dark:text-white flex items-center gap-3">📅 기록 캘린더 <span class="text-sm font-normal text-zinc-500">(날짜를 클릭하면 해당 날짜로 기록됩니다)</span></h3>
                     <div class="flex items-center gap-3">
                         <button onclick="changeMonth(-1)" class="p-3 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl text-base font-bold">&lt;</button>
-                        <span id="calendar-month-title" class="font-bold text-lg text-zinc-900 dark:text-white min-w-[120px] text-center">2026년 3월</span>
+                        <span id="calendar-month-title" class="font-bold text-lg text-zinc-900 dark:text-white min-w-[140px] text-center">2026년 11월</span>
                         <button onclick="changeMonth(1)" class="p-3 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl text-base font-bold">&gt;</button>
                     </div>
                 </div>
-                <!-- 요일 헤더 -->
                 <div class="grid grid-cols-7 gap-3 text-center text-sm font-bold text-zinc-400 mb-3">
                     <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
                 </div>
-                <!-- 날짜 그리드 -->
                 <div id="calendar-grid" class="grid grid-cols-7 gap-3"></div>
             </div>
         </section>
@@ -123,43 +115,50 @@
                     <button onclick="setBookView('cover')" id="btn-view-cover" class="px-4 py-2 text-sm font-medium rounded-xl text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-all">표지 보기</button>
                 </div>
             </div>
-            <div id="completed-items-container" class="grid grid-cols-1 gap-6"></div>
+            <div id="completed-items-container"></div>
         </section>
 
         <!-- 3. 평점 분석 탭 -->
         <section id="tab-ratings" class="hidden space-y-8">
             <div>
-                <h3 class="text-2xl font-bold text-zinc-900 dark:text-white">점수 분석</h3>
-                <p class="text-base text-zinc-600 dark:text-zinc-400 mt-1">등록된 모든 작품의 평점 분포와 성취도를 시원하게 확인하세요.</p>
+                <h3 class="text-2xl font-bold text-zinc-900 dark:text-white">점수 분석 및 높은순 목록</h3>
+                <p class="text-base text-zinc-600 dark:text-zinc-400 mt-1">등록된 작품의 평점 분포와 고득점 작품들을 확인하세요.</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
                 <div class="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <span class="text-sm text-zinc-500 font-medium">전체 평균 평점</span>
                     <div class="text-4xl font-black text-zinc-900 dark:text-white mt-3 flex items-center gap-3">
-                        ⭐ <span id="avg-score-all">4.7</span> <span class="text-lg font-normal text-zinc-400">/ 5.0</span>
+                        ⭐ <span id="avg-score-all">0.0</span> <span class="text-lg font-normal text-zinc-400">/ 5.0</span>
                     </div>
                 </div>
                 <div class="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <span class="text-sm text-zinc-500 font-medium">총 기록된 작품 수</span>
                     <div class="text-4xl font-black text-zinc-900 dark:text-white mt-3">
-                        📚 <span id="total-recorded-count">3</span>개
+                        📚 <span id="total-recorded-count">0</span>개
                     </div>
                 </div>
                 <div class="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
                     <span class="text-sm text-zinc-500 font-medium">최고 평점 작품</span>
-                    <div class="text-xl font-bold text-zinc-900 dark:text-white mt-3 truncate" id="top-rated-title">면세 미술</div>
+                    <div class="text-xl font-bold text-zinc-900 dark:text-white mt-3 truncate" id="top-rated-title">-</div>
                 </div>
             </div>
+            
             <div class="bg-white dark:bg-zinc-900/40 border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-8 shadow-sm">
-                <h4 class="text-lg font-bold text-zinc-900 dark:text-white mb-6">점수 구간별 분포</h4>
+                <h4 class="text-lg font-bold text-zinc-900 dark:text-white mb-6">점수 구간별 분포 (초록: 고득점 / 노랑: 중간 / 빨강: 저득점)</h4>
                 <div class="grid grid-cols-5 sm:grid-cols-10 gap-3 items-end h-56 pt-8 pb-4 px-4 border-b border-zinc-200 dark:border-zinc-800" id="score-distribution-bars"></div>
                 <div class="flex justify-between text-sm font-medium text-zinc-400 mt-4 px-2">
                     <span>1점대</span><span>2점대</span><span>3점대</span><span>4점대</span><span>5점만점</span>
                 </div>
             </div>
+
+            <!-- 평점 높은 순 작품 리스트 -->
+            <div class="space-y-4 pt-4">
+                <h4 class="text-xl font-bold text-zinc-900 dark:text-white">⭐ 평점 높은 순 작품 목록</h4>
+                <div id="ratings-sorted-container" class="space-y-4"></div>
+            </div>
         </section>
 
-        <!-- 4. 프로필 탭 (실제 수정 기능 및 최근 피드 목록 포함) -->
+        <!-- 4. 프로필 탭 -->
         <section id="tab-profile" class="hidden space-y-8 max-w-2xl mx-auto">
             <div class="bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-8 shadow-sm space-y-6">
                 <div class="flex items-center gap-6">
@@ -170,9 +169,19 @@
                     </div>
                 </div>
 
-                <!-- 프로필 수정 폼 -->
                 <div class="pt-6 border-t border-zinc-200 dark:border-zinc-800 space-y-4">
                     <h3 class="text-lg font-bold text-zinc-900 dark:text-white">프로필 정보 수정</h3>
+                    
+                    <!-- 기본 프로필 3개 프리셋 선택 -->
+                    <div>
+                        <label class="block text-sm font-medium text-zinc-500 mb-2">기본 프로필 캐릭터 선택</label>
+                        <div class="flex gap-4">
+                            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150')" class="w-14 h-14 rounded-full object-cover cursor-pointer border-2 border-transparent hover:border-accent">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150')" class="w-14 h-14 rounded-full object-cover cursor-pointer border-2 border-transparent hover:border-accent">
+                            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150" onclick="selectPresetAvatar('https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150')" class="w-14 h-14 rounded-full object-cover cursor-pointer border-2 border-transparent hover:border-accent">
+                        </div>
+                    </div>
+
                     <div>
                         <label class="block text-sm font-medium text-zinc-500 mb-1">닉네임</label>
                         <input type="text" id="input-profile-name" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent">
@@ -182,14 +191,17 @@
                         <input type="text" id="input-profile-bio" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent">
                     </div>
                     <div>
-                        <label class="block text-sm font-medium text-zinc-500 mb-1">프로필 이미지 URL</label>
-                        <input type="text" id="input-profile-img" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent">
+                        <label class="block text-sm font-medium text-zinc-500 mb-1">프로필 이미지 직접 업로드 또는 URL</label>
+                        <div class="flex gap-3">
+                            <input type="text" id="input-profile-img" placeholder="이미지 주소 입력 또는 파일 업로드" class="flex-1 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-xl px-4 py-2.5 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent">
+                            <input type="file" id="profile-file-input" accept="image/*" class="hidden" onchange="handleImageUpload(event)">
+                            <button onclick="document.getElementById('profile-file-input').click()" class="px-4 py-2.5 bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 rounded-xl font-medium text-sm">파일 찾기</button>
+                        </div>
                     </div>
                     <button onclick="saveProfileChanges()" class="w-full bg-accent text-white py-3 rounded-xl font-bold text-base shadow-lg shadow-accent/20 hover:opacity-90 transition-opacity">저장하기</button>
                 </div>
             </div>
 
-            <!-- 최근 기록 피드 목록 -->
             <div class="space-y-4">
                 <h3 class="text-xl font-bold text-zinc-900 dark:text-white">최근 남긴 감상 목록</h3>
                 <div id="profile-recent-feed" class="space-y-3"></div>
@@ -198,14 +210,15 @@
 
     </main>
 
-    <!-- 기록 추가/검색 모달 -->
+    <!-- 기록 추가/수정 모달 -->
     <div id="recordModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl">
             <div class="p-6 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
-                <h3 class="text-xl font-bold text-zinc-900 dark:text-white">새로운 기록 추가</h3>
+                <h3 id="modal-main-title" class="text-xl font-bold text-zinc-900 dark:text-white">새로운 기록 추가</h3>
                 <button onclick="closeAddModal()" class="text-zinc-400 hover:text-zinc-900 dark:hover:text-white text-2xl font-bold">✕</button>
             </div>
-            <div class="p-8 space-y-6">
+            <div class="p-8 space-y-6 max-h-[75vh] overflow-y-auto">
+                <input type="hidden" id="edit-record-id" value="">
                 <div>
                     <label class="block text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">카테고리</label>
                     <select id="modal-category" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent">
@@ -215,9 +228,9 @@
                     </select>
                 </div>
                 <div>
-                    <label class="block text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">제목 검색 (TMDB & 카카오 연동)</label>
+                    <label class="block text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">작품 제목 검색</label>
                     <div class="flex gap-3">
-                        <input type="text" id="modal-search-query" placeholder="작품 제목을 입력하세요 (예: 인터스텔라)" class="flex-1 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent">
+                        <input type="text" id="modal-search-query" placeholder="작품 제목을 입력 후 엔터 또는 검색" onkeydown="if(event.key==='Enter') searchExternalAPI()" class="flex-1 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent">
                         <button onclick="searchExternalAPI()" class="bg-accent text-white px-6 py-3 rounded-2xl text-base font-medium hover:opacity-95">검색</button>
                     </div>
                 </div>
@@ -229,13 +242,23 @@
                         <div id="preview-subtitle" class="text-sm text-zinc-500"></div>
                     </div>
                 </div>
+                
+                <!-- 별 모양 드래그/클릭 평점 선택 -->
                 <div>
                     <div class="flex justify-between text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">
                         <span>평점 선택</span>
-                        <span id="preview-rating-val" class="font-bold text-accent">5.0</span>
+                        <span id="preview-rating-val" class="font-bold text-accent">5.0점</span>
                     </div>
-                    <input type="range" id="modal-rating" min="1" max="5" step="0.1" value="5" class="w-full accent-accent" oninput="document.getElementById('preview-rating-val').innerText = this.value">
+                    <div class="flex items-center gap-2 justify-center py-2 bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl" id="star-rating-container">
+                        <span onclick="setRating(1)" class="cursor-pointer text-3xl text-amber-400 transition-transform hover:scale-110">★</span>
+                        <span onclick="setRating(2)" class="cursor-pointer text-3xl text-amber-400 transition-transform hover:scale-110">★</span>
+                        <span onclick="setRating(3)" class="cursor-pointer text-3xl text-amber-400 transition-transform hover:scale-110">★</span>
+                        <span onclick="setRating(4)" class="cursor-pointer text-3xl text-amber-400 transition-transform hover:scale-110">★</span>
+                        <span onclick="setRating(5)" class="cursor-pointer text-3xl text-amber-400 transition-transform hover:scale-110">★</span>
+                    </div>
+                    <input type="hidden" id="modal-rating-input" value="5.0">
                 </div>
+
                 <div>
                     <label class="block text-sm font-semibold text-zinc-600 dark:text-zinc-400 mb-2">날짜 선택</label>
                     <input type="date" id="modal-date" class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent">
@@ -245,9 +268,12 @@
                     <textarea id="modal-review" rows="3" placeholder="작품에 대한 생각이나 한 줄 감상을 적어주세요." class="w-full bg-zinc-50 dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-2xl px-4 py-3 text-base text-zinc-900 dark:text-white focus:outline-none focus:border-accent"></textarea>
                 </div>
             </div>
-            <div class="p-6 bg-zinc-50 dark:bg-zinc-950/50 border-t border-zinc-200 dark:border-zinc-800 flex justify-end gap-3">
-                <button onclick="closeAddModal()" class="px-6 py-3 rounded-2xl text-base font-medium bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-700">취소</button>
-                <button onclick="saveNewRecord()" class="px-6 py-3 rounded-2xl text-base font-medium bg-accent text-white hover:opacity-95">저장하기</button>
+            <div class="p-6 bg-zinc-50 dark:bg-zinc-950/50 border-t border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+                <button id="modal-delete-btn" onclick="deleteCurrentEditingRecord()" class="px-4 py-3 rounded-2xl text-base font-medium bg-red-500/10 text-red-500 hover:bg-red-500/20 hidden">삭제하기</button>
+                <div class="flex gap-3 ml-auto">
+                    <button onclick="closeAddModal()" class="px-6 py-3 rounded-2xl text-base font-medium bg-zinc-200 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-300 dark:hover:bg-zinc-700">취소</button>
+                    <button onclick="saveNewRecord()" class="px-6 py-3 rounded-2xl text-base font-medium bg-accent text-white hover:opacity-95">저장하기</button>
+                </div>
             </div>
         </div>
     </div>
@@ -266,15 +292,24 @@
         let records = JSON.parse(localStorage.getItem('mylog_records')) || [
             { id: 1, category: 'movie', title: '오징어 게임 시즌2', subtitle: '몰입감이 높아 밤새워 정주행함.', rating: 4.2, date: '2026-11-10', image: 'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=300' },
             { id: 2, category: 'book', title: '면세 미술', subtitle: '지구 내전 시대의 미술에 관한 탁월한 통찰력.', rating: 5.0, date: '2026-11-08', image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=300' },
-            { id: 3, category: 'drama', title: '미키 17', subtitle: '봉준호 감독 특유의 위트와 상상력이 압도적이었습니다.', rating: 4.8, date: '2026-11-04', image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=300' }
+            { id: 3, category: 'drama', title: '미키 17', subtitle: '봉준호 감독 특유의 위트와 상상력이 압도적이었습니다.', rating: 2.5, date: '2026-11-04', image: 'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=300' }
         ];
 
         let currentTab = 'calendar';
         let currentSubTab = 'movie';
         let bookViewMode = 'spine';
-        let currentMonth = 2; // 3월
+        let currentMonth = 10; // 11월 (0부터 시작하므로 10)
         let currentYear = 2026;
         let selectedApiItem = null;
+        let editingRecordId = null;
+
+        // 감성적인 파스텔/빈티지 책등 색상 랜덤 배열
+        const spineColors = [
+            'bg-emerald-800 text-emerald-100', 'bg-amber-700 text-amber-100', 
+            'bg-slate-700 text-slate-100', 'bg-rose-800 text-rose-100', 
+            'bg-teal-800 text-teal-100', 'bg-indigo-900 text-indigo-100', 
+            'bg-stone-700 text-stone-100', 'bg-blue-800 text-blue-100'
+        ];
 
         window.addEventListener('DOMContentLoaded', () => {
             applyProfileToUI();
@@ -283,6 +318,7 @@
             renderRatingsAnalytics();
             renderProfileFeed();
             updateStats();
+            setRating(5.0);
         });
 
         function applyProfileToUI() {
@@ -295,6 +331,27 @@
             document.getElementById('input-profile-name').value = userProfile.name;
             document.getElementById('input-profile-bio').value = userProfile.bio;
             document.getElementById('input-profile-img').value = userProfile.avatar;
+        }
+
+        function selectPresetAvatar(url) {
+            userProfile.avatar = url;
+            document.getElementById('input-profile-img').value = url;
+            document.getElementById('profile-tab-avatar').src = url;
+            document.getElementById('user-avatar-img').src = url;
+        }
+
+        function handleImageUpload(event) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    userProfile.avatar = e.target.result;
+                    document.getElementById('input-profile-img').value = e.target.result;
+                    document.getElementById('profile-tab-avatar').src = e.target.result;
+                    document.getElementById('user-avatar-img').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
         }
 
         function saveProfileChanges() {
@@ -382,8 +439,13 @@
             for(let d=1; d<=lastDate; d++) {
                 const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
                 const cell = document.createElement('div');
-                cell.className = "bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl p-3 min-h-[110px] flex flex-col justify-between overflow-hidden cursor-pointer hover:border-accent transition-all";
-                cell.onclick = () => openAddModal(dateStr);
+                cell.className = "bg-zinc-50 dark:bg-zinc-950/40 border border-zinc-200 dark:border-zinc-800/60 rounded-2xl p-3 min-h-[140px] flex flex-col justify-between overflow-hidden cursor-pointer hover:border-accent transition-all";
+                cell.onclick = (e) => {
+                    // 기록 아이템을 직접 누르지 않고 빈 공간을 누를 때 해당 날짜로 추가 모달 오픈
+                    if(e.target === cell || e.target.tagName === 'DIV' && !e.target.closest('.record-badge')) {
+                        openAddModal(dateStr);
+                    }
+                };
                 
                 const dayHeader = document.createElement('div');
                 dayHeader.className = "text-sm font-bold text-zinc-500";
@@ -392,12 +454,22 @@
 
                 const dayRecords = records.filter(r => r.date === dateStr);
                 const itemsContainer = document.createElement('div');
-                itemsContainer.className = "space-y-1.5 mt-1 overflow-y-auto max-h-[70px]";
+                itemsContainer.className = "space-y-2 mt-1 overflow-y-auto max-h-[95px]";
                 
                 dayRecords.forEach(rec => {
                     const badge = document.createElement('div');
-                    badge.className = "text-xs bg-accent/20 text-accent px-2 py-0.5 rounded-lg truncate font-medium";
-                    badge.innerText = rec.title;
+                    badge.className = "record-badge flex items-center gap-2 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 p-1.5 rounded-xl shadow-sm hover:border-accent transition-all";
+                    badge.onclick = (e) => {
+                        e.stopPropagation();
+                        openEditModal(rec.id);
+                    };
+                    badge.innerHTML = `
+                        <img src="${rec.image}" class="w-7 h-9 object-cover rounded-md flex-shrink-0">
+                        <div class="truncate flex-1">
+                            <div class="text-xs font-bold text-zinc-900 dark:text-white truncate">${rec.title}</div>
+                            <div class="text-[10px] text-amber-500">⭐ ${rec.rating}</div>
+                        </div>
+                    `;
                     itemsContainer.appendChild(badge);
                 });
                 cell.appendChild(itemsContainer);
@@ -422,39 +494,50 @@
                 return;
             }
 
-            // 책등 보기 모드 (나무 선반 디자인 적용)
+            // 책등 보기 모드 (좌우로 길게 뻗은 진짜 나무 선반 디자인 + 랜덤 책등 색상)
             if(currentSubTab === 'book' && bookViewMode === 'spine') {
-                container.className = "grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-6 py-6";
-                filtered.forEach(item => {
+                container.innerHTML = `
+                    <div class="bg-amber-950/20 dark:bg-zinc-900/40 border border-amber-900/30 rounded-3xl p-8 shadow-inner space-y-12">
+                        <div class="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-8 gap-4 items-end pb-4 border-b-8 border-amber-900/60 dark:border-amber-950 shadow-md" id="shelf-row-1"></div>
+                        <div class="grid grid-cols-3 sm:grid-cols-6 md:grid-cols-8 gap-4 items-end pb-4 border-b-8 border-amber-900/60 dark:border-amber-950 shadow-md" id="shelf-row-2"></div>
+                    </div>
+                `;
+                
+                const row1 = document.getElementById('shelf-row-1');
+                const row2 = document.getElementById('shelf-row-2');
+
+                filtered.forEach((item, index) => {
+                    const randomColorClass = spineColors[index % spineColors.length];
                     const shelfWrapper = document.createElement('div');
-                    shelfWrapper.className = "relative flex flex-col items-center";
-                    
+                    shelfWrapper.className = "relative flex flex-col items-center cursor-pointer group";
+                    shelfWrapper.onclick = () => openEditModal(item.id);
+
                     const book = document.createElement('div');
-                    book.className = "bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-xl h-72 w-full p-4 flex flex-col justify-between shadow-xl relative overflow-hidden group cursor-pointer hover:border-accent transition-all z-10";
+                    book.className = `${randomColorClass} rounded-t-xl h-80 w-full p-4 flex flex-col justify-between shadow-xl relative overflow-hidden group-hover:-translate-y-2 transition-transform duration-200 border-t border-white/20`;
                     book.innerHTML = `
-                        <div class="absolute top-0 right-4 w-2.5 h-8 bg-accent rounded-b"></div>
-                        <div class="spine-item text-sm font-bold text-zinc-900 dark:text-white tracking-wider my-auto mx-auto">${item.title}</div>
-                        <div class="text-xs font-semibold text-zinc-500 text-center">⭐ ${item.rating}</div>
+                        <div class="absolute top-2 right-3 w-2 h-6 bg-accent rounded-b"></div>
+                        <div class="spine-item text-sm font-bold tracking-widest my-auto mx-auto truncate">${item.title}</div>
+                        <div class="text-xs font-semibold text-center opacity-80">⭐ ${item.rating}</div>
                     `;
                     shelfWrapper.appendChild(book);
-
-                    // 나무 선반 판 받침대
-                    const shelfBar = document.createElement('div');
-                    shelfBar.className = "w-full h-3 bg-amber-900/60 dark:bg-amber-950/80 rounded-full shadow-inner -mt-1 border-t border-amber-700/40";
-                    shelfWrapper.appendChild(shelfBar);
-
-                    container.appendChild(shelfWrapper);
+                    
+                    if(index % 2 === 0) {
+                        row1.appendChild(shelfWrapper);
+                    } else {
+                        row2.appendChild(shelfWrapper);
+                    }
                 });
                 return;
             }
 
-            container.className = "grid grid-cols-1 gap-4";
+            container.className = "grid grid-cols-1 gap-6";
             filtered.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-6 flex items-center justify-between gap-6 shadow-sm";
+                card.className = "bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800/80 rounded-3xl p-6 flex items-center justify-between gap-6 shadow-sm cursor-pointer hover:border-accent transition-all";
+                card.onclick = () => openEditModal(item.id);
                 card.innerHTML = `
                     <div class="flex items-center gap-5">
-                        <img src="${item.image}" alt="" class="w-18 h-24 object-cover rounded-2xl border border-zinc-200 dark:border-zinc-800">
+                        <img src="${item.image}" alt="" class="w-20 h-28 object-cover rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-md">
                         <div>
                             <h4 class="text-lg font-bold text-zinc-900 dark:text-white">${item.title}</h4>
                             <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-1">${item.subtitle}</p>
@@ -463,7 +546,7 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <span class="text-base font-bold text-accent">⭐ ${item.rating}</span>
-                        <button onclick="deleteRecord(${item.id})" class="text-zinc-400 hover:text-red-500 p-2 text-lg">🗑️</button>
+                        <button onclick="event.stopPropagation(); deleteRecord(${item.id})" class="text-zinc-400 hover:text-red-500 p-2 text-lg">🗑️</button>
                     </div>
                 `;
                 container.appendChild(card);
@@ -471,7 +554,15 @@
         }
 
         function renderRatingsAnalytics() {
-            if(records.length === 0) return;
+            if(records.length === 0) {
+                document.getElementById('avg-score-all').innerText = "0.0";
+                document.getElementById('total-recorded-count').innerText = "0";
+                document.getElementById('top-rated-title').innerText = "-";
+                document.getElementById('score-distribution-bars').innerHTML = '';
+                document.getElementById('ratings-sorted-container').innerHTML = '<div class="text-zinc-400 text-center py-6 text-base">기록된 작품이 없습니다.</div>';
+                return;
+            }
+
             const totalRating = records.reduce((sum, r) => sum + r.rating, 0);
             const avg = (totalRating / records.length).toFixed(1);
             document.getElementById('avg-score-all').innerText = avg;
@@ -494,17 +585,45 @@
 
             distribution.forEach((count, i) => {
                 const heightPercent = (count / maxCount) * 100;
-                const greenIntensity = Math.floor(100 + (i * 15));
-                const barColor = count > 0 ? `rgb(34, ${greenIntensity}, 94)` : 'rgb(228, 228, 231)';
+                let barColor = 'rgb(234, 179, 8)'; // 노란색 (중간)
+                if(i >= 6) barColor = 'rgb(22, 163, 74)'; // 초록색 (높은 점수: 4점대 이상)
+                if(i <= 2) barColor = 'rgb(239, 68, 68)'; // 빨간색 (낮은 점수: 1~2점대)
 
                 const col = document.createElement('div');
                 col.className = "flex flex-col items-center gap-2 h-full justify-end";
                 col.innerHTML = `
                     <span class="text-xs font-bold text-zinc-500">${count}</span>
-                    <div class="w-full rounded-t-lg transition-all" style="height: ${Math.max(heightPercent, 12)}%; background-color: ${barColor};"></div>
+                    <div class="w-full rounded-t-lg transition-all shadow-sm" style="height: ${Math.max(heightPercent, 12)}%; background-color: ${barColor};"></div>
                     <span class="text-xs text-zinc-400">~${((i+1)*0.5).toFixed(1)}</span>
                 `;
                 barsContainer.appendChild(col);
+            });
+
+            // 평점 높은 순 리스트 렌더링
+            const sortedContainer = document.getElementById('ratings-sorted-container');
+            sortedContainer.innerHTML = '';
+            const sortedRecords = [...records].sort((a,b) => b.rating - a.rating);
+
+            sortedRecords.forEach(item => {
+                let badgeColor = 'bg-yellow-500/10 text-yellow-600';
+                if(item.rating >= 4.0) badgeColor = 'bg-emerald-500/10 text-emerald-600';
+                if(item.rating <= 2.5) badgeColor = 'bg-red-500/10 text-red-600';
+
+                const div = document.createElement('div');
+                div.className = "bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 flex items-center justify-between gap-4 shadow-sm cursor-pointer hover:border-accent transition-all";
+                div.onclick = () => openEditModal(item.id);
+                div.innerHTML = `
+                    <div class="flex items-center gap-4">
+                        <img src="${item.image}" class="w-12 h-16 object-cover rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+                        <div>
+                            <h4 class="text-base font-bold text-zinc-900 dark:text-white">${item.title}</h4>
+                            <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-0.5">${item.subtitle}</p>
+                            <span class="text-xs text-zinc-400 mt-2 block">${item.date} 감상</span>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1.5 rounded-xl font-bold text-sm ${badgeColor}">⭐ ${item.rating}점</span>
+                `;
+                sortedContainer.appendChild(div);
             });
         }
 
@@ -520,10 +639,11 @@
 
             sorted.forEach(item => {
                 const div = document.createElement('div');
-                div.className = "bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 flex items-center justify-between gap-4 shadow-sm";
+                div.className = "bg-white dark:bg-zinc-900/60 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-5 flex items-center justify-between gap-4 shadow-sm cursor-pointer hover:border-accent transition-all";
+                div.onclick = () => openEditModal(item.id);
                 div.innerHTML = `
                     <div class="flex items-center gap-4">
-                        <img src="${item.image}" class="w-12 h-16 object-cover rounded-xl border border-zinc-200 dark:border-zinc-800">
+                        <img src="${item.image}" class="w-12 h-16 object-cover rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
                         <div>
                             <h4 class="text-base font-bold text-zinc-900 dark:text-white">${item.title}</h4>
                             <p class="text-sm text-zinc-600 dark:text-zinc-400 mt-0.5">${item.subtitle}</p>
@@ -537,17 +657,69 @@
         }
 
         function openAddModal(defaultDate = '') {
+            editingRecordId = null;
+            document.getElementById('edit-record-id').value = '';
+            document.getElementById('modal-main-title').innerText = "새로운 기록 추가";
+            document.getElementById('modal-delete-btn').classList.add('hidden');
             document.getElementById('recordModal').classList.remove('hidden');
+            
             const today = defaultDate || new Date().toISOString().split('T')[0];
             document.getElementById('modal-date').value = today;
+            document.getElementById('modal-search-query').value = '';
+            document.getElementById('modal-review').value = '';
+            document.getElementById('modal-selected-preview').classList.add('hidden');
+            selectedApiItem = null;
+            setRating(5.0);
+        }
+
+        function openEditModal(id) {
+            const item = records.find(r => r.id === id);
+            if(!item) return;
+
+            editingRecordId = id;
+            document.getElementById('edit-record-id').value = id;
+            document.getElementById('modal-main-title').innerText = "기록 수정하기";
+            document.getElementById('modal-delete-btn').classList.remove('hidden');
+            document.getElementById('recordModal').classList.remove('hidden');
+
+            document.getElementById('modal-category').value = item.category;
+            document.getElementById('modal-search-query').value = item.title;
+            document.getElementById('modal-date').value = item.date;
+            document.getElementById('modal-review').value = item.subtitle;
+            setRating(item.rating);
+
+            selectedApiItem = {
+                title: item.title,
+                subtitle: item.subtitle,
+                image: item.image
+            };
+
+            const preview = document.getElementById('modal-selected-preview');
+            preview.classList.remove('hidden');
+            document.getElementById('preview-img').src = item.image;
+            document.getElementById('preview-title').innerText = item.title;
+            document.getElementById('preview-subtitle').innerText = item.subtitle;
         }
 
         function closeAddModal() {
             document.getElementById('recordModal').classList.add('hidden');
             selectedApiItem = null;
-            document.getElementById('modal-search-query').value = '';
+            editingRecordId = null;
             document.getElementById('modal-search-results').classList.add('hidden');
             document.getElementById('modal-selected-preview').classList.add('hidden');
+        }
+
+        function setRating(score) {
+            document.getElementById('modal-rating-input').value = score;
+            document.getElementById('preview-rating-val').innerText = `${score.toFixed(1)}점`;
+            const stars = document.querySelectorAll('#star-rating-container span');
+            stars.forEach((star, idx) => {
+                if(idx < score) {
+                    star.className = "cursor-pointer text-3xl text-amber-400 transition-transform hover:scale-110";
+                } else {
+                    star.className = "cursor-pointer text-3xl text-zinc-300 dark:text-zinc-700 transition-transform hover:scale-110";
+                }
+            });
         }
 
         async function searchExternalAPI() {
@@ -624,21 +796,40 @@
                 return;
             }
             const category = document.getElementById('modal-category').value;
-            const rating = parseFloat(document.getElementById('modal-rating').value);
+            const rating = parseFloat(document.getElementById('modal-rating-input').value);
             const review = document.getElementById('modal-review').value || selectedApiItem.subtitle;
             const recordDate = document.getElementById('modal-date').value || new Date().toISOString().split('T')[0];
 
-            const newRec = {
-                id: Date.now(),
-                category,
-                title: selectedApiItem.title,
-                subtitle: review,
-                rating,
-                date: recordDate,
-                image: selectedApiItem.image
-            };
+            if(editingRecordId) {
+                // 수정 모드
+                records = records.map(r => {
+                    if(r.id === editingRecordId) {
+                        return {
+                            ...r,
+                            category,
+                            title: selectedApiItem.title,
+                            subtitle: review,
+                            rating,
+                            date: recordDate,
+                            image: selectedApiItem.image
+                        };
+                    }
+                    return r;
+                });
+            } else {
+                // 신규 등록 모드 (화면 이동 없이 현재 캘린더 유지)
+                const newRec = {
+                    id: Date.now(),
+                    category,
+                    title: selectedApiItem.title,
+                    subtitle: review,
+                    rating,
+                    date: recordDate,
+                    image: selectedApiItem.image
+                };
+                records.unshift(newRec);
+            }
 
-            records.unshift(newRec);
             localStorage.setItem('mylog_records', JSON.stringify(records));
 
             closeAddModal();
@@ -646,8 +837,20 @@
             renderCompletedList();
             updateStats();
             renderProfileFeed();
-            switchTab('completed');
-            switchSubTab(category);
+            renderRatingsAnalytics();
+        }
+
+        function deleteCurrentEditingRecord() {
+            if(!editingRecordId) return;
+            if(!confirm('정말 이 기록을 삭제하시겠습니까?')) return;
+            records = records.filter(r => r.id !== editingRecordId);
+            localStorage.setItem('mylog_records', JSON.stringify(records));
+            closeAddModal();
+            renderCalendar();
+            renderCompletedList();
+            updateStats();
+            renderProfileFeed();
+            renderRatingsAnalytics();
         }
 
         function deleteRecord(id) {
@@ -658,6 +861,7 @@
             renderCompletedList();
             updateStats();
             renderProfileFeed();
+            renderRatingsAnalytics();
         }
 
         function changeAccentColor(color) {
